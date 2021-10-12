@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="run">点击-测试debounce</button>
+    <button id="cancel">点击-取消执行</button>
+    <script>
+      // debounce
+      // 需求
+      // 1. 可以 ( 立即执行 ) immediate
+      // 2. 可以 ( 取消执行 ) cancel
+      // 3. 可以传参 e ...rest
+
+      /**
+       * @description: 防抖函数
+       * @param {*} fn
+       * @param {*} configs delay延时 immediate是否立即执行
+       * @param {array} params fn的参数
+       * @return {*}
+       */
+      function debounce(fn, configs, ...params) {
+        let timer = null;
+
+        const { delay = 1000, immediate = false } = configs || {};
+
+        // 取消函数 - 取消fn的执行
+        debounce.cancel = function () {
+          globalThis.clearTimeout(timer);
+        };
+
+        function callback(e) {
+          if (immediate && !timer && fn) {
+            // 1. immediate = true 立即执行 fn
+            // 2. timer 不能存在，因为存在的话，证明不是第一次执行，之后的执行不能再是立即执行了
+            // 3. fn 必须存在，因为要立即执行 fn
+
+            timer = true;
+            // timer = true 是为了保证立即执行只会出现在第一次，第二次timer存在则不再进入
+
+            return fn.call(this, e, ...params);
+            // - 将fn中的this绑定到调用callback时所在的对象上
+            // - 传入 params 立即执行 fn
+            // - return 是为了不再往下执行
+          }
+
+          if (timer) globalThis.clearTimeout(timer); // 先清掉，再计时
+          timer = globalThis.setTimeout(() => fn(e, ...params), delay);
+        }
+
+        return callback;
+      }
+
+      const runButton = document.getElementById("run");
+      const cancelButton = document.getElementById("cancel");
+      runButton.addEventListener(
+        "click",
+        debounce(fn, { delay: 4000, immediate: true }, "params1", "params2"),
+        false
+      );
+      cancelButton.addEventListener("click", () => debounce.cancel(), false);
+
+      function fn(e, ...rest) {
+        console.log(`e.target`, e.target);
+        console.log(`...rest`, ...rest);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        num: 1,
+        str: "string",
+        boo: true,
+        und: undefined,
+        sym: Symbol(),
+        arr: [1, 2],
+        obj2: { name: "woow_wu7" },
+      };
+      obj.circular = obj; // 循环引用
+      obj[Symbol()] = "symbol";
+
+      function deepClone(obj, map = new Map()) {
+        if (typeof obj !== "object") return obj; // 非对象直接返回，这里排出null的情况
+
+        // 深拷贝结果集
+        const res = Array.isArray(obj) ? [] : {};
+
+        // 缓存相关
+        if (map.has(obj)) {
+          return map.get(obj);
+        }
+        map.set(obj, res);
+
+        // Reflect.ownKeys() 可以遍历对象的 Symbol 类型的 key
+        // - 是 Object.getOwnPropertyNames() 和 Object.getOwnPropertySymbols 之和
+        Reflect.ownKeys(Array.isArray(obj) ? [...obj] : { ...obj }).forEach(
+          (key) => {
+            if (typeof obj[key] === "object") {
+              res[key] = deepClone(obj[key], map);
+            }
+            res[key] = obj[key];
+          }
+        );
+
+        return res;
+      }
+
+      const deepObj = deepClone(obj);
+      console.log(`原对象`, obj);
+      console.log(`新对象`, deepObj);
+    </script>
+  </body>
+</html>

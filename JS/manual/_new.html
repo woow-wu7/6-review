@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // new
+
+      // 1 new 命令的作用
+      // - 执行构造函数，返回实例对象
+      // 1. 新建一个空对象
+      // 2. 将空对象的 ( 隐式原型 ) 指向 ( 构造函数的显示原型 )，这样空对象就能继承构造函数prototype上的属性和方法
+      // 3. 将构造函数中的this指向空对象
+
+      // 2 调用构造函数时，忘记加 new 命令
+      // - 解决办法：a严格模式 b构造函数内部判断是否使用new，如果没有直接返回实例对象
+      // - new命令调用，函数后面可以加new，也可以不加new -> new Constructor() 或 new Constructor
+
+      // 3 构造函数内部中的 return
+      // a return后跟着一个 ( 对象 )，直接返回 ( 跟着的对象 )
+      // b return后跟着一个 ( 基础类型 )，则返回 ( this ) 对象
+
+      // 4 new命令的原理
+      // a 新建一个空对象
+      // b 将 ( 空对象的隐式原型 ) 指向 ( 构造函数的prototype属性-显式原型 )
+      // c 将 ( 构造函数中的this ) 绑定到 ( 空对象 ) 上
+      // d 执行构造函数
+
+      // 5 new命令的特点
+      // - ( new ) 命令总是返回一个 ( 对象 )，要么是 ( this对象 )，或者 ( return后面紧跟的对象 )，或者是一个空对象(比如通过new命令调用普通函数，返回空对象，普通函数指的是内部没有this的对象)
+
+      // 6 new.target
+      // - 如果函数通过new命令来调用，new.target就指向该函数
+      // - 否则，指向undefined
+
+
+
+      // 测试 - 忘记加new命令
+      function Constructor1(name, age) {
+        const isInstance = this instanceof Constructor1;
+        // Constructor1.prototype 是否在 this 对象的原型链上
+        // - 当 Constructor1 通过 new 调用时，this指向实例对象 -> true
+        // - 当 Constructor1 直接调用时，this指向函数调用时所在的对象 -> false
+        // - 如果是普通函数( 内部没有this关键字 )使用new命令来调用，则会返回一个 ( 空对象 )
+        if (!isInstance) {
+          // 不是通过new调用，则从新通过new来调用
+          return new Constructor1(name, age);
+        }
+        this.name = name;
+        this.age = age;
+      }
+      const instance1 = Constructor1("woow_wu7", 20);
+      console.log(`instance1`, instance1);
+
+
+
+      // 测试 - 模拟new命名
+      function _new() {
+        const params = [].slice.call(arguments);
+        const constructor = params.shift();
+        const obj = Object.create(constructor.prototype);
+        const res = constructor.apply(obj, params);
+
+        return typeof res === "object" && res !== null ? res : obj;
+      }
+      function TestFn(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      const res = _new(TestFn, "woow_wu7", 1000);
+      console.log(`res.age`, res.age);
+    </script>
+  </body>
+</html>

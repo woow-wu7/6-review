@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // deepCopy shallowCopy
+
+      const obj = {
+        num: 1,
+        str: "string",
+        boo: true,
+        nul: null,
+        und: undefined,
+        sym: Symbol(),
+        arr: [1, 2],
+        obj2: { name: "woow_wu7" },
+      };
+
+      // 知识点
+      // 1
+      //  Object.entries(obj)
+      //    - 返回一个对象的 ( 自身的，不含继承属性 )，( 可遍历的 - enumerable ) 属性组成的 ( 键值对数组 )
+      //    - 因为返回一个数组，所以可以接着用 for of 来遍历
+      // 2
+      //  数据类型：7种
+      //    - 基本数据类型：number string boolean null undefined symbol
+      //    - 引用数据类型：object - Object Array Function Regexp Error Date XMLHttpRequest ...
+      // 3
+      //  递归
+      //    - 边界条件
+      //    - 递归前进段
+      //    - 递归返回段
+
+      function deepClone(obj) {
+        // isType 判断参数具体类型
+        const isType = (obj) =>
+          Object.prototype.toString
+            .call(obj)
+            .replace(/^\[object (.+)\]$/, "$1")
+            .toLowerCase();
+        const type = isType(obj);
+
+        // 1. 数组和对象类型
+        if (type === "object" || type === "array") {
+          const res = type === "array" ? [] : {};
+          for (let [key, value] of Object.entries(obj)) {
+            if (typeof value === "object" && value !== null) {
+              res[key] = deepClone(value); // 属性是对象或数组，递归
+            } else {
+              res[key] = value; // 其他类型直接复制
+            }
+          }
+          return res;
+        }
+        // 2. 参数不是对象和数组，直接返回原参数 - 这里表示number，string，boolean，undefined，symbol，null，function都直接返回
+        else {
+          return obj;
+        }
+      }
+
+      const deepObj = deepClone(obj);
+      obj.num = 2; // 测试修改原对象属性
+      obj.arr = [1, 2, 3]; // 测试修改原对象属性
+      console.log(`原对象`, obj);
+      console.log(`新对象`, deepObj);
+    </script>
+  </body>
+</html>

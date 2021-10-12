@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="throttle-button">点击-测试throttle</button>
+    <script>
+      // throttle
+      // 需求
+      // 1. 正常的throttle功能
+      // 2. 可以传参
+      // 3. 可以取消 cancel
+      // 4. 可以立即执行 immediate
+      // 5. 需要支持 异步函数
+
+      function throttle(fn, options, ...params) {
+        let isRun = true;
+        let timer = NaN; // timer 是供给 cancel 和 clearTimeout 消费
+
+        let { delay = 1000, immediate = false } = options || {};
+
+        // 取消执行
+        throttle.cancel = function () {
+          globalThis.clearTimeout(timer);
+        };
+
+        return async function (e) {
+          if (immediate) {
+            await fn.call(this, e, ...params);
+            immediate = false; // 除了次一次后，不再执行immediate=true的逻辑
+            return;
+          }
+          if (isRun) {
+            isRun = false;
+            // const  timer = globalThis.setTimeout() 注意这里不能在这里声明timer，因为还要支持cancel功能，即cancel函数中也需要拿到timer，所以只能放在外层
+            timer = globalThis.setTimeout(async () => {
+              await fn(e, ...params);
+              isRun = true;
+              globalThis.clearTimeout(timer);
+            }, delay);
+          }
+        };
+      }
+
+      const button = document.getElementById("throttle-button");
+      button.addEventListener(
+        "click",
+        throttle(
+          fnAsync,
+          { delay: 2000, immediate: true },
+          "params1",
+          "params2"
+        ),
+        false
+      );
+
+      // 异步
+      function fnAsync() {
+        console.log("1111");
+        return new Promise((resolve) =>
+          setTimeout(() => {
+            console.log("2222");
+            resolve(1);
+          }, 2000)
+        );
+      }
+
+      // 同步
+      // function fnSync() {
+      //   console.log("33333");
+      // }
+    </script>
+  </body>
+</html>

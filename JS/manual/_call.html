@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        name: "woow_wu7",
+        age: 20,
+      };
+      function fn(name, age, other) {
+        return this.name + this.age + other;
+      }
+
+      Function.prototype._call = function (context, ...rest) {
+        context = context || window;
+        context.fn = this;
+        const res = context.fn(...rest);
+        Reflect.deleteProperty(context, "fn");
+        return res;
+      };
+
+      const res = fn._call(obj, "111", "222", "333");
+      console.log(`res`, res);
+    </script>
+  </body>
+</html>

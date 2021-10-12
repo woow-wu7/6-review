@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // recursive
+      function recursive(n) {
+        if (n === 1) {
+          // ------------------ 边界条件
+          return 1; // --------------------- 递归返回段
+        }
+        return n * recursive(n - 1); // ---- 递归前进段
+      }
+
+      const res = recursive(4);
+      console.log(`res`, res); // 1*2*3*4=24
+
+      // 尾递归优化
+      function recursive2(n, prevTotal) {
+        // 类比 `reduce()`的参数函数中的前两个参数，第一个是累积变量，第二个是当前变量，这里反过来了
+        if (n === 1) {
+          // 边界条件
+          return prevTotal; // 返回段
+        }
+        return recursive2(n - 1, n * prevTotal); // 前进段，注意：这里就是 ( 尾递归 )，里层函数执行时，外层函数执行完出栈了
+      }
+      const res2 = recursive2(4, 1); // 这里第一个参数表示当前变量，第二个参数表示累积变量，累积变量的初始值从1开始，因为 ( 1 * 任何值 = 任何值 )
+      console.log(`res2`, res2);
+    </script>
+  </body>
+</html>

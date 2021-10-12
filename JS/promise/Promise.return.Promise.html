@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let count = 0
+      setInterval(() => {count++;console.log(count)}, 1000);
+
+      const p1 = new Promise((_, reject) => setTimeout(() => reject(new Error("fail")), 3000)) // p1 3s 变成 rejected
+      const p2 = new Promise(resolve =>  setTimeout(() => resolve(p1), 1000))
+      // 1. p2中resolve(p1)，则p2状态由p1决定
+      // 2. 当1s时，p2resolve,p1pending，则p2失效，等待p1状态变化；
+      // 3. 当3s时，p1reject，则p2rejected
+      p2.then((res) => console.log(res)).catch((err) =>console.log(error));
+      // 3s被catch捕获后，输出 Error: fail
+    </script>
+  </body>
+</html>

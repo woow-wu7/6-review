@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 插入排序
+
+      Number({});
+      // {}.valueOf() -> {} -> {}.toString() -> '[object Object]' -> Number('[object Object]') -> NaN
+      // - 对象的valueOf() 返回对象本身
+      // - 对象的toString() 返回对象的类型字符串 '[object Object]'
+      // - Number('[object Object]') -> NaN
+
+      Number([]);
+      // [].valueOf() -> [] -> [].toString() -> '' -> Number('') -> 0
+      // - 数组的valueOf() 返回数组本身
+      // - 数组的toString() 返回数组的字符串形式
+      // - Number('') -> 0
+    </script>
+  </body>
+</html>

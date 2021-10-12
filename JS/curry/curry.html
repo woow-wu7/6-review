@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // curry
+
+      // 1
+      // demand
+      // add(1,2,3,4) ---> curryAdd(1)(2)(3)(4)
+
+      // stage1
+      const curryAdd1 = (a) => (b) => (c) => (d) => a + b + c + d;
+      const sum1 = curryAdd1(1)(2)(3)(4);
+      console.log(`sum1`, sum1);
+
+      // stage2
+      function curryAdd2() {
+        let totalParams = []; // 收集参数，闭包中的变量
+        return function curry() {
+          // 返回一个新函数
+          const currentParams = Array.prototype.slice.call(arguments); // 获取当前curry函数调用时的实参，注意可以是多个参数
+          if (currentParams.length) {
+            // curry调用不带参数，说明参数收集完毕，如果有参数，说明需要继续收集参数
+            totalParams = totalParams.concat(currentParams); // 继续收集
+            return curry; // 递归
+          } else {
+            return totalParams.reduce(
+              (prevTotal, current) => prevTotal + current
+            );
+          }
+        };
+      }
+      const curry2 = curryAdd2(); // 执行curryAdd2，返回curry函数，curryAdd2中的变量形成闭包变量，具有缓存值的功能
+      const sum2 = curry2(1)(2)(3)(4)(); // 不带参数的调用，表示参数收集完毕，执行相加操作
+      console.log(`sum2`, sum2);
+
+      // stage3
+      const add3 = (a, b, c, d) => a + b + c + d;
+      const dec3 = (a, b, c, d) => a - b - c - d;
+      function curryClosure3(executor) {
+        let totalParams = []; // 总的参数
+        const totalParamsLength = executor.length; // 总的参数长度
+        return function curry() {
+          const currentParams = Array.prototype.slice.call(arguments);
+          totalParams = totalParams.concat(currentParams);
+          if (totalParams.length >= totalParamsLength) {
+            // 大于等于说明参数收集完毕
+            return executor.apply(this, totalParams);
+          } else {
+            return curry; // 未收集完参数，继续收集
+          }
+        };
+      }
+      const curry3Add = curryClosure3(add3);
+      const curry3Dec = curryClosure3(dec3);
+      const sum3 = curry3Add(1, 2)(3)(4, 5);
+      const dif3 = curry3Dec(20)(1)(2)(3);
+      console.log(`sum2`, sum3);
+      console.log(`dif3`, dif3);
+
+      // stage4
+      // () vs fn.getSum()
+      function curryClosure4(executor) {
+        let totalParams = []; // 总的参数
+        function curry() {
+          const currentParams = Array.prototype.slice.call(arguments);
+          totalParams = totalParams.concat(currentParams);
+          return curry; // 始终去收集参数
+        }
+        curry.calculate = function () {
+          // 计算
+          return executor.apply(this, totalParams);
+        };
+        return curry;
+      }
+      const curry4Add = curryClosure4(add3);
+      const curry = curry4Add(1, 2)(3)(4, 5)(6);
+      const res4 = curry.calculate();
+      console.log(`res4`, res4);
+    </script>
+  </body>
+</html>

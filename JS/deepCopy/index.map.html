@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        num: 1,
+        str: "string",
+        boo: true,
+        und: undefined,
+        sym: Symbol(),
+        arr: [1, 2],
+        obj2: { name: "woow_wu7" },
+      };
+      obj.circular = obj; // 循环引用
+      obj[Symbol()] = "symbol";
+
+      function deepClone(obj, map = new Map()) {
+        if (typeof obj !== "object") return obj;
+
+        const res = Array.isArray(obj) ? [] : {};
+        if (map.has(obj)) return map.get(obj); // 要被克隆的对象，已经被缓存过，直接返回
+        map.set(obj, res); // 没被缓存过，则存入map；key->传入的obj；value->将要返回的新深拷贝的object
+
+        for (let [key, value] of Object.entries(obj)) {
+          if (typeof value === "object") {
+            res[key] = deepClone(value, map);
+          } else {
+            res[key] = value;
+          }
+        }
+        return res;
+      }
+
+      const deepObj = deepClone(obj);
+      console.log(`原对象`, obj);
+      console.log(`新对象`, deepObj);
+    </script>
+  </body>
+</html>

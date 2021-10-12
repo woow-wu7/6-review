@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // partial 1
+      const partial = (fn, ...rest) => fn.bind(this, ...rest);
+      // 注意：箭头函数中的 this 指向函数定义时所在的对象，这里指向了window，也可以直接传入null，undefined，window
+      const fn = (num1, num2) => num1 + num2;
+      const resFn = partial(fn, 10);
+      const res = resFn(20);
+      console.log(`res`, res);
+
+  // manual-bind
+  const obj = {
+    name: "woow_wu7",
+    age: 20,
+  };
+  const fn2 = function (name, age) {
+    // 注意：这里不能是箭头函数，不然this就不指向被绑定的函数了
+    this.age = age;
+    return this.name + this.age + name + age;
+  };
+
+  Function.prototype._bind = function () {
+    const prevParams = Array.prototype.slice.call(arguments);
+    const context = prevParams.shift() || window;
+    const self = this;
+    function bindFn() {
+      const nextParams = Array.prototype.slice.call(arguments);
+      const totalParams = prevParams.concat(nextParams);
+      return self.apply(this instanceof self ? this : context, totalParams);
+    }
+    // bindFn.prototype = self.prototype; 使用寄生式继承替换掉原型链继承
+    function Parasitic() {}
+    Parasitic.prototype = self.prototype;
+    bindFn.prototype = new Parasitic();
+
+    return bindFn;
+  };
+
+  // bind返回函数 - 作为普通函数调用
+  const refFn2 = fn2._bind(obj, "name7");
+  const res2 = refFn2("age7");
+  console.log(`res2`, res2);
+
+  // bind返回函数 - 作为构造函数调用
+  const refFn3 = fn2._bind(obj, "name7");
+  const res3 = new refFn3("age7");
+  console.log(`res3`, res3);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // Object.create()
+      // 功能：以参数对象为原型，生成实例对象，实例对象完全继承参数对象的属性和方法
+      // 使用：const res = Object.create(target)
+      function _create(target) {
+        function Parasitic() {} // parasitic是寄生的意思，这里就是一个 ( 空的构造函数 )
+        Parasitic.prototype = target;
+
+        return new Parasitic(); // 其实就是实现一个 ( 原型链继承 )
+      }
+
+      const obj = { name: "woow_wu7" };
+      const instance = _create(obj);
+      console.log(`instance`, instance);
+    </script>
+  </body>
+</html>

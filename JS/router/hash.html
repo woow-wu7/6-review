@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <a href="#/home">home</a>
+    <a href="#/other">other</a>
+    <div id="content">content</div>
+    <script>
+      // hash 路由
+      const routes = [
+        {
+          path: "/home",
+          component: "<p>home</p>",
+        },
+        {
+          path: "/other",
+          component: "<p>other</p>",
+        },
+      ];
+
+      class Router {
+        constructor(routes) {
+          this.route = {};
+          this.createRouteMap(routes);
+          this.init();
+        }
+        createRouteMap = (routes) =>
+          routes.forEach(
+            ({ path, component }) =>
+              (this.route[path] = () =>
+                (document.getElementById("content").innerHTML = component))
+          );
+        init = () => {
+          window.addEventListener("load", this.updateView, false);
+          window.addEventListener("hashchange", this.updateView, false);
+        };
+        updateView = () => {
+          const hash = window.location.hash.slice(1) || "/home";
+          this.route[hash]?.();
+        };
+      }
+
+      new Router(routes);
+    </script>
+  </body>
+</html>

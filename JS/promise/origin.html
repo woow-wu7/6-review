@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const promise = new Promise((resolve) => {
+        setTimeout(() => resolve("到点了"), 2000);
+      });
+
+      promise
+        .then((res) => {
+          console.log(res);
+          return res;
+        })
+        .then((res) => {
+          console.log(res, "--> 前一个then有return，所以这里有值");
+        })
+        .then((res) => {
+          console.log(res, "--> 前一个then没有return，所以这里是undefined");
+          throw new Error('抛错')
+        })
+        .catch((err) => console.log(err, 'catch()捕获到错误'))
+        .finally(() =>
+          console.log("不管前面promise的状态如何，finally都会执行")
+        )
+    </script>
+  </body>
+</html>

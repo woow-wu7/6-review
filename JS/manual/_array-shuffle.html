@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // array_shuffle 数组乱序
+
+      // 1
+      // sort
+      // 作用：改变原数组，有返回值，返回值是排序过后的数组
+      // 参数：
+      //  - 可以没有
+      //  - 也可以是一个 ( 函数 )，这个函数有两个参数 - 表示比较的两个数组成员
+      //    - 该函数 ( 返回值 > 0 )，表示比较的两个成员，第一个排在第二个 ( 后面 )，即 ( a-b>0 升序 )
+      //    - 该函数 ( 返回值 < 0 )，表示比较的两个成员，第一个排在第二个 ( 前面 )，即 ( a-b<0 降序 )
+
+      // 2
+      // 乱序的应用
+      // - 换一批
+      // - 猜你喜欢,
+      // - 中奖方案
+
+      // 方案一
+      // 知识点：
+      //  - sort: 参数函数返回值>0，升序，比较的两个成员第一个排在第二个后面
+      //  - Math.random() 值的区间是 [0, 1)
+      //  - shuffle
+      // 存在问题
+      //  - 概率不均等
+      //  - 不均等的原因
+      //    - v8中，( 数组长度小于10 -> 插入排序 ) ( 数组长度大于10 -> 插入排序和快速排序混合排序 )
+      //    - 为啥插入排序概率不均等，把无序插入有序时，一旦找到了位置，剩下的值就没有和缓存的值进行比较了
+      //  - 如果统计概率不均等呢?
+      const arr1 = [1, 2, 3, 4, 5, 6, 7];
+      const shuffle1 = (arr) => arr.sort(() => Math.random() - 0.5);
+      const resArr1 = shuffle1(arr1);
+      console.log(`resArr1`, resArr1);
+
+      // 测试
+      // 测试sort概率不均等
+      // 发现最新测试时，概率差不多了，应该是chrome修改算法了，一年前测试的时确实是概率不等的
+      function testSortRate() {
+        const rateArr5 = [0, 0, 0, 0, 0, 0];
+        const rateArr4 = [0, 0, 0, 0, 0, 0];
+        const arr = [0, 1, 2, 3, 4, 5];
+        for (let i = 0; i < 1000000; i++) {
+          arr.sort(() => Math.random() - 0.5);
+          rateArr5[arr[5]]++; // 统计arr最后一个位置各个值出现的次数
+          rateArr4[arr[4]]++; // 统计arr第 5 个位置各个值出现的次数
+        }
+        console.log(`统计arr最后一个位置各个值出现的次数`, rateArr5);
+        console.log(`统计arr第 5 个位置各个值出现的次数`, rateArr4);
+      }
+      testSortRate();
+
+      // 插入排序数组
+      // - 原理
+      //    - 将数组看成两个部分，一个有序部分，一个无序部分
+      //    - 有序部分起始长度是1
+      //    - 每次依次从无序数组中取出第一个值，和有序
+    </script>
+  </body>
+</html>

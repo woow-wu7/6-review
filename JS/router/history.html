@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <a href="javascript:void(0)" data-href="/home">home</a>
+    <a href="javascript:void(0)" data-href="/other">other</a>
+    <div id="content">content</div>
+    <button id="button">命令是函数，history.back() 测试</button>
+    <script>
+      // history-router
+      // 1
+      // 在 html 中 ( data-href ) 是自定义属性
+      // 2
+      // document.getElementsByTagName() 返回 HTMLCollection 实例，是一个类似数组的对象
+      // 3
+      // HTMLCollection 和 NodeList
+      // - HTMLCollection
+      //    - 只包括 Element 的集合
+      //    - 是 ( 动态集合 )
+      // - NodeList
+      //    - 除了 Element ，还可以是 Comment Text 等
+      //    - 是 ( 静态集合 )
+      // 4
+      // history-router实现过程
+      // pushState线
+      // - 4.1. 给a标签添加 data-href 属性，值是需要导航的 path
+      // - 4.2. 给所有a标签，绑定click事件
+      //    - 在事件中通过 Element.getAttribute 获取 data-href 属性，
+      //    - 把 data-href 属性传入 window.history(state, title, data-href) 的第三个参数，这样地址栏会改变
+      // - 4.3. 地址栏变化后，通过 window.location.path 获取到变化的path，对比routes中的path，匹配上就更新component到ui中
+      // popstate线
+      // 通过浏览器前进后退，window.history.go() back() forward() 触发
+
+      const routes = [
+        {
+          path: "/home",
+          component: "<p>home</p>",
+        },
+        {
+          path: "/other",
+          component: "<p>other</p>",
+        },
+      ];
+
+      class Router {
+        constructor(routes) {
+          this.route = {};
+          this.createRoutMap(routes);
+          this.bindEvent();
+          this.init();
+        }
+        createRoutMap = (routes) =>
+          routes.forEach(
+            ({ path, component }) =>
+              (this.route[path] = () =>
+                (document.getElementById("content").innerHTML = component))
+          );
+        bindEvent = () => {
+          const aNodeList = document.getElementsByTagName("a");
+          Array.prototype.forEach.call(aNodeList, (a) =>
+            a.addEventListener(
+              "click",
+              () => {
+                const dataHref = a.getAttribute("data-href");
+                window.history.pushState({}, "", dataHref);
+                this.updateView();
+              },
+              false
+            )
+          );
+        };
+        updateView = () => {
+          const path = window.location.pathname;
+          this.route[path]?.();
+        };
+        init = () => {
+          window.addEventListener("load", this.updateView, false);
+          window.addEventListener("popstate", this.updateView, false);
+        };
+      }
+
+      new Router(routes);
+
+      const button = document.getElementById("button");
+      button.addEventListener("click", () => window.history.back(), false);
+    </script>
+  </body>
+</html>

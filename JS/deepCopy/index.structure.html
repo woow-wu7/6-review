@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // structure 结构化克隆
+      function Message() {
+        this.name = "woow_wu7";
+      }
+      Message.prototype.age = 1000;
+
+      const obj = {
+        num: 1,
+        str: "string",
+        boo: true,
+        und: undefined,
+        sym: Symbol(),
+        arr: [1, 2],
+        obj2: { name: "woow_wu7" },
+        reg111: new RegExp(),
+        date111: new Date(),
+        message111: new Message(),
+      };
+      obj.circular = obj; // 循环引用
+      obj[Symbol()] = "symbol"; // Symbol
+
+      function deepClone(obj, map = new Map()) {
+        if (typeof obj !== "object") return obj; // 非对象和数组，直接返回
+
+        let res = Array.isArray(obj) ? [] : {};
+        if (map.has(obj)) return map.get(obj);
+        map.set(obj, res); // map缓存，解决循环引用
+
+        switch (obj.constructor) {
+          case Date:
+          case RegExp:
+          case Message: // 构造函数是这几种情况，直接调用构造函数，生成实例，属性生成在实例上，相互不影响 - 结构化克隆
+            res = new obj.constructor(obj);
+            break;
+          default:
+            // 其他情况
+            Reflect.ownKeys(Array.isArray(obj) ? [...obj] : { ...obj }).forEach(
+              (key) => {
+                // Reflect.ownKeys() ---> 遍历对象自身属性 - 可枚举 + 不可枚举 + Symbol类型的key
+                if (typeof obj[key] === "object") {
+                  res[key] = deepClone(obj[key], map);
+                } else {
+                  res[key] = obj[key];
+                }
+              }
+            );
+        }
+
+        return res;
+      }
+
+      const deepObj = deepClone(obj);
+      deepObj.message111.age = 333;
+      console.log(`原对象`, obj);
+      console.log(`新对象`, deepObj);
+    </script>
+  </body>
+</html>

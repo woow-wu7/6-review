@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // promise
+
+      class Promise {
+        constructor(executor) {
+          // 参数不是函数，报错
+          if (typeof executor !== "function") {
+            throw new TypeError(
+              `Promise resolver ${executor} is not a function`
+            );
+          }
+
+          executor(this.resolve, this.reject);
+        }
+        resolve = () => {};
+        reject = () => {};
+      }
+
+      new Promise((resolve, reject) => {
+        resolve(1);
+      });
+      
+    </script>
+  </body>
+</html>

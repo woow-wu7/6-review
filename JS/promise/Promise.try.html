@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 需求：
+      // 同步函数同步执行，异步函数异步执行
+
+      // const f = () => console.log("now");
+      // Promise.try(f);
+      // console.log("next");
+
+      const sync = () => console.log("sync-1");
+      const async = async () => await console.log("async-2");
+
+      const asyncFn = async (fn) => await fn();
+      asyncFn(sync);
+      asyncFn(async);
+      console.log(3);
+    </script>
+  </body>
+</html>

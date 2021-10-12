@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // memory
+
+      function memory(fn, ...params) {
+        const paramsMap = {};
+        const paramsArr = params;
+        const paramsStr = params.join();
+        let count = 0;
+
+        return function () {
+          if (Reflect.has(paramsMap, paramsStr)) {
+            return Reflect.get(paramsMap, paramsStr);
+          }
+          console.log("该函数计算了多少次", ++count);
+          const value = fn.apply(this, paramsArr);
+          Reflect.set(paramsMap, paramsStr, value);
+          return value;
+        };
+      }
+
+      function fn(name, age) {
+        return name + age;
+      }
+
+      const res1 = memory(fn, 1, 2)();
+      const res2 = memory(fn, 1, 2)(); // 调用了2次，但是计算过程只执行了1次
+      console.log(`res1`, res1);
+    </script>
+  </body>
+</html>
