@@ -1,0 +1,15 @@
+{
+  "number": 10,
+  "string": "string",
+  "boolean": true,
+  "null": null,
+  "obj": {
+    "first": "对象的key必须是双引号，字符串必须是双引号，最后一个属性不能是，"
+  },
+  "summary": {
+    "1": "原始类型的值只有 (4) 种，分别是：number，string，boolean，null；其中number必须是10进制；不能使用NaN，undefined，Infinity，-Infinity",
+    "2": "复合类型的值，只能是数组和对象，不能是函数、正则表达式、日期",
+    "3": "字符串必须使用双引号表示，不能使用单引号，对象的键名必须放在双引号里面，数组或对象最后一个成员的后面，不能加逗号",
+    "4": "注意：null，空数组，空对象，都是合法的值"
+  }
+}

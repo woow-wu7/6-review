@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>drag</p>
+    <img
+      src="https://cdn.seovx.com/d/img/momcn-2D%20(31).jpg"
+      width="300"
+      height="200"
+    />
+    <script>
+      document.addEventListener("dragstart", function (event) {
+        console.log("dragstart: " + event.dataTransfer);
+      });
+      document.addEventListener("dragenter", function (event) {
+        console.log("dragenter: " + event.dataTransfer);
+      });
+      document.addEventListener("dragover", function (event) {
+        event.preventDefault();
+        const dataTransfer = event.dataTransfer
+        const items = dataTransfer.items
+        console.log(`items`, items)
+        // 设置dropEffect值为move, copy, link, none
+        // event.dataTransfer.dropEffect = "move";
+        // event.dataTransfer.dropEffect = "copy";
+        // event.dataTransfer.dropEffect = "link";
+        // event.dataTransfer.dropEffect = "none";
+        console.log("dragover: " + event.dataTransfer);
+      });
+      document.addEventListener("dragleave", function (event) {
+        console.log("dragleave: " + event.dataTransfer);
+      });
+      document.addEventListener("drop", function (event) {
+        console.log("drop: " + event.dataTransfer);
+      });
+      document.addEventListener("dragend", function (event) {
+        console.log("dragend: " + event.dataTransfer);
+      });
+    </script>
+  </body>
+</html>

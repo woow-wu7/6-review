@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .wrap {
+        border: 1px solid black;
+      }
+      .destination-content {
+        width: 100px;
+        height: 100px;
+        border: 1px solid red;
+      }
+      .origin1,
+      .origin2 {
+        width: 50px;
+        height: 50px;
+        border: 1px solid green;
+      }
+      .origin2 {
+        border: 1px solid blue;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p class="destination-title">当前元素 -></p>
+      <div class="destination-content" />
+    </div>
+    <div class="origin2" data-name="blue_box"></div>
+    <div class="origin1" data-name="green_box" draggable="true"></div>
+
+    <script>
+      let name = null;
+      let dragDOM = null;
+      const wrapDOM = document.querySelector("div.wrap");
+      const destinationContent = document.querySelector(
+        "div.destination-content"
+      );
+      const destinationTitle = document.querySelector("p.destination-title");
+      console.log(`destinationTitle`, destinationTitle);
+
+      document.addEventListener(
+        "dragstart",
+        (e) => {
+          name = e.target.getAttribute("data-name");
+          dragDOM = e.target;
+        },
+
+        false
+      );
+
+      document.addEventListener(
+        "drag",
+        (e) => {
+          e.target.style.background = "green";
+          destinationContent.style.background = "red";
+        },
+        false
+      );
+
+      document.addEventListener(
+        "dragend",
+        (e) => {
+          e.target.style.background = "#fff";
+          destinationContent.style.background = "#fff";
+        },
+        false
+      );
+
+      destinationContent.addEventListener(
+        "dragenter",
+        (e) => {
+          e.target.style.background = "black";
+          destinationTitle.innerHTML = "当前元素 ->" + " " + name;
+        },
+        false
+      );
+
+      destinationContent.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        // 注意：
+        // 1. 这里一定要添加 dragover 事件
+        // 2. 也一定要阻止 默认行为
+        // 不然，下面的 drop 方法将没有效果
+      });
+
+      destinationContent.addEventListener(
+        "dragleave",
+        (e) => {
+          e.target.removeChild(dragDOM);
+          wrapDOM.appendChild(dragDOM);
+          destinationTitle.innerHTML = "当前元素 ->";
+        },
+        false
+      );
+
+      destinationContent.addEventListener(
+        "drop", // drop 方法是绑定在 destinationContent 上的，这点一定要注意
+        (e) => {
+          console.log(`555`, 555);
+          e.preventDefault(); // 必须阻止默认行为，后面的添加child代码才会生效显示在页面上
+          console.log(`6666`, dragDOM);
+          e.target.appendChild(dragDOM);
+          destinationTitle.innerHTML = "当前元素 ->" + " " + name;
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
