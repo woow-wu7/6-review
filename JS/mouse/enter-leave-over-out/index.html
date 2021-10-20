@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div {
+        margin: 0 auto;
+      }
+      .box {
+        box-sizing: border-box;
+        padding: 30px 0;
+        width: 300px;
+        border: 1px solid #005aa0;
+      }
+      .son-box {
+        width: 150px;
+        height: 150px;
+        background-color: #00823c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div class="son-box"></div>
+    </div>
+    　　
+    <script>
+      var box = document.getElementsByClassName("box")[0];
+      box.addEventListener("mouseenter", function () {
+        console.log("MouseEnter!");
+      });
+      box.addEventListener("mouseover", function () {
+        console.log("MouseOver!");
+      });
+      box.addEventListener("mouseout", function () {
+        console.log("MouseOut!");
+      });
+      box.addEventListener("mouseleave", function () {
+        console.log("MouseLeave!");
+      });
+    </script>
+  </body>
+</html>

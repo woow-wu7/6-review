@@ -91,7 +91,7 @@
       destinationContent.addEventListener(
         "dragleave",
         (e) => {
-          e.target.removeChild(dragDOM);
+          dragDOM && e?.target?.removeChild(dragDOM);
           wrapDOM.appendChild(dragDOM);
           destinationTitle.innerHTML = "当前元素 ->";
         },

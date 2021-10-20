@@ -22,9 +22,9 @@
       });
       document.addEventListener("dragover", function (event) {
         event.preventDefault();
-        const dataTransfer = event.dataTransfer
-        const items = dataTransfer.items
-        console.log(`items`, items)
+        const dataTransfer = event.dataTransfer;
+        const items = dataTransfer.items;
+        console.log(`items`, items);
         // 设置dropEffect值为move, copy, link, none
         // event.dataTransfer.dropEffect = "move";
         // event.dataTransfer.dropEffect = "copy";

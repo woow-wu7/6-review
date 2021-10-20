@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>138-8888-9999-文字</p>
+    <input type="text" />
+    <script>
+      // 文字拖动
+      // https://www.zhangxinxu.com/wordpress/2018/09/drag-drop-datatransfer-js/
+      const input = document.querySelector("input");
+
+      const img = new Image();
+      img.src = "./images/small.png";
+
+      // 1
+      // DataTransfer.setData()
+      // DataTransfer.setDragImage(img, offsetX, offsetY)
+      document.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData("text", "133-4444-5555-文字"); // 将 ( 138-8888-9999-文字 ) 替换成 ( 133-4444-5555-文字 )
+        e.dataTransfer.setDragImage(img, 10, 10); // 拖拽时显示一张图片
+      });
+
+      // 2
+      // DataTransfer.getData()
+      input.addEventListener("drop", function (e) {
+        // 注意是：input 的 drop 事件
+        e.preventDefault(); // drop 和 dragover 需要 e.preventDefault() 后面的代码才会生效
+        var selectedText = e.dataTransfer.getData("text"); // 获取拖拽纯文本内容(被选取部分)
+        input.value = selectedText.replace(/\D/g, ""); // 清除所有非数字字符，将其替换成 ''
+      });
+    </script>
+  </body>
+</html>

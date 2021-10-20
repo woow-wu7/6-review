@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const RE_TEMPLATE = /\${{(?<var>.*?)}}/g;
+
+      const parseRequiredArguments = (ruleTemplate) => {
+        const matches = [...ruleTemplate.template.matchAll(RE_TEMPLATE)];
+        return matches.map((rem) => rem.groups?.var);
+      };
+
+      const res = parseRequiredArguments({
+        name: "http-server-latency",
+        displayName: "HTTP服务接口超时",
+        template:
+          'op:http_server_requests_latency:rate5m{group="${{group}}", job="${{job}}", uri="${{uri}}"} > ${{threshold}}',
+        severity: "error",
+        alarmType: "general",
+        for: 600,
+        message:
+          "5分钟平均HTTP平均响应持续超过{{ $value | humanizeDuration }} [FT]",
+      });
+      console.log(`res1`, res)
+
+
+      const aaa = 'op:http_server_requests_latency:rate5m{group="${{group}}", job="${{job}}", uri="${{uri}}"} > ${{threshold}}'
+      const bbb =[...aaa.matchAll(RE_TEMPLATE)]
+      console.log(`bbb`, bbb)
+    </script>
+  </body>
+</html>

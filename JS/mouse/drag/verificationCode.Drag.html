@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .content {
+        position: relative;
+      }
+      .small {
+        position: absolute;
+        left: 0;
+        top: 90px;
+        cursor: move;
+        transform: scale(0.9);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="verification">
+      <div class="title">验证码</div>
+      <div class="content">
+        <!-- 这里两张图片的 draggable=false 表示图片不会被拖动，即防止被拖动，我们这里不是用drag属性和事件去实现的 -->
+        <img src="./images/big.jpg" alt="b" draggable="false" class="big" />
+        <img src="./images/small.png" alt="s" draggable="false" class="small" />
+      </div>
+    </div>
+    <script>
+      // 验证码
+      const title = document.querySelector("div.title");
+      const big = document.querySelector("img.big");
+      const small = document.querySelector("img.small");
+
+      const bigLeft = big.offsetLeft; // big图片左上角 距离 父元素的左上角 的 ( 水平位移 ) 距离 ------------------------------ 该值固定的 - 无论是小方块移动或者静止，所以可以用任意时刻的其他值计算，所以可以用const
+      const bigTop = big.offsetTop; //  big图片左上角 距离 父元素的左上角 的 ( 垂直位移 ) 距离 ------------------------------- 该值固定的 - 无论是小方块移动或者静止，所以可以用任意时刻的其他值计算，所以可以用const
+      // const smallLeft = small.offsetLeft; //  small图片左上角 距离 父元素(big)的左上角 的 ( 水平位移 ) 距离 ------------------ 该值鼠标点击时固定，小方块移动时不固定
+      // const smallTop = small.offsetTop; //  small图片左上角 距离 父元素(big)的左上角 的 ( 垂直位移 ) 距离 -------------------- 该值鼠标点击时固定，小方块移动时不固定
+
+      small.addEventListener(
+        "mousedown",
+        (e) => {
+          const mouseToSmallLeft = e.pageX - bigLeft - small.offsetLeft; // 鼠标点击位置 距离 small 的水平位移 ------------------- 该值固定的 - 无论是小方块移动或者静止，所以可以用任意时刻的其他值计算，所以可以用const
+          const mouseToSmallTop = e.pageY - bigTop - small.offsetTop; // 鼠标点击位置 距离 small 的垂直位移 ---------------------- 该值固定的 - 无论是小方块移动或者静止，所以可以用任意时刻的其他值计算，所以可以用const
+
+          const updateUi = (e) => {
+            if (
+              e.pageX > 447 &&
+              e.pageX < 492 &&
+              e.pageY > 174 &&
+              e.pageY < 218
+            ) {
+              title.innerHTML = "验证码验证成功";
+              title.style.background = "green";
+              title.style.width = 568 + "px";
+              title.style.color = "white";
+            } else {
+              title.innerHTML = "验证码";
+              title.style.background = "";
+            }
+          };
+
+          const moving = (e) => {
+            const mouseLeft = e.pageX; // 鼠标 距离 页面的 ( 水平位移 )
+            const mouseTop = e.pageY; // 鼠标 距离 页面的 ( 垂直位移 )
+            small.style.left = mouseLeft - bigLeft - mouseToSmallLeft + "px";
+            small.style.top = mouseTop - bigTop - mouseToSmallTop + "px";
+            updateUi(e);
+          };
+
+          // 注意：这里是 document 监听的 mousemove
+          document.addEventListener("mousemove", moving, false);
+          document.addEventListener(
+            "mouseup",
+            (e) => {
+              document.removeEventListener("mousemove", moving, false);
+            },
+            false
+          );
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
