@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 前端跨域
+
+    /**
+     * cors
+     * (1) 简单请求
+     * - 简单请求的条件，( 必须满足一下两个 )
+     *   - 请求的方法：GET POST HEAD
+     *   - 头字段必须包含在以下范围
+     *      - Accept
+     *      - Accept-Language
+     *      - Content-Language
+     *      - Last-Event-ID
+     *      - Content-Type
+     *        - application/x-www-form-urlencode - 提交表单
+     *        - multipart/form-data - 常见的POST请求
+     *        - text/plain
+     *   - 不满足以上条件，则是非简单请求
+     * - 请求头
+     *    - Origin
+     * - 响应头
+     *    - Access-Control-Allow-Origin
+     *    - Access-Control-Allow-credentials 是否允许携带cookie
+     *      - XMLHttpRequest -> xhr.withCredentials = true
+     *      - fetch -> credentials = include > same-origin -> omit
+     *      - 允许携带cookie的话，Access-Control-Allow-Origin不能是 *
+     *    - Access-Allow-Expose-Headers
+     *
+     * (2) 非简单请求
+     *    - 满足条件
+     *      - 请求的方法：PUT DELETE OPTIONS
+     *      - Content-Type：application/json
+     *    - 遇检请求
+     *      - 非简单请求会多一次预检请求，是一个OPTIONS请求
+     *      - 预检请求请求头
+     *        - Access-Control-Request-Methods
+     *        - Access-Control-Request-Headers
+     *      - 预检请求响应头
+     *        - Access-Control-Allow-Methods
+     *        - Access-Control-Allow-Headers
+     *        - Access-Control-Max-Age
+     *        - Access-Control-Allow-Credentials
+     *    - 之后的请求就和 简单请求 一致了
+     */
+  </script>
+</body>
+</html>
