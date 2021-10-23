@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      div {
+        border: 1px solid red;
+        margin: 10px;
+      }
+      .container {
+        /* width: 800px; */
+        height: 100%;
+        background-color: yellow;
+
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        /* align-items: center; */
+        /* align-content: center; */
+        /* flex-flow的默认值是row nowrap */
+      }
+      .project {
+        order: 100;
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: 100px;
+        /* flex: 0 0 100px; 不放大，不缩小，占据主轴100px，快捷值有auto和none */
+        align-self: flex-end;
+        /* align-self: flex-end; 在交叉轴方向上的自定义对齐方式 */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="project">
+        <p>项目1项目1项目1项目1项目1项目1项目1项目1项目1</p>
+      </div>
+      <div class="project2">
+        <p>项目2项目2项目2项目2项目2项目2项目2项目2项目2</p>
+      </div>
+      <div class="project3">
+        <p>项目3项目3项目3项目3项目3项目3项目3项目3项目3</p>
+      </div>
+      <div class="project4">
+        <p>项目4项目4项目4项目4项目4项目4项目4项目4项目4</p>
+      </div>
+    </div>
+  </body>
+</html>

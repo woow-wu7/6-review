@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .wrap {
+        width: 300px;
+        height: 300px;
+        background: yellow;
+        overflow: scroll;
+      }
+      .content {
+        position: sticky;
+        top: 100px;
+        /* top: 0; 是阈值 */
+        /* 当content滚动到顶部时，从relative定位 -> absolute定位 */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="title">
+        <p>title,title,title,title</p>
+        <p>title,title,title,title</p>
+        <p>title,title,title,title</p>
+        <p>title,title,title,title</p>
+        <p>title,title,title,title</p>
+        <p>title,title,title,title</p>
+      </div>
+      <div class="content" style="background: red;">content,content,content,content</div>
+      <div class="footer">
+        <p>footer,footer,footer,footer</p>
+        <p>footer,footer,footer,footer</p>
+        <p>footer,footer,footer,footer</p>
+        <p>footer,footer,footer,footer</p>
+        <p>footer,footer,footer,footer</p>
+        <p>footer,footer,footer,footer</p>
+        <p>footer,footer,footer,footer</p>
+        <p>footer,footer,footer,footer</p>
+        <p>footer,footer,footer,footer</p>
+        <p>footer,footer,footer,footer</p>
+        <p>footer,footer,footer,footer</p>
+        <p>footer,footer,footer,footer</p>
+      </div>
+    </div>
+  </body>
+</html>
