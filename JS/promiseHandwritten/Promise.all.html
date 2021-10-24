@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // Promise.all 的模拟实现
+
+      // 手写
+      // (一)
+      // Promise.all
+      // 1
+      // 参数
+      // - 数组:
+      // --- 数组成员是promise：参数是数组的话，每个成员都要是promise实例对象
+      // --- 数组成员不是promise：如果成员不是则会先调用 Promise.resolve() 将成员转成 promise对象
+      // 返回值
+      // - 返回一个新的promise对象，所以可以在all后调用then
+
+      // (二)
+      // Promise.resolve(params)
+      // - params是promise对象 =====================================> 直接返回该promise对象
+      // - params是thenable对象 ===> thenable对象指具有then方法的对象 => 会先转成promise对象，再执行对象中的then方法
+      // - 参数是原始值 =============================================> 返回一个新的promise对象，状态是resolve状态
+      // - 不带任何参数 =============================================> 直接返回一个 fulfilled 状态的 promise 对象
+
+      const p1 = Promise.resolve("p1");
+      const p2 = Promise.resolve("p2");
+      const p3 = Promise.resolve("p3");
+      const str4 = "string4";
+
+      // 手写
+      Promise.all2 = function (promiseList) {
+        return new Promise((resolve, reject) => {
+          const result = [];
+          const promiseArr = Array.from(promiseList); // promiseList可能是一个数组，或者是具有Iterator接口的数据 => 所以这里都先处理成数组
+          const len = promiseArr.length;
+          promiseArr.forEach((_promise) => {
+            // 如果参数数组成员不是promise对象，则会先调用Promise.resolve()将其转换成promise对象
+            Promise.resolve(_promise).then(
+              (promise) => {
+                result.push(promise); // 将真正的promise对象的，fulfilled状态下的终值添加进数组
+                if (result.length === len) {
+                  resolve(result); // 当所有参数成员的状态都是fulfilled时，整个状态变成fulfilled
+                }
+              },
+              reject
+              // reject
+              // - Promise.resolve(_promise).then(value => {}, reason => {})
+              // - reject 就是上面的 reason => {}
+              // - 表示：如果每个promise的状态如果是reject时，就把整个要返回的promise的对象的状态变成rejected，即调用reject方法
+              // - 注意点：这里的 reject 是把 ( 整个新的promise的resolve ) 赋值给了 (Promise.resolve(_promise).then()的第二个参数 )
+            );
+          });
+        });
+      };
+
+      // 原生
+      Promise.all([p1, p2, p3, str4]).then((resArr) => {
+        console.log(`resArr`, resArr);
+      });
+
+      // 手写
+      Promise.all2([p1, p2, p3, str4]).then((resArr) => {
+        console.log(`resArr`, resArr);
+      });
+    </script>
+  </body>
+</html>

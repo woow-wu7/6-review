@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>手写promise</title>
+  </head>
+  <body>
+    <script>
+      // 手写promise
+      // 一
+      // 1
+      // 第一步实现
+      // new Promise(resolve => resolve(1))
+      // 2
+      // 注意点
+      // 1. 构造函数：Promise是通过new命名来调用的，说明 ( Promise是一个构造函数 )
+      // 2. 参数：
+      //    - 报错：当Promise构造函数传入的 ( 参数不是函数时 ) 会报错
+      //    - 具体：new Promise(1) 报错：Promise resolver 1 is not a function
+      //    - 校检：所以不能相信用户的输入，需要做 ( 参数校检 )
+
+      // 二
+      // 第二步实现
+      // new Promise().then() -> then
+      // 1
+      // then方法是挂载在哪里？
+      // - Promise.prototype 上的，即 --> Promise.prototype.then
+      // 2
+      // then方法的作用
+      // - 为 promise 实例，添加 ( 状态改变 ) 后的 ( 回调函数 )
+      // 3
+      // then方法的参数
+      // - 第一个参数：可选，是一个函数，是promise状态变成fulfilled状态的回调函数
+      // - 第二个参数：可选，是一个函数，是promise状态变成rejected状态的回调函数
+      // 4
+      // then方法的返回值
+      // - then放回一个新的promise对象，所以可以实现链式调用
+      // -- 扩展：Promise.prototype上的三个方法都是返回新的promise对象 --> then catch finally
+      // 5
+      // then中两个回调的执行时机
+      // 需要考虑：- executor 中抛错时，如何捕获?，则需要用try...catch包裹整个executor，有错误则将err传入reject中
+      // 需要考虑：- 执行顺序，then函数的两个回调onFulfilled和onRejected的执行，需要在 ( 同步代码执行完后 )
+      // 需要考虑：- 执行顺序，executor函数中有异步操作时，then和resolve两个函数的执行顺序问题
+      // 需要考虑：- 链式调用，每个then返回新的promise，因此能链式调用
+
+      class _Promise {
+        constructor(executor) {
+          // 参数校检
+          if (typeof executor !== "function") {
+            throw new TypeError(
+              `Promise resolver ${executor} is not a function`
+            );
+          }
+
+          try {
+            executor(this.resolve, this.reject);
+            // 1. executor 执行器函数是外部传入的
+            // 2. executor 函数的两个参数resolve函数和reject函数，是内部定义的
+            // 3. 传入的参数函数 executor 将在构造函数中被调用
+          } catch (err) {
+            this.reject(err);
+          }
+        }
+
+        // 属性
+        value = null;
+        reason = null;
+        state = "pending";
+        onFulfilledCallbacks = []; // 用来存储：executor中存在异步时，存储resolve执行状态改变后，要在then的onFulfilled函数中执行的回调函数
+        onRejectedCallbacks = [];
+
+        resolve = (value) => {
+          // resolve 函数
+          // - 参数：终值value
+          // - 作用：
+          //  1.存储终值
+          //  2.改变promise的状态
+          if (this.state === "pending") {
+            this.value = value; // 存储终值
+            this.state = _Promise.FULFILLED; // 改变状态 - 从 'pending' -> 'fulfilled'
+            this.onFulfilledCallbacks.forEach((fn) => fn(this.value)); // 保证 resolve 修改状态后，在执行then中的 onFulfilled 回调
+          }
+        };
+        reject = (reason) => {
+          // reject 函数
+          // - 参数：拒因reason
+          // - 作用：
+          //  1.存储拒因
+          //  2.改变promise的状态
+          if (this.state === "pending") {
+            this.reason = reason; // 存储拒因
+            this.state = _Promise.REJECTED; // 改变状态 - 从 'pending' -> 'rejected'
+            this.onRejectedCallbacks.forEach((fn) => fn(this.reason)); // 保证 rejected 修改状态后，在执行then中的 onRejected 回调
+          }
+        };
+
+        then = (onFulfilled, onRejected) => {
+          // 参数
+          // - onFulfilled 和 onRejected 都是外面传入的函数，分别是promise实例成功状态和失败状态的回调函数
+          // 调用
+          // - then 方法是在promise实例上调用的，所以then这里是原型属性
+
+          // 重写 onFulfilled
+          if (typeof onFulfilled !== "function") {
+            // onFulfilled 不是一个函数，则重写onFulfilled，直接返回终值
+            // 案例：Promise.resolve(1).then().then(value => console.log(value))
+            // --> value 是 1
+            // --> 即第一个then()没有传入任何参数，第二个then的第一个回调的参数还是1
+            // --> 即 ( 穿透效果 )
+            onFulfilled = (value) => value;
+          }
+
+          // 重写 onRejected
+          if (typeof onRejected !== "function") {
+            // onRejected 不是一个函数，则重写onFulfilled，直接返回拒因
+            onRejected = (reason) => reason;
+          }
+
+          // ------------------------------------------------------------------------------------------------------------ 链式调用 start
+          // 链式调用
+          // - then返回一个新的promise对象
+          // - 实现链式调用，并且改变了后面then的值，必须通过新的实例
+          const promise2 = new _Promise((resolve, reject) => {
+            // 执行 onFulfilled
+            if (this.state === _Promise.FULFILLED) {
+              // 状态：只有在promise的状态是fulfilled的时候，才能执行 onFulfilled 回调函数
+              // 参数：onFulfilled 回调的参数是：终值value
+              // 魔法字符串如下：
+              // --> his.state === "fulfilled"
+              // --> 统一用常量来代替
+              // --> this.state === _Promise.FULFILLED
+              setTimeout(() => {
+                // 用setTimeout来保证onFulfilled的执行，在同步代码执行完之后
+                try {
+                  const x = onFulfilled(this.value);
+                  resolve(x);
+                } catch (err) {
+                  reject(err);
+                }
+              });
+            }
+
+            // 执行 onRejected
+            if (this.state === _Promise.REJECTED) {
+              // 状态：只有在promise的状态是rejected的时候，才能执行 onRejected 回调函数
+              // 参数：onRejected 回调的参数是：拒因reason
+              setTimeout(() => {
+                try {
+                  const x = onRejected(this.reason);
+                  resolve(x);
+                } catch (err) {
+                  reject(err);
+                }
+              });
+            }
+
+            // pending状态下的处理，即executor中有异步的情况
+            if (this.state === _Promise.PENDING) {
+              this.onFulfilledCallbacks.push((value) => {
+                // 1. push的是一个函数，之所以要报包装成函数，是因为onFulfilled还要用setTimeout包裹
+                // 2. 调用时push的函数时，传入的参数是 this.value；调用时机是在executor的resolve函数中
+                setTimeout(() => {
+                  try {
+                    const x = onFulfilled(this.value);
+                    resolve(x);
+                  } catch (err) {
+                    reject(err);
+                  }
+                });
+              });
+              this.onRejectedCallbacks.push((reason) => {
+                setTimeout(() => {
+                  try {
+                    const x = onRejected(this.reason);
+                    resolve(x);
+                  } catch (err) {
+                    reject(err);
+                  }
+                });
+              });
+            }
+          });
+
+          return promise2;
+          // ------------------------------------------------------------------------------------------------------------ 链式调用 end
+        };
+      }
+
+      _Promise.PENDING = "pending";
+      _Promise.FULFILLED = "fulfilled";
+      _Promise.REJECTED = "rejected";
+      _Promise.resolvePromise = (promise2, x, resolve, reject) => {};
+
+      // 执行顺序
+      console.log(1111111);
+      new _Promise((resolve) => {
+        console.log("start");
+        setTimeout(() => {
+          console.log(2222222);
+          resolve(1);
+        });
+      })
+        .then(
+          (value) => {
+            console.log(`value`, value);
+            console.log(4444444);
+            return value;
+            // throw new Error("出错了");
+          },
+          (reason) => {
+            console.log(`reason`, reason);
+            return reason;
+          }
+        )
+        .then(
+          (value) => {
+            console.log(`value`, value);
+            console.log(5555555);
+            return value;
+          },
+          (reason) => console.log("reason", reason)
+        );
+      console.log(3333333);
+
+      // 1. new 的作用是执行构造函数 ( 如果是类，则是执行类中的构造函数constructor )，并返回生成的实例对象
+      // 2. 要保证执行顺序是：1111111 2222222 3333333 4444444
+      // ---- 2.1
+      // ---- 即：要保证 then 中的两个回调，要在同步任务执行完后，才能执行
+      // ---- 所以：then方法中的 onFulfilled 和 onRejected 的执行时机，需要要setTimeout来模拟
+      // ---- 效果：未用setTimeout包装onFulfilled 和 onRejected前，执行顺序1243，包装后1234
+      // ---- 2.2
+      // ---- 异步：如果 executor 中存在异步函数时，resolve 和 then 的执行顺序问题
+      // ---- 遇到问题：
+      // ------- 问题：如果在executor中，用setTimeout包裹了resolve时，then方法执行时，状态是pending
+      // ------- 原因：( 因为异步包装后resolve还未执行，只有resolve执行后，状态才会变成fulfilled，而then的onFulfilled函数需要在fulfilled状态才会执行 )
+      // ------- 本质：因为 then 先于 resolve 执行了，导致状态pending时，then第一个参数-成功回调onFulfilled不会执行，所以 4444444 不会输出
+      // ------- 解决办法：利用数组存储 resolve 执行，改变了promise状态为 fulfilled 后的，在 then 中需要执行的 onFulfilled 包装后的函数
+    </script>
+  </body>
+</html>

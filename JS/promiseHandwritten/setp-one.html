@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>手写promise</title>
+  </head>
+  <body>
+    <script>
+      // 手写promise
+      // 1
+      // 第一步实现
+      // new Promise(resolve => resolve(1))
+      // 2
+      // 注意点
+      // 1. 构造函数：Promise是通过new命名来调用的，说明 ( Promise是一个构造函数 )
+      // 2. 参数：
+      //    - 报错：当Promise构造函数传入的 ( 参数不是函数时 ) 会报错
+      //    - 具体：new Promise(1) 报错：Promise resolver 1 is not a function
+      //    - 校检：所以不能相信用户的输入，需要做 ( 参数校检 )
+
+      class _Promise {
+        constructor(executor) {
+          // 参数校检
+          if (typeof executor !== "function") {
+            throw new TypeError(
+              `Promise resolver ${executor} is not a function`
+            );
+          }
+
+          executor(this.resolve, this.reject);
+          // 1. executor 执行器函数是外部传入的
+          // 2. executor 函数的两个参数resolve函数和reject函数，是内部定义的
+          // 3. 传入的参数函数 executor 将在构造函数中被调用
+        }
+
+        value = null;
+        reason = null;
+        state = "pending";
+
+        resolve = (value) => {
+          // resolve 函数
+          // - 参数：终值value
+          // - 作用：
+          //  1.存储终值
+          //  2.改变promise的状态
+          if (this.state === "pending") {
+            this.value = value; // 存储终值
+            this.state = "fulfilled"; // 改变状态 - 从 'pending' -> 'fulfilled'
+          }
+        };
+        reject = (reason) => {
+          // reject 函数
+          // - 参数：拒因reason
+          // - 作用：
+          //  1.存储拒因
+          //  2.改变promise的状态
+          if (this.state === "pending") {
+            this.reason = reason; // 存储拒因
+            this.state = "rejected"; // 改变状态 - 从 'pending' -> 'rejected'
+          }
+        };
+      }
+
+      new _Promise((resolve) => {
+        console.log("start");
+        resolve(1);
+      });
+      // 1. new 的作用是执行构造函数 ( 如果是类，则是执行类中的构造函数constructor )，并返回生成的实例对象
+    </script>
+  </body>
+</html>
