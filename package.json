@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "webpack": "^5.59.1",
+    "webpack-cli": "^4.9.1"
+  },
+  "scripts": {
+    "build": "webpack --config ./JS/webpack/webpack5.config.js",
+    "#build": "webpack --config ./webpack.config.js --mode development",
+    "dev": "webpack-dev-server",
+    "start": "cnpm run dev"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.4.0",
+    "html-webpack-plugin": "^5.4.0",
+    "less": "^4.1.2",
+    "less-loader": "^10.2.0",
+    "mini-css-extract-plugin": "^2.4.3",
+    "path-browserify": "^1.0.1",
+    "style-loader": "^3.3.1",
+    "webpack-dev-server": "^4.3.1"
+  }
+}
