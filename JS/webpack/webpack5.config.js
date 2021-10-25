@@ -131,6 +131,22 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
  *  - autoprefixer需要给出浏览器的一些信息，所以要在 package.json 中添加 browserslist 配置
  */
 
+/**
+ * 10
+ * 图片相关的 file-loader url-loader
+ * 安装
+ *  - npm install file-loader url-loader html-withimg-loader -D
+ * file-loader
+ *  - 会生成一张图片到build的目录下，并将图片的名称返回回来
+ * url-loader
+ *  - 可以设置大小限制，小于时，url-loader会将图片转成base64，大于时，使用file-loader加载图片
+ *  - 在options: {limit: 200 * 1024}来设置，200k，通过 ( limit ) 来设置
+ *  - options: {outputPath: 'img/'} ----- 将图片打包到img文件夹下
+ *  - 注意：
+ *    - (1)css所有文件单独抽离成一个文件放到一个文件夹中是使用 mini-css-extract-plugin
+ *    - (2) 图片单独抽离到文件夹中是url-loader中配置options的outputPath
+ */
+
 // (二)
 // webpack中 ( hash ) 的分类
 // - hash
@@ -272,9 +288,6 @@ module.exports = {
       // {
       //   test: /\.js$/,
       //   loader: "replace-loader", // -------------------- 加载replaceLoader，即文件名
-      //   // options: {
-      //   //   name: "hi!!!!!!!!@!!!!!!", // ---------------------- options的name属性
-      //   // },
       // },
       {
         test: /\.css$/,
@@ -298,6 +311,32 @@ module.exports = {
           MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
+          },
+        ],
+      },
+      {
+        test: /\.less$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+          },
+          {
+            loader: "less-loader",
+          },
+        ],
+      },
+      {
+        test: /\.(jpg|png|jpeg|gif)$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 200 * 1024, // 小于200k转成base64, 大于200k使用file-loader来处理加载图片
+              esModule: false, // 用于html-withimg-plugin生效
+              outputPath: "img/", // 输出到 img 文件夹中
+              publicPath: "", // 单独配置img的公共路径，而不是在output中全部配置
+            },
           },
         ],
       },

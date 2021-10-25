@@ -12,12 +12,15 @@
   "devDependencies": {
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.4.0",
+    "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.4.0",
+    "html-withimg-loader": "^0.1.16",
     "less": "^4.1.2",
     "less-loader": "^10.2.0",
     "mini-css-extract-plugin": "^2.4.3",
     "path-browserify": "^1.0.1",
     "style-loader": "^3.3.1",
+    "url-loader": "^4.1.1",
     "webpack-dev-server": "^4.3.1"
   }
 }

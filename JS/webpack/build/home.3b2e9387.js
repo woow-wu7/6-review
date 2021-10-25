@@ -13,9 +13,10 @@
 /*!*****************************!*\
   !*** ./JS/webpack/index.js ***!
   \*****************************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__(/*! ./index.css */ \"./JS/webpack/index.css\");\n\nconst a = 1;\nconsole.log(`AUTH`, \"AUTH_NAME\"); // 测试 webpack.DefinePlugin\nconsole.log('hi!') // 测试 replaceLoader，将 hello -> hi\n\n\n//# sourceURL=webpack:///./JS/webpack/index.js?");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _images_1_jpg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./images/1.jpg */ \"./JS/webpack/images/1.jpg\");\n/* harmony import */ var _images_1_jpg__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_images_1_jpg__WEBPACK_IMPORTED_MODULE_0__);\n__webpack_require__(/*! ./index.css */ \"./JS/webpack/index.css\");\n__webpack_require__(/*! ./index.less */ \"./JS/webpack/index.less\");\n\nconst a = 1;\nconsole.log(`AUTH`, \"AUTH_NAME\"); // 测试 webpack.DefinePlugin\nconsole.log(\"hi!\"); // 测试 replaceLoader，将 hello -> hi\n\n// 图片相关\n\nfunction useJsGeneratorImg() {\n  const divDOM = document.createElement(\"div\");\n  divDOM.setAttribute(\"style\", \"background: yellow;\");\n  const textDOM = document.createElement(\"span\");\n  textDOM.innerHTML = \"js方式生成img标签\";\n  const _img = new Image(100, 100);\n  divDOM.appendChild(_img); // 将图片插入到divDOM中，作为最后一个孩子节点\n  divDOM.insertBefore(textDOM, _img); // 将 ( textDOM ) 插入到 ( divDOM ) 子元素 ( _img ) 的 ( 前面 )\n  _img.src = (_images_1_jpg__WEBPACK_IMPORTED_MODULE_0___default());\n  if (_img.complete) {\n    addChild();\n  } else {\n    _img.onload = addChild;\n  }\n  function addChild() {\n    document.body.appendChild(divDOM);\n  }\n}\nuseJsGeneratorImg();\n\n\n//# sourceURL=webpack:///./JS/webpack/index.js?");
 
 /***/ }),
 
@@ -27,6 +28,17 @@ eval("__webpack_require__(/*! ./index.css */ \"./JS/webpack/index.css\");\n\ncon
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack:///./JS/webpack/index.css?./node_modules/_mini-css-extract-plugin@2.4.3@mini-css-extract-plugin/dist/loader.js!./node_modules/_css-loader@6.4.0@css-loader/dist/cjs.js");
+
+/***/ }),
+
+/***/ "./JS/webpack/index.less":
+/*!*******************************!*\
+  !*** ./JS/webpack/index.less ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack:///./JS/webpack/index.less?");
 
 /***/ }),
 
@@ -105,6 +117,16 @@ eval("\n\n/* istanbul ignore next  */\nfunction apply(styleElement, options, obj
 "use strict";
 eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElement) {\n  if (styleElement.styleSheet) {\n    styleElement.styleSheet.cssText = css;\n  } else {\n    while (styleElement.firstChild) {\n      styleElement.removeChild(styleElement.firstChild);\n    }\n\n    styleElement.appendChild(document.createTextNode(css));\n  }\n}\n\nmodule.exports = styleTagTransform;\n\n//# sourceURL=webpack:///./node_modules/_style-loader@3.3.1@style-loader/dist/runtime/styleTagTransform.js?");
 
+/***/ }),
+
+/***/ "./JS/webpack/images/1.jpg":
+/*!*********************************!*\
+  !*** ./JS/webpack/images/1.jpg ***!
+  \*********************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("module.exports = __webpack_require__.p + \"img/decb9a99bb8b2e6ee98ecaa8630d8729.jpg\";\n\n//# sourceURL=webpack:///./JS/webpack/images/1.jpg?");
+
 /***/ })
 
 /******/ 	});
@@ -158,6 +180,18 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -172,6 +206,26 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
 /******/ 	})();
 /******/ 	
 /************************************************************************/
