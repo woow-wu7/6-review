@@ -171,6 +171,49 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
  *  - contentHash(即使是相同chunk的js和css，改动js只会影响对应的js而不会影响到css)：每一个代码块（chunk）中的js和css输出文件都会独立生成一个hash，当某一个代码块（chunk）中的js源文件被修改时，只有该代码块（chunk）输出的js文件的hash会发生变化
  */
 
+// (三)
+// 编写一个简单的loader
+/**
+ * 1
+ * 什么是loader
+ * - loader本质上就是一个 ( 函数 )，( 函数的第一个参数就是和loader匹配的文件的 - 源代码字符串 )
+ * 特点
+ * - 不能写成箭头函数，因为需要在函数中使用到 this，通过this来获取到更多的api
+ * 2
+ * this.query
+ * - 如何获取loader中的配置参数：即options对象？
+ *    - loader中存在options：this.query.options
+ *    - loader中不存在options：如果 loader 中没有 options，而是以 query 字符串作为参数调用时，this.query 就是一个以 ? 开头的字符
+ * - 废弃！
+ *    - 注意：this.query已经废弃，使用 loader-utils 中的 getOptions 来获取 options 对象
+ * 3
+ * loader-utils
+ *    - 是一个插件，需要安装
+ *    - 安装：npm install loader-utils -D
+ *    - 使用：通过loader-utils中的 getOptions 获取loader的options配置对象
+ * 4
+ * this.callback
+ *  - 第一个参数：err // Error 或者 null
+ *  - 第二个参数：content // string或者buffer，即处理过后的源代码
+ *  - 第三个参数：sourceMap // 可选，必须是一个可以被这个模块解析的 source map
+ *  - 第四个参数：meta //可选，即元数据
+ * this.async
+ *  - 处理loader中的异步操作
+ *  - this.async()方法返回 this.callback
+ *
+ *
+ *
+ * 5
+ * resolveLoader
+ * 概念：resolveLoader 是 webpack 的配置项，可以直接在webpack.config.js配置文件中通过 resolveLoader 来配置
+ *
+ *
+ *
+ * 6 编写一个简单的loader
+ * - 编写：replaceLoader -----> module.exports = function (source) { return source.replace("hello", "hi!")};
+ * - 使用：在 module.rules 中通过 { test: /\.js$/, use: [path.resolve(__dirname, "./loader/replaceLoader.js")]} 来添加
+ */
+
 module.exports = {
   mode: "development",
   entry: {
@@ -192,6 +235,14 @@ module.exports = {
       path: require.resolve("path-browserify"), // path相关
     },
   },
+  // resolveLoader: {
+  //   // 配置解析loader的相关配置
+  //   // 1. 除了在这里配置
+  //   // 2. 还可以直接在 module.rules 中直接通过 ( use数组引入loader )
+  //   modules: ["node_modules", path.resolve(__dirname, "./loader/")], // 表示在寻找loader时，先去 node_modules 中寻找，没有找到再在 "./loader" 中寻找
+  //   // extensions: [".js", ".json"],
+  //   // mainFields: ["loader", "main"],
+  // },
   devServer: {
     // webpack-dev-server 的配置项
     // 1. 在这里配置后，要启动还要输入命令
@@ -213,6 +264,18 @@ module.exports = {
   module: {
     // 注意：这里不要写成 modules，不然会报错 webpack >= v2.0.0 no longer allows custom properties in configuration.
     rules: [
+      // 加载自定义的 loader - replaceLoader
+      {
+        test: /\.js$/,
+        use: [path.resolve(__dirname, "./loader/replaceLoader.js")],
+      },
+      // {
+      //   test: /\.js$/,
+      //   loader: "replace-loader", // -------------------- 加载replaceLoader，即文件名
+      //   // options: {
+      //   //   name: "hi!!!!!!!!@!!!!!!", // ---------------------- options的name属性
+      //   // },
+      // },
       {
         test: /\.css$/,
         use: [
@@ -259,7 +322,7 @@ module.exports = {
     }),
     new CleanWebpackPlugin(), // ---------- 默认是删除 output.path 指定的文件夹
     new webpack.DefinePlugin({
-      AUTH: JSON.stringify("AUTH_NAME"),
+      AUTH: JSON.stringify("AUTH_NAME"), // --- 需要使用 JSON.stringify()
     }),
     new MiniCssExtractPlugin({
       // -------- 单独抽离css文件成为单独的文件夹，然后通过link标签引入

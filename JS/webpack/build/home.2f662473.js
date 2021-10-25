@@ -15,7 +15,7 @@
   \*****************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("__webpack_require__(/*! ./index.css */ \"./JS/webpack/index.css\");\n\nconst a = 1;\nconsole.log(`AUTH`, \"AUTH_NAME\");\n\n\n//# sourceURL=webpack:///./JS/webpack/index.js?");
+eval("__webpack_require__(/*! ./index.css */ \"./JS/webpack/index.css\");\n\nconst a = 1;\nconsole.log(`AUTH`, \"AUTH_NAME\"); // 测试 webpack.DefinePlugin\nconsole.log('hi!') // 测试 replaceLoader，将 hello -> hi\n\n\n//# sourceURL=webpack:///./JS/webpack/index.js?");
 
 /***/ }),
 
