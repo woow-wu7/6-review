@@ -1,0 +1,1 @@
+{"version":3,"file":"only.css","mappings":";;;;AAAA;;EAEE,YAAY;EACZ,eAAe;AACjB;;;;;ACJA;;EAEE;AACF","sources":["webpack:///./JS/webpack/index.css","webpack:///./JS/webpack/index.less"],"sourcesContent":["html,\nbody {\n  height: 100%;\n  background: red;\n}\n","html,\nbody {\n  border: 20px solid black;\n}\n"],"names":[],"sourceRoot":""}

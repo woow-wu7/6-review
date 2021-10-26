@@ -192,9 +192,6 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
  * - module.exports = merge(base, {})
  */
 
-
-
-
 // (二)
 // webpack中 ( hash ) 的分类
 // - hash
@@ -277,14 +274,6 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
  * - 编写：replaceLoader -----> module.exports = function (source) { return source.replace("hello", "hi!")};
  * - 使用：在 module.rules 中通过 { test: /\.js$/, use: [path.resolve(__dirname, "./loader/replaceLoader.js")]} 来添加
  */
-
-
-
-// (三)
-// webpack.DllPlugin 和 webpack.DllReferencePlugin
-// - 动态链接库，单独打包一些库
-// - webpack.DllPlugin => name , path
-// - webpack.DllReferencePlugin：=> manifest
 
 module.exports = {
   mode: "development",
