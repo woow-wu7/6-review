@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 执行上下文
+      // - 全局执行上下文
+      // - 函数执行上下文
+      // - eval
+
+      // 1
+      //   console.log(`a`, a, window.a);
+      //   console.log(`b`, b, window.b);
+      //   console.log(`this`, this);
+      //   var a = 10;
+      //   function b() {
+      //     return 20;
+      //   }
+      // a undefined undefined
+      // b b() { return 20; } b() { return 20; }
+      // this window
+
+      // 2
+      console.log(`a`, a);
+      var a = 1;
+      fn(a);
+      function fn(a) {
+        if (a === 4) return;
+        console.log("前", a);
+        fn(a + 1);
+        console.log("后", a);
+      }
+      // undefined
+      // 前 1
+      // 前 2
+      // 前 3
+      // 后 3
+      // 后 2
+      // 后 1
+    </script>
+  </body>
+</html>
