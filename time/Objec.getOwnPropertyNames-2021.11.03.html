@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // Object.keys()
+      // Object.getOwnPropertyNames()
+
+      // - **Object.keys()**
+      //   - 只遍历自身属性，不包括继承的属性
+      //   - 并且是可枚举属性
+      //   - `自身属性 + 可枚举属性`
+      // - **Object.getOwnPropertyNames()**
+      //   - 遍历自身属性，不包括继承的属性
+      //   - 包括不可枚举属性
+      //   - `自身属性 + 可枚举属性 + 不可枚举属性`
+      // - **for ... in**
+      //   - `自身的属性 + 可枚举属性 + 继承的属性`
+      // - **Object.keys()和Object.getOwnPropertyNames()的对比**
+      //   - 相同点：
+      //     - 都是遍历自身属性，都不可遍历继承的属性
+      //     - **都可以遍历 ( 对象和数组 )**，即参数是数组或对象
+      //   - 不同点
+      //     - `Object.keys() = 自身属性 + 可枚举属性`
+      //     - `Object.getOwnPropertyNames() = 自身属性 + 可枚举属性 + 不可枚举属性`
+      //   - 所以
+      //     - 一般情况都是使用 Object.keys() 去遍历对象
+      //     - 而不是使用 Object.getOwnPropertyNames()
+
+      const arr = [1, 2];
+      const obj = {
+        name: 1,
+        age: 2,
+      };
+      Object.defineProperty(obj, "EnumerableProperty", {
+        value: "EnumerableProperty",
+        enumerable: true,
+      });
+      Object.defineProperty(obj, "NotEnumerableProperty", {
+        value: "NotEnumerableProperty",
+        enumerable: false,
+      });
+      const obj2 = Object.create(obj); // obj2继承obj的属性
+      obj2.extends = "extends";
+
+      // obj
+      const keys = Object.keys(obj);
+      const ownPropertyNames = Object.getOwnPropertyNames(obj);
+      for (let i in obj2) {
+        console.log("for...in", i); // extends name age EnumerableProperty
+      }
+      console.log(`keys`, keys); //  ['name', 'age', 'EnumerableProperty']
+      console.log(`ownPropertyNames`, ownPropertyNames); //  ['name', 'age', 'EnumerableProperty', 'NotEnumerableProperty']
+
+      // arr
+      const keys2 = Object.keys(arr);
+      const ownPropertyNames2 = Object.getOwnPropertyNames(arr);
+      for (let i in arr) {
+        console.log("for-in", i);
+      } // 0 1
+      console.log(`keys2`, keys2); //  ['0', '1']
+      console.log(`ownPropertyNames2`, ownPropertyNames2); //['0', '1', 'length']
+    </script>
+  </body>
+</html>

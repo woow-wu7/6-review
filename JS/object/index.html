@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        a: 1,
+        b: 2,
+      };
+      obj.__proto__ = { extendsProperty: 4 };
+      Object.defineProperty(obj, "c", {
+        value: 3,
+        enumerable: true,
+      });
+
+      // -------
+      // for...in 遍历 自身属性 + 继承的属性 + 可枚举的属性
+      for (let i in obj) {
+        console.log("key", i);
+      }
+
+      // -------
+      // Object.getOwnPropertyDescriptor()
+      // 获取对象某个属性的 描述对象
+      const descriptorObj = Object.getOwnPropertyDescriptor(obj, "c");
+      console.log(`descriptorObj`, descriptorObj);
+      console.log(`----------------------`);
+
+      // -------
+      // Object.preventExtensions()
+      // 防止对象扩展
+      // 即永远不能添加属性
+      Object.preventExtensions(obj);
+      obj.e = 5;
+      console.log(`Object.preventExtensions()1`, obj); // e不能添加到obj中，但是不报错
+      // Object.defineProperty(obj, "f", { value: 6 });
+      console.log(`Object.preventExtensions()2`, obj); // 直接报错，Uncaught TypeError: Cannot define property f, object is not extensible
+
+      // -------
+      // Object.freeze() 不能添加删除修改属性
+      // Object.seal() 不能添加删除属性，但是可以修改属性
+      const sealObj = Object.create(obj);
+      sealObj.a = 1;
+      Object.seal(sealObj);
+      sealObj.b = 2; // Object.seal() 不能添加属性
+      console.log(`Object.seal() 不能添加属性`, sealObj);
+      delete sealObj.a; // Object.seal() 不能删除属性
+      console.log(` Object.seal() 不能删除属性`, sealObj);
+      sealObj.a = 11; //  Object.seal() 可以修改属性，useRef使用Object.seal()实现
+      console.log(` Object.seal() 可以修改属性`, sealObj);
+
+      // -------
+      // Object.defineProperty()
+      // 1.作用
+      // - 添加一个属性
+      // - 修改一个属性
+      // - 并返回此对象
+      // 2.语法
+      // Object.defineProperty(obj, prop, descriptor)
+      // 参数
+      // - obj需要定义属性的对象，prop要定义或者修改的属性的名称，descriptor属性描述符
+      // 返回值
+      // - 被传递给函数的对象
+      // 默认情况
+      // - 默认情况下，通过 Object.defineProperty() 添加的属性是 ( 不可修改的，即immutable是true )
+      // - `属性描述符`的`两种形式`
+      // - 数据描述符 和 存取描述法，`都是对象`，`一个描述符：只能是其中一种，不能同时写`
+      // - **数据描述符对象**：是一个具有值的属性
+      // - **存取描述法对象**：是由 get 和 set 函数组成的对象
+      // - 数据描述符对象和存取描述符对象共享的方法
+      //   - value
+      //     - 属性对应的值
+      //   - writable
+      //     - 只有值是true时，value才能被改变
+      //     - `默认是false`
+      //   - enumerable
+      //     - 属性是否可枚举
+      //     - `默认是false`
+      //   - configurable
+      //     - 值为true时
+      //       - 该属性的描述符才能够被改变
+      //       - 该属性可以被删除
+      //     - `默认是false`
+      //   - get set
+
+      console.log(`----------------------`);
+      const obj3 = { a: 1 };
+      Object.defineProperty(obj3, "b", {
+        value: 2,
+        writable: false, // 默认是false，只有是true时，value的值才可以改变
+        enumerable: false, // 默认是false，不可枚举，（ 可枚举属性可以被Object.keys() Object.getOwnPropertyNames() for...in 遍历到 ）
+        configurable: true,
+        // 默认是false，表示属性描述符不能被修改
+        // 如果是true，属性描述符对象可以被修改，该属性可以被删除
+      });
+      obj3.b = 22;
+      console.log(
+        `Object.defineProperty()添加的属性，默认情况下是不能修改的，即immutable=true`,
+        obj3.b // 2，还是2，并为被修改成22，但是如果 writeable=true 时，b属性的值是可以被修改的
+      );
+      console.log(
+        `Object.keys(obj3) => 自身属性+可枚举属性`,
+        Object.keys(obj3)
+      );
+      console.log(
+        `Object.getOwnPropertyNames(obj3) => 自身属性+可枚举属性+不可枚举`,
+        Object.getOwnPropertyNames(obj3)
+      );
+      for (let item in obj3) {
+        console.log(`for..in => 自身属性+可枚举属性+继承的属性`, item);
+      }
+
+      Reflect.deleteProperty(obj3, "b");
+      console.log(
+        `configurable=true，属性描述对象可以被修改，该属性可以被删除`,
+        obj3
+      );
+    </script>
+  </body>
+</html>
