@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 箭头函数
+      // this => 箭头函数中的this指的是：箭头函数定义时，上层作用域中的this
+
+      // 1
+      var a = 100;
+      const obj = {
+        a: 1,
+        b: function () {
+          console.log(this.a);
+        },
+        c: () => console.log(this.a),
+      };
+      obj.b(); // 1，普通函数中的this，在函数调用时确定指向，即this指代的是函数调用时所在的对象
+      obj.c();
+      // 100,
+      // 箭头函数中的this，是箭头函数定义时所在对象的上层作用域中的this
+      // ====> c箭头函数定义时所在的作用域是 ( 块级作用域 )，块级作用域的上层作用域是window，window.a=100，所以这里输出100
+
+      // 2
+      var A = {
+        name: "A",
+        sayHello: function () {
+          var s = () => console.log(this.name);
+          return s;
+        },
+      };
+      var sayHello = A.sayHello(); // 不管外面如何调用，都不会影响箭头函数this的指向，和调用无关
+      sayHello();
+      // 输出 A
+      // 1. 箭头函数s定义时所在的作用域是：函数作用域 sayHello 函数
+      // 2. 上层作用域：是块级作用域A，this就指向A，A.name = 'A'
+    </script>
+  </body>
+</html>
