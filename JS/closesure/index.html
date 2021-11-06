@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 闭包
+      // 1
+      // 闭包形成的条件
+      // - 1要有嵌套的函数 2内部函数引用到了外部函数的变量 3执行外部函数
+      // 2
+      // 闭包的个数计算
+      // - 闭包的个数 = 外部函数被调用的次数
+      // 3
+      // 闭包的作用
+      // - 1.使 ( 函数内部的变量 ) 在 ( 函数调用结束 ) 后，仍然保存在内存中，( 延长了局部变量的生命周期 )
+      // - 2.让函数外部，可以操作到函数内部的变量
+      // 4
+      // 如何清除闭包
+      //   - 如何清除
+      //     - 将外层函数赋值的变量，重新给该变量赋值其他的值，比如 a = null
+      //   - 能清除的原因
+      //     - 包含了 ( 闭包变量 ) 的 ( 函数对象 ) 成为 ( 垃圾对象 )，所以闭包将会被垃圾回收机制清除
+      //     - 其实就是因为变量还引用这内层函数
+    </script>
+  </body>
+</html>
