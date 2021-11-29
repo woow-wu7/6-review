@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 插入排序
+
+    const arr = [1,4,6,5,3,2]
+
+    function insert_sort(arr) {
+      for(let i = 1; i < arr.length; i++) {
+        const arrI = arr[i]
+        let j = i -1;
+        for(; j >= 0 && arr[j] > arrI; j--) {
+          arr[j+1] = arr[j]
+        }
+        arr[j+1] = arrI
+      }
+      return arr
+    }
+
+    const res = insert_sort(arr)
+    console.log(`res`, res)
+  </script>
+</body>
+</html>
