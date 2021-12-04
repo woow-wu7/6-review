@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const url = "http://www.baidu.com/artical?author=woow_wu7&age=20#header";
+      const urlInstance = new URL(url); // ----------------------------------------- new URL()
+      const searchParamsInstance = urlInstance.searchParams;
+      const urlSearchParamsInstance = new URLSearchParams(urlInstance.search); // -- new URLSeachParams()
+      searchParamsInstance.append("sex", "man");
+      urlSearchParamsInstance.append("sex", "man");
+
+      const equal =
+        urlInstance.searchParams.get("author") ===
+        urlSearchParamsInstance.get("author"); // true
+
+      for (let arrItem of searchParamsInstance) {
+        console.log("arrItem-url.searchParams ", arrItem);
+      }
+      for (let arrItem of urlSearchParamsInstance) {
+        console.log("arrItem-URLSeachParams", arrItem);
+      }
+      urlSearchParamsInstance.forEach((key, value) => {
+        console.log("key: ", key);
+        console.log("value: ", value);
+      });
+    </script>
+  </body>
+</html>

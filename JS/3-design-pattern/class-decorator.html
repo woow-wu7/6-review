@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="button">点击</button>
+    <script>
+      class Login {
+        login() {
+          console.log("login");
+        }
+      }
+      class Report {
+        report() {
+          console.log("report");
+        }
+      }
+      class After {
+        constructor(Login, Report) {
+          this.login = new Login();
+          this.report = new Report();
+        }
+        after() {
+          this.login.login();
+          this.report.report();
+        }
+      }
+      const handleClick = () => {
+        const after = new After(Login, Report);
+        after.after();
+      };
+      const button = document.getElementById("button");
+      button.addEventListener("click", handleClick, false);
+    </script>
+  </body>
+</html>

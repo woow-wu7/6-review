@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="button">submit</button>
+    <script>
+      /**
+       * 借助装饰器模式，很容易衍生出 AOP 面向切面编程的概念
+       * - 场景：典型场景就是对表单的验证，我们将把表单校验逻辑 validate 函数融入到 before 逻辑当中
+       * - 具体：
+       *   1. 在提交表单时，执行 ( submit.before ) 函数，因为在 ( Function.prototype.before ) 挂载了 ( before ) 函数，被所有 ( 函数实例 ) 所继承
+       *   2. 执行 ( submit.before ) 从而在 submit 之前执行验证函数 ( validate ) 从而在执行submit之前做表单验证功能
+       */
+    </script>
+    <script>
+      function submit(params) {
+        // ---- 提交
+        console.log("submit ->", params);
+      }
+      function validate(params) {
+        // -- 校验
+        console.log("validate ->", params);
+        return true;
+      }
+      Function.prototype.before = function (validateFn) {
+        // ---- before
+        const self = this; // this -> submit
+        return function () {
+          const isValidate = validateFn.apply(this, arguments);
+          return isValidate ? self.apply(this, arguments) : "未通过校验";
+        };
+      };
+
+      const button = document.getElementById("button");
+      const handle = () => {
+        submit.before(validate)("校验的数据和提交的数据都在这里"); // 这里也可以像案例1中那样单独写 before 函数
+      };
+      button.addEventListener("click", handle, false);
+    </script>
+  </body>
+</html>

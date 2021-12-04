@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="button">按钮</button>
+    <script>
+      // function - 装饰器模式
+      // 1. 没有直接修改login的逻辑
+      // 2. 而是通过 after 函数 使用装饰器模式 对函数进行包装，实现了功能的扩展
+      const login = (params) => {
+        console.log("login");
+      };
+      const report = (params) => {
+        console.log("report");
+      };
+      const after = (...fns) => {
+        return (...rest) => {
+          // 这里返回了一个函数，所以你还可以对after继续使用Decorator装饰器模式进行函数功能的扩展
+          fns.forEach((fn) => fn(...rest));
+        };
+      };
+      const loginDecorator = after(login, report); // 类比一下redux中的compose函数，看看是否需要 迭代 和 每个函数单独参数的传入
+      const handleClick = () => {
+        loginDecorator("data");
+      };
+
+      const button = document.getElementById("button");
+      button.addEventListener("click", handleClick, false);
+    </script>
+  </body>
+</html>

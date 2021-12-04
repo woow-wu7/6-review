@@ -8,17 +8,17 @@
   </head>
   <body>
     <script>
-  function Component() {
-    this.data = this.data();
-  }
-  Component.prototype.data = function () {
-    return {
-      count: 100,
-    };
-  };
-  const component1 = new Component();
-  const component2 = new Component();
-  console.log(component1.data === component2.data); // false
+      function Component() {
+        this.data = this.data();
+      }
+      Component.prototype.data = function () {
+        return {
+          count: 100,
+        };
+      };
+      const component1 = new Component();
+      const component2 = new Component();
+      console.log(component1.data === component2.data); // false，因为每次都执行了data函数，并返回了独立内存空间的数据
     </script>
   </body>
 </html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <p>测试Event</p>
+      <div id="one">通过EventTarget.dispatch(event)来触发事件</div>
+      <button id="two">触发click事件的button</button>
+    </div>
+    <div>
+      <p>测试CustomEvent</p>
+      <button id="three">`new CustomEvent(type, options)`</button>
+    </div>
+
+    <script>
+      // Event
+      // 效果
+      // - 1. 点击 button 触发 click 事件，执行click事件绑定的监听函数
+      // - 2. 在上面 1 的监听函数中，执行 EventTarget.dispatch(event) 触发 div上绑定的hello1事件，从而触发 hello1 事件的监听函数 打印hello
+      const one = document.getElementById("one");
+      const hello2 = new Event("hello1", {
+        bubbles: true, // 是否冒泡
+        cancelable: true, // 是否可以通过 Event.preventDefault() 来取消
+      });
+      one.addEventListener("hello1", (e) => {
+        console.log("hello");
+      });
+
+      const two = document.getElementById("two");
+      two.addEventListener("click", () => {
+        console.log("click事件回调触发");
+        one.dispatchEvent(hello2); // EventTarget.dispatchEvent(event事件实例)，在 one 节点上触发 hello2 事件，hello2事件通过 new Event() 生成，指定的事件名事hello1，hello1事件被addEventListener监听
+      });
+    </script>
+
+    <script>
+      // CustomEvent
+      const button3 = document.getElementById("three");
+      const customEvent = new CustomEvent("hello3", {
+        bubbles: false,
+        cancelable: false,
+        detail: {
+          effect: "customEvent可以携带数据", // new CustomEvent() 相对于 new Event() 在第二个参数配置对象中，多了 detail 属性，表示 ( 事件附带的数据 )
+        },
+      });
+      button3.addEventListener("hello3", (e) => {
+        console.log(`e.detail`, e.detail);
+      });
+      button3.addEventListener("click", () => {
+        button3.dispatchEvent(customEvent);
+      });
+    </script>
+  </body>
+</html>
