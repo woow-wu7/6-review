@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 发布订阅模式
+      // 1 模型
+      // 发布者 -- 事件中心 --- 订阅者
+      // publisher -- topics/eventChannel --- subscriber
+      // 2 关系
+      // 订阅者 -> 可以订阅多个事件
+      const publishSubscribeDesignPattern = () => {
+        // topics对象，存放每个 ( 事件 ) 对应的 ( 订阅者对象 ) 组成的 ( 数组 )
+        // key: 事件名
+        // value: 订阅者对象组成的数组
+        // eventName：[{functionName: fn.name, fn: fn}]
+        const topics = {};
+
+        // ID 订阅者为唯一性
+        let id = 0;
+
+        // 订阅
+        topics.subscribe = (eventName, fn) => {
+          // 1
+          // 每一个事件可以有多个订阅者，所以 topics[eventName] 是一个数组，并且事件中心用一个对象去维护
+          if (!topics[eventName]) topics[eventName] = [];
+
+          // 2
+          // topics[eventName].push({ fnName: fn.name, fn });
+          // 问题：这里使用了 fn.name 来作为订阅者的唯一识别是有问题的，因为如果订阅者是一个对象时，对象的方法是没有name属性的，只有函数才有
+          // 解决：我们使用为一个id来实现，每次自增
+          if (fn) {
+            fn.id = id++; // 给每个订阅者添加一个唯一的id，id用来做取消订阅时的身份识别
+          }
+          topics[eventName].push({
+            id: fn.id,
+            fn,
+          });
+        };
+
+        // 发布
+        topics.publish = (eventName, params) => {
+          const subscribers = topics[eventName];
+          subscribers?.length && subscribers.forEach(({ fn }) => fn(params));
+        };
+
+        // 取消订阅
+        topics.unSubscribe = (eventName, fn) => {
+          const subscribers = topics[eventName];
+          if (subscribers?.length) {
+            const index = subscribers.findIndex(({ id }) => id === fn.id); // 在 subscribe 时已经为每个订阅者对象添加了唯一的id
+            subscribers.splice(index, 1);
+          }
+        };
+
+        return topics;
+      };
+      const topics = publishSubscribeDesignPattern();
+      const a = (params) => console.log("a", params);
+      const b = (params) => console.log("b", params);
+
+      topics.subscribe("click", a);
+      topics.subscribe("click", b);
+      topics.unSubscribe("click", b);
+      topics.publish("click", "2021/12/05");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+class EventChannel {
+  topic = {};
+  id = 0;
+
+  subscribe = (eventName, fn) => {
+    if (fn) {
+      fn.id = this.id++;
+    }
+    if (!this.topic[eventName]) {
+      this.topic[eventName] = [];
+    }
+    this.topic[eventName].push({
+      id: fn.id,
+      fn,
+    });
+  };
+
+  publish = (eventName, params) => {
+    if (this?.topic[eventName]?.length) {
+      this.topic[eventName].forEach(({ fn }) => fn(params));
+    }
+  };
+
+  unSubscribe = (eventName, fn) => {
+    if (this?.topic[eventName]?.length) {
+      const index = this?.topic[eventName].findIndex(
+        ({ id }) => id === fn.id
+      );
+      this.topic[eventName].splice(index, 1);
+    }
+  };
+}
+
+const eventChannel = new EventChannel();
+
+class A {
+  a = (params) => console.log("a", params);
+}
+class B {
+  b = (params) => console.log("a", params);
+}
+const a = new A().a;
+const b = new B().b;
+
+eventChannel.subscribe("click", a);
+eventChannel.subscribe("click", b);
+eventChannel.unSubscribe("click", b);
+eventChannel.publish("click", "2021/12/05");
+    </script>
+  </body>
+</html>

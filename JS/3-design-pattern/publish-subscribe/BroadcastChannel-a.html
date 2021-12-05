@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A页面</title>
+  </head>
+  <body>
+    <button id="button">tabA发消息给tabB</button>
+    <script>
+      const button = document.getElementById("button");
+      button.addEventListener("click", handle, false);
+
+      // new BroadcastChannel("test_channel")
+      // 定义：接口代理了一个命名频道，可以让指定 origin 下的任意 browsing context 来订阅它
+      // 作用：创建广播频道 test_channel
+      // 注意点：这里是可以在不同页面进行实例子化的，只要参数一样就是同一频道，就可以进行相同频道的通信
+      const bc = new BroadcastChannel("test_channel");
+
+      function handle() {
+        console.log("A -> B");
+        // A发消息给B
+        bc.postMessage({
+          from: "A",
+          to: "B",
+        });
+      }
+    </script>
+  </body>
+</html>
