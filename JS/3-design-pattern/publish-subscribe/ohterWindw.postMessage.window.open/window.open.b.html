@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>page-B</title>
+</head>
+<body>
+  <div>b页面</div>
+  <script>
+    window.addEventListener('message', (e) => { // ----- 监听message事件
+      console.log(`e.data`, e.data) // 发送过来的数据
+      console.log(`e.origin`, e.origin) // 源信息
+      console.log(`e.source`, e.source) // 源窗口对象
+    }, false)
+  </script>
+</body>
+</html>

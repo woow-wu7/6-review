@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>page-A</title>
+</head>
+<body>
+  <div id="a-open">点击，打开b页面</div>
+  <div id="a-send">点击，发送消息，a->b</div>
+  <script>
+    const aOpen = document.getElementById('a-open')
+    const aSend = document.getElementById('a-send')
+    var a = null // window.open 会返回一个窗口对象
+    aOpen.addEventListener('click', () => a = window.open('http://127.0.0.1:5500/JS/3-design-pattern/publish-subscribe/ohterWindw.postMessage.window.open/window.open.b.html'), false)
+    aSend.addEventListener('click', () => a.postMessage('this message is a to b', 'http://127.0.0.1:5500/JS/3-design-pattern/publish-subscribe/ohterWindw.postMessage.window.open/window.open.b.html'), false)
+    // 注意：
+    // 1. a.postMessage只有在目标页面(b页面)的页面加载完成时才能发送
+    // 2. a.postMessage(message, targetOrigin, [transfer])的第二个参数，表示targetOrigin目标源，即目标窗口的协议域名端口组成的字符串
+    // 3. targetOrigin设置过后，只有目标窗口完全符合targetOrigin字符串的值才能接收到消息
+  </script>
+</body>
+</html>

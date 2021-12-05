@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>父页面</title>
+  </head>
+  <body>
+    <button id="button">给子级页面传参</button>
+    <!-- 注意：iframe不是单标签，如果写成单标签点击不会有反应 -->
+    <iframe
+      id="iframe"
+      src="./window.postMessage.b.html"
+      style="border: 1px solid red; width: 100%"
+    ></iframe>
+
+    <script>
+      const iframe = document.getElementById("iframe");
+      const button = document.getElementById("button");
+
+      button.addEventListener(
+        "click",
+        () => {
+          console.log("父组件button点击了");
+          const message = "我是父级页面传入 -> iframe的数据"; //传递的参数
+          const url = "http://127.0.0.1:5500/JS/3-design-pattern/publish-subscribe/windw.postMessage/window.postMessage.b.html";  // url 需要服务器地址，需要本地起服务
+          iframe.contentWindow.postMessage(message, url);  // 向otherWindow发送消息
+        },
+        true
+      );
+    </script>
+  </body>
+</html>

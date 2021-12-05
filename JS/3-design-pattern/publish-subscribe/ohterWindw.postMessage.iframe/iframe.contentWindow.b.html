@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iframe页面</title>
+  </head>
+  <body>
+    <p class="title">iframe页面</p>
+    <script>
+      window.addEventListener("message", (e) => {
+        const url = "http://127.0.0.1:5500"; // 指定的源
+        if (e.origin != url) return; // 判断是否来自指定源
+        console.log("iframe页面收到 -> 父页面的消息", e.data); // 读取传递过来值
+      });
+      window.onmessage = (e) => {
+        console.log("window.onmessage", e.data);
+      };
+    </script>
+  </body>
+</html>
