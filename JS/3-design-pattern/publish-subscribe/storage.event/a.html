@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A</title>
+  </head>
+  <body>
+    <button id="button">向localStorage中写入数据</button>
+    <script>
+      // localStorage 变化时，会触发 storage 事件
+      // - localStorage
+      // - sessionStorage
+
+      const button = document.getElementById("button");
+      button.addEventListener(
+        "click",
+        () => {
+          const data = "woow_wu7" + +new Date();
+          window.localStorage.setItem(
+            "data",
+            JSON.stringify({
+              name: data,
+            })
+          );
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
