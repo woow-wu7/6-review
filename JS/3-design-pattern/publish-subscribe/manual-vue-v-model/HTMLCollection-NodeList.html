@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="father" style="border: 1px solid red; padding: 10px">
+      <p>father</p>
+      <div class="child" style="border: 1px solid blue; padding: 10px">
+        <p>child</p>
+        <div class="grand-child" style="border: 1px solid green; padding: 10px">
+          <p>grandchild</p>
+        </div>
+      </div>
+    </div>
+    <button id="button">delete-child</button>
+    <script>
+      // HTMLCollection 和 NodeList
+
+      // 1. Element.children
+      // - Element.children 返回一个类似数组的对象 ( HTMLCollection ) 集合
+      // - 包含 当前元素的所有子元素
+      // - 如果当前元素没有子元素，则返回的对象包含0个成员
+
+      // 2. Node.childNodes
+      // - 返回一个类似数组的对象（ NodeList集合 ），成员包括当前节点的所有子节点
+      // - NodeList是一个动态集合
+
+      // 3. Node.childNodes 和 Element.children 的区别
+      // - 类数组的对象
+      //   - 它们都是类似数组的对象
+      // - 静态和动态
+      //   - Element.chilren -> HTMLCollection -> 都是动态集合 ----> 动态时添加减少dom后 ( 实时变化 )
+      //   - Node.childNodes -> NodeList -------> 动态或者静态 -> 静态时添加减少dom后 ( 不会变化 )
+      //     - 动态HTMLCollection：Element.children
+      //     - 动态HTMLCollection：Element.getElementsByClassName
+      //     - 动态HTMLCollection：Element.getElementsByTagName
+      //     -
+      //     - 动态NodeList：Node.childNodes 是动态的NodeList
+      //     - 静态NodeList：Element.querySelectorAll() 方法返回的是一个静态的NodeLis
+      //     - 静态NodeList：Element.querySelector() 方法返回的是一个静态的NodeLis
+      // - 节点类型
+      //   - Element.children ---> 只包含 ( 元素类型的子节点 )，不包含其他类型的子节点
+      //   - Node.childNodes ----> 包含 ( 元素节点，文本节点，注释节点 )
+
+      const father = document.getElementsByClassName("father")[0];
+      console.log(`删除前 - father.children`, father.children);
+      console.log(`删除前 - father.childNodes`, father.childNodes);
+
+      const staticList = father.querySelectorAll("div");
+      console.log(`删除前 - querySelectorAll静态NodeList集合`, staticList);
+
+      // 删除child
+      const button = document.getElementById("button");
+      const handle = (params) => {
+        const child = document.getElementsByClassName("child")[0];
+        child.remove();
+        console.log(`删除后 - father.children`, father.children);
+        console.log(`删除后 - father.childNodes`, father.childNodes);
+        console.log(`删除后 - querySelectorAll静态NodeList集合`, staticList);
+      };
+      button.addEventListener("click", handle, false);
+    </script>
+  </body>
+</html>

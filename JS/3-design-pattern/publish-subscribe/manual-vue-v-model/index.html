@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <input type="text" v-model="name" />
+      <div v-text="name"></div>
+    </div>
+    <script>
+      // const obj1 = { a: 1 }; // ------------ 1. 原型属性
+      // const obj2 = Object.create(obj1);
+      // obj2.b = 2;
+      // Object.defineProperty(obj2, "c", {
+      //   value: 3,
+      //   configurable: true,
+      //   enumerable: true, // -------------- 2. 可枚举属性
+      //   writeable: true,
+      // });
+      // const keys = Object.keys(obj2);
+      // console.log(`keys`, keys);
+      // Object.keys() 返回 自身属性 + 可枚举属性 ，不包含继承的属性
+
+      // Watcher
+      // 监听类
+      // 主要作用是：将改变之后的data中的 ( 最新数据 ) 更新到 ( ui视图 ) 中
+      class Watcher {
+        constructor(directiveName, el, attr, exp, vm) {
+          // this.name = directiveName; // 指令的名字，比如 'v-text'，'v-model'
+          this.el = el; // 每个具体的 DOM 节点
+          this.attr = attr; // --- el中的属性，需要需改的属性 - key
+          this.exp = exp; // ----- el中属性对应的 ( 属性值 ) - value
+          this.vm = vm; // MyVue实例对象
+
+          this.update(); // 注意这里在实例化Watcher时，会执行_update()方法
+        }
+
+        update = () => (this.el[this.attr] = this.vm.$data[this.exp]);
+        // 将MyVue实例的data属性的最新值更新到ui视图中
+      }
+
+      // Vue
+      class MyVue {
+        constructor(props) {
+          const { el, data } = props || {};
+          // 在vue中 $ 开头的属性，是vue的保留属性
+          this.$el = el;
+          this.$data = typeof data === "function" ? data() : data;
+
+          this._subs = {};
+          // key：data对象中的 key，递归循环data从而获取每一层的属性作为key
+          // value：数组，用来存放Watcher实例
+
+          this._observer(this.$data);
+          this._compiler(this.$el);
+        }
+
+        _observer = (data) => {
+          // 1
+          // object.keys() object.values() object.entries() --> 自身属性 + 可枚举属性
+          // for...in ----------------------------------------> 自身属性 + 可枚举属性 + 继承的属性
+          // 上面的三者包含的成员包括 ( 自身属性 + 可枚举属性 )，但 ( 不包含继承的属性 )
+          // 所以 object.entries 不用像 for...in 那样判断是否具有继承的属性，因为 for...in 会遍历继承的属性
+          // 详细：https://juejin.cn/post/7029703494877577246#heading-22
+
+          Object.entries(data).forEach(([key, value]) => {
+            if (typeof value === "object" && value !== null) {
+              this.observer(value); // 还是对象，递归做依赖收集和派发更新
+            }
+            if (!this._subs[key]) {
+              this._subs[key] = []; // 新建
+            }
+            const that = this;
+
+            Reflect.defineProperty(this.$data, key, {
+              enumerable: true, // 可枚举
+              configurable: true, // 可修改配置对象，可删除对象的属性
+              // writable: true, // value的值可以被修改，但这里使用了get和set，没有使用value
+              get() {
+                return value;
+              },
+              set(newValue) {
+                if (value !== newValue) {
+                  value = newValue;
+                }
+                // 修改data后去更新ui
+                that._subs[key].forEach((watcher) => watcher.update());
+              },
+            });
+          });
+        };
+
+        _compiler = (el) => {
+          // const app = document.querySelector(el) // 这里不能用 querySelector，因为是静态的NodeList，不能动态变化
+          const app = document.getElementById(el);
+          const children = app.children; // 返回所有子元素的类似数组的对象
+          Object.entries(children).forEach(([key, value]) => {
+            if (value.length) {
+              this._compiler(value); // 还有子元素，递归
+            }
+            const vText = value.getAttribute("v-text");
+            const vModel = value.getAttribute("v-model");
+            // if (value.hasAttribute('v-text')){} 这样判断也是可以的
+            if (vText) {
+              this._subs[vText].push(
+                new Watcher("v-text", value, "innerHTML", vText, this)
+              );
+            }
+            if (
+              (vModel && value.tagName === "INPUT") ||
+              value.tagName === "TEXTAREA"
+            ) {
+              this._subs[vModel].push(
+                new Watcher("v-model", value, "value", vModel, this)
+              ); // watcher 订阅 data中vModel对应的属性的变化
+              const that = this;
+              value.addEventListener(
+                "input",
+                (e) => (that.$data[vModel] = e.target.value) // 监听input输入值的变化，修改 data，触发派发更新
+              );
+            }
+          });
+        };
+      }
+
+      new MyVue({
+        el: "app",
+        data() {
+          return {
+            name: "woow_wu7",
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

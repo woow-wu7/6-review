@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 观察者模式
+
+      function Subject() {
+        // 目标对象的构造函数
+        this.observers = []; // 观察者实例对象组成的数组
+      }
+      Subject.prototype = {
+        // 目标对象上具有操作 ( 观察者对象数组 ) 的方法，比如 ( 添加，删除，通知 )
+        add(...observers) {
+          if (observers?.length) {
+            this.observers = this.observers.concat(observers);
+          }
+        },
+        delete(...observers) {
+          if (this.observers.length) {
+            observers.forEach((observer) => {
+              const index = this.observers.findIndex(
+                (item) => observer === item
+              );
+              if (index > -1) {
+                this.observers.splice(index, 1);
+              }
+            });
+          }
+        },
+        notify() {
+          this.observers.forEach((observer) => observer?.update());
+        },
+      };
+      Subject.prototype.constructor = Subject;
+
+      function Observer(fn, params) {
+        this.update = function () {
+          return fn.call(this, params);
+        };
+      }
+
+      function o(p) {
+        console.log(p);
+      }
+
+      const observer1 = new Observer(o, "observer1");
+      const observer2 = new Observer(o, "observer2");
+
+      const subject = new Subject();
+      subject.add(observer1, observer2);
+      subject.delete(observer1);
+      subject.notify();
+    </script>
+  </body>
+</html>
