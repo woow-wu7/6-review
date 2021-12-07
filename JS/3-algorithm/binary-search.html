@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 二分法查找
+
+      const arr = [1, 2, 3, 4, 5, 6, 100];
+
+      function binary_search(params, value) {
+        let left = 0;
+        let right = arr.length;
+
+        // 循环的最坏次数
+        for (var i = 0; i <= arr.length; i++) {
+          let pivot = Math.floor((left + right) / 2);
+
+          if (left >= right && value !== arr[pivot]) {
+            return -1;
+          }
+
+          if (value === arr[pivot]) {
+            return pivot;
+          }
+          if (value > arr[pivot]) {
+            left = pivot + 1;
+          }
+          if (value < arr[pivot]) {
+            right = pivot - 1;
+          }
+        }
+      }
+
+      const index = binary_search(arr, 100);
+      console.log(`index`, index);
+    </script>
+  </body>
+</html>
