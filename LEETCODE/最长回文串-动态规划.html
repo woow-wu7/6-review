@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 最长回文字符串 - 动态规划
+      (function () {
+        const str = "abccba";
+        const maxPalindrome = (str) => {
+          const length = str.length;
+          let result = ""; // 记录较长的回文字符串
+
+          const dp = new Array(length)
+            .fill(0)
+            .map(() => new Array(length).fill(0));
+            // 二维数组，初始值都是0，表示都不是回文字符串；length * length的二维数组
+            // 初始值可以是任意值，这里使用了0，表示刚开始都不是回文字符串
+            // 1 回文串
+            // 0 不是回文串
+
+          for(let len = 0; len < length; len ++) { // 遍历所有长度
+            for(let i = 0; i + len < length; i++) { // 遍历所有位置的，该长度的字符；用于判断该长度的字符串是否是回文字符串
+              const j = i + len; // j表示右边界，i表示左边界，让取的字符串始终保持长度是len，但是i在不断的右移
+              if (len === 0) dp[i][j] = 1; // 表示一个字符时，肯定是回文字符串
+              else if (len === 1) dp[i][j] = str[i] === str[j]; // 表示两个字符时，如果两个字符相等，是回文字符串，否则不是回文字符串
+              else {
+                dp[i][j] = str[i] === str[j] && dp[i+1][j-1] // 长度超过2个字符串的字符串，如果len的第一个和最后一个字符相等，并且除了这两个字符，中间的字符也是回文字符串，那么len的字符串也是回文字符串
+              }
+
+              if (dp[i][j] && len + 1 > result.length) { // len长度的回文字符串，比之前获得的最长回文字符串长的话，更新result为更长的回文字符串
+                result = str.slice(i, j + 1) // 注意边界，这里 i + len + 1 也是可以的，i + len = j
+              }
+            }
+          }
+
+          return result
+        };
+        const res = maxPalindrome(str);
+        console.log(`最长回文字符串 - 动态规划 ->`, res);
+      })();
+    </script>
+  </body>
+</html>

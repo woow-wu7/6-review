@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>palindrome</title>
+  </head>
+  <body>
+    <script>
+      // 反转字符串
+      (function(){
+        const str = "abcba";
+        const isPalindrome = (str) => {
+          const reserveStr = str.split("").reverse().join("");
+          return str === reserveStr;
+        };
+        const res = isPalindrome(str);
+        console.log(`反转字符串 ->`, res);
+      })()
+    </script>
+
+    <script>
+      // 双指针 for
+      (function(){
+        const str = "abcba";
+        const isPalindrome = (str) => {
+          const arr = str.split("")
+          for(let l = 0, r= arr.length - 1; l<=r; l++, r--) {
+            if (arr[l] !== arr[r]) {
+              return false
+            }
+          }
+          return true
+        };
+        const res = isPalindrome(str);
+        console.log(`双指针for ->`, res);
+      })()
+    </script>
+
+    <script>
+      // 双指针 while
+      (function(){
+        const str = "abcba";
+        const isPalindrome = (str) => {
+          const arr = str.split("")
+          let l = 0
+          let r = arr.length - 1
+          while(l<=r) {
+            if (arr[l] !== arr[r]) return false;
+            l++;
+            r--;
+          }
+          return true
+        };
+        const res = isPalindrome(str);
+        console.log(`双指针while ->`, res);
+      })()
+    </script>
+
+
+    <script>
+       // 递归
+       (function(){
+        const str = "abccccba";
+        const isPalindrome = (str) => {
+          console.log(`str.length`, str.length)
+          if (str.length <= 1) return true
+
+          const start = str[0]
+          const end = str[str.length - 1]
+          return start === end ? isPalindrome(str.slice(1, str.length -1)) : false
+        };
+        const res = isPalindrome(str);
+        console.log(`递归 ->`, res);
+      })()
+    </script>
+</html>

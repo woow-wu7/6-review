@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // // 两个字符串的最大相同子串 - 暴力算法
+      // const str1 = "abcdefg";
+      // const str2 = "abcdefdcba";
+
+      // 1
+      // 我们以 str1 为基准串
+      const maxSameStr = (str1, str2) => {
+        let start = 0; // 记录相同公共子串寻找时，在基准串中的开始位置
+        let len = 0; // 寻找到的公共子串的长度
+
+        for (let i = 0; i < str1.length; i++) {
+          // ---> 遍历所有 str1
+          for (let j = 0; j < str2.length; j++) {
+            // -> 遍历所有 str2
+            let temp = 0; // temp --------------------> str1的i位置做为开始位置 和 str2的j位置做为开始位置 寻找到的相同子串的长度
+
+            for (
+              let k = 0; // k -------------------------> i和j共同向后寻找的位置
+              k < Math.min(str1.length - i, str2.length - j); // 以较小的字符串，可以遍历的次数
+              k++
+            ) {
+              if (str1[i + k] === str2[j + k]) {
+                // i和j分别向后+1寻找，两个字符相等，则temp+1
+                temp++;
+                if (temp > len) {
+                  // 比之前寻找的公共子串长，更新最长的子串为更大的
+                  len = temp;
+                  start = i; // 更新长度 和 起始位置，len和start成对更新，就可以截取相同子串到子串
+                }
+              } else {
+                break; // 不相等跳出起始i和起始j的寻找
+              }
+            }
+          }
+        }
+        console.log(`start`, start);
+        console.log(`len`, len);
+        return str1.slice(start, start + len);
+      };
+
+      const res = maxSameStr(str1, str2);
+      console.log(`res`, res);
+    </script>
+  </body>
+</html>

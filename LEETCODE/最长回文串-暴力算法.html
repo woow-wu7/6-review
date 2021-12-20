@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 最长回文字符串 - 暴力算法
+      (function () {
+        const str = "abcdcbcba";
+        const maxPalindrome = (str) => {
+          if (str === "") return ""; // 空字符串也是回文字符串
+          if (str.length === 1) return str; // 单个字符也是回文字符串
+
+          let result = ""; // 用来缓存最长的子串，动态更新
+
+          for (let i = 0; i < str.length; i++) {
+            for (let j = i + 1; j <= str.length; j++) {
+              // 注意：j的最大值要取到 str.length，因为slice(start, end) 是取不到end的，所以要end=str.length才可以
+
+              const _str = str.slice(i, j); // 获取所有子串
+              const _reverseStr = _str.split("").reverse().join(""); // 反转
+              // 我们这里使用正反字符串对比的方式来判断是不是回文字符串
+              // 当然还可以使用 双指针 循环来实现，那样就是三层循环
+
+              if (_str === _reverseStr && _str.length > result.length) {
+                // 是回文串，并且比result之前的回文串长的话，就更新较长的回文长
+                result = _str;
+              }
+            }
+          }
+          return result;
+        };
+        const res = maxPalindrome(str);
+        console.log(`最长回文字符串 - 暴力算法 ->`, res);
+      })();
+    </script>
+  </body>
+</html>
