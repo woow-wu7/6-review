@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 正则 - 字符串中第一个只出现一次的字符 - 字符串中第一个不重复的字符
+      const str = "x1212aa";
+
+      const first = (str) => {
+        for (let i of str) {
+          const reg = new RegExp(`${i}`, "g"); // 利用构造函数，可以传入变量，因为第一个参数是字符串
+
+          const strArr = str.match(reg);
+          // match
+          // - 匹配成功，返回一个数组；匹配不成功返回null
+          // - 这里表示：字符串中 ( 每个相同字符 ) 组成的数组
+          // - 注意：不可能匹配不到正则，因为是遍历的字符串中的字符
+
+          if (strArr.length === 1) {
+            return strArr[0]; // 第一次出现字符长度为1，直接返回该字符就是第一个只出现一次的字符
+          }
+        }
+
+        return -1;
+      };
+
+      const res = first(str);
+      console.log(`res`, res);
+    </script>
+  </body>
+</html>
