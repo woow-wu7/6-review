@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 实现 push pop min max 时间复杂度是 O(1) 的栈
+      class Stack {
+        stacks = []; // 正常的栈
+        minStacks = []; // 该栈存储动态最小值
+        maxStacks = []; // 该栈存储动态最大值
+
+        push = (element) => {
+          if (this.isEmpty()) {
+            // 如果stacks为空，都同时入栈
+            this.stacks.push(element);
+            this.minStacks.push(element);
+            this.maxStacks.push(element);
+          } else {
+            const minTop = this.peek("minStacks");
+            const maxTop = this.peek("maxStacks");
+            const minElement = minTop < element ? minTop : element;
+            const maxElement = maxTop > element ? maxTop : element;
+            this.stacks.push(element);
+            this.minStacks.push(minElement); // 较小值入栈
+            this.maxStacks.push(maxElement); // 较大值入栈
+          }
+        };
+        pop = () => {
+          this.stacks.pop();
+          this.minStacks.pop();
+          this.maxStacks.pop();
+        };
+
+        min = () => this.peek("minStacks");
+        max = () => this.peek("maxStacks");
+        size = () => this.stacks.length;
+        peek = (stackType) => this.size() ? this[stackType][this.size() - 1] : "空栈";
+        isEmpty = () => this.size() === 0;
+      }
+
+      const stack = new Stack();
+      stack.push(1);
+      stack.push(2);
+      stack.push(3);
+      stack.pop();
+      console.log(`stack.min()`, stack.min());
+      console.log(`stack.max()`, stack.max());
+    </script>
+  </body>
+</html>

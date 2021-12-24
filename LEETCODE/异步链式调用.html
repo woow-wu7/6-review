@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // people(“Tom”).rest(10).eat(“dinner”)输出
+
+      class People {
+        isRun = false;
+        list = [];
+
+        people = (name) => {
+          console.log(name);
+          return this;
+        };
+
+        rest = (delay) => {
+          this.list.push(async () => {
+            await new Promise((resolve) => {
+              setTimeout(() => {
+                console.log("10");
+                resolve();
+              }, 1000);
+            });
+          });
+          return this;
+        };
+
+        eat = async (food) => {
+          for (let i = 0; i < this.list.length; i++) {
+            await this.list[i]();
+          }
+          console.log(food);
+          return this;
+        };
+      }
+
+      const instance = new People();
+      instance.people("Tom").rest(10).eat("dinner");
+    </script>
+  </body>
+</html>

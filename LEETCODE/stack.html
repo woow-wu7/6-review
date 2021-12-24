@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Stack {
+        stacks = [];
+
+        push = (element) => {
+          this.stacks.push(element);
+        };
+
+        // pop
+        // - 删除栈顶元素，并返回删除的栈顶元素
+        // - 注意：需要处理边界条件，也就是栈已经为空的情况
+        pop = () => (!this.isEmpty() ? stacks.pop() : "已经是空栈了");
+
+        // peek
+        // - 获取栈顶元素
+        // - 注意：空栈的情况
+        peek = () => {
+          return this.size() ? this.stacks[this.size() - 1] : undefined;
+        };
+
+        size = () => this.stacks.length;
+        isEmpty = () => this.size() === 0;
+        clear = () => (this.stacks = []);
+      }
+
+      const stack = new Stack();
+      stack.push(1);
+      stack.push(2);
+      console.log(`stack.peek()`, stack.peek());
+    </script>
+  </body>
+</html>
