@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 归并排序 O(nlogn)
+
+      const arr = [1, 4, 7, 3, 5, 2];
+      const merge_sort = (arr) => {
+        const len = arr.length;
+
+        // 递归结束的条件是：数组长度为1，因为数组长度为1时候，不能在继续拆分成两个数组，没有意义
+        if (len <= 1) return arr;
+
+        const pivot = Math.floor(len / 2);
+        const left = arr.slice(0, pivot);
+        const right = arr.slice(pivot, len);
+
+        return merge(merge_sort(left), merge_sort(right));
+      };
+
+      // merge 负责合并 两个有序的数组 为 一个有序的总数组
+      // 注意：
+      // 1. 在递归的最里层时，两个数组长度一定是 1，在合并操作时，相当于合并两个长度为1的数组
+      // 2. 因为递归的调用方式，是从长度为1往上进行合并的，也就是说从合并长度为1的数组，然后合并长度为2的数组，....
+      // 3. 因为长度为1数组合并后，变成了有序，接着合并的长度为2时的数组就是一个有序的数组了，即 ( merge函数中的参数数组，两个数组都是有序的 )
+      function merge(arr1, arr2) {
+        const result = [];
+
+        // while
+        // 1. 遍历两个数组，比较数组的第一项，把较小的从它的数组中shift处理，添加进最终的数组result
+        // 2. 继续重复以上1的操作，直到两个数组中有数组为空
+        // 3. 最后把result和剩余的数组concat，因为剩下的数组中的元素一定比result中的大，因此可以直接合并
+        // 4. 为什么剩余的数组元素一定比result中的大？因为每次都取走了小的，剩下的一定是最大的
+        while (arr1.length && arr2.length) {
+          arr1[0] < arr2[0]
+            ? result.push(arr1.shift())
+            : result.push(arr2.shift());
+        }
+
+        return result.concat(arr1.length ? arr1 : arr2);
+      }
+
+      const res = merge_sort(arr);
+      console.log(`res`, res);
+    </script>
+  </body>
+</html>

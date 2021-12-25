@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 前值知识
+
+      // 1
+      // 如何把 ( 两个有序序列 ) 合并 ( 成一个有序序列 ) ?
+
+      const arr1 = [8, 6, 4, 1];
+      const arr2 = [10, 9, 7, 5, 3, 2, 11]; // 无序数组，先得处理成有序，升序
+
+      const merge = (arr1, arr2) => {
+        const result = [];
+
+        const _arr1 = arr1.slice().sort((a, b) => a - b);
+        const _arr2 = arr2.slice().sort((a, b) => a - b);
+        // 浅拷贝，不直接修改原数据
+        // 无序数组，先排序，正序排序，因为比较时是取的较小的值进入result，即是一个升序的数组
+
+        // 思路
+        // 1. 先把两个无序的数组处理成有序，并且是升序的数组
+        // 2. shift取出两个数组中的第一个元素，比较，小的进入 result
+        // 3. shift继续取出两个数组中的第一个元素，比较，小的进入 result
+        // 4. 不断重复，直到两个数组中数组长度较小的数组取空为止，数组长度较长的数组可以直接通过concat合并到result，因为剩下的值一定比result中的大，并且是有序的，所以直接concat
+
+        while (_arr1.length && _arr2.length) {
+          _arr1[0] < _arr2[0]
+            ? result.push(_arr1.shift())
+            : result.push(_arr2.shift());
+          // 循环结束的条件是：只要有一个数组的元素取完，就结束循环
+          // 循环的比较两个数组的第一个元素的大小，小的取出来放进result
+          // 注意：shift() 删除数组第一个元素，改变原数组，返回值是删除的元素
+        }
+
+        return result.concat(_arr1.length ? _arr1 : _arr2);
+        // 将两个数组中有剩余元素的数组 和 result 合并
+        // concat 是将第二个数组合并到第一个数组的末尾，不改变原数组
+      };
+
+      const res = merge(arr1, arr2);
+      console.log(`res`, res);
+    </script>
+  </body>
+</html>

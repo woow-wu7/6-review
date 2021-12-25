@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 冒泡排序 O(n²)
+
+      const arr = [1, 3, 6, 3, 5, 4];
+      const bubble_sort = (arr) => {
+        const cacheArr = arr.slice();
+        const len = cacheArr.length;
+        let outCount = 0;
+        let inCount = 0;
+        for (let i = 0; i < len; i++) {
+          outCount++;
+          let isSortOk = true;
+          for (let j = 0; j < len - i; j++) {
+            inCount++;
+            if (cacheArr[j] > cacheArr[j + 1]) {
+              isSortOk = false;
+              [cacheArr[j], cacheArr[j + 1]] = [cacheArr[j + 1], cacheArr[j]];
+            }
+          }
+          if (isSortOk) break;
+        }
+        return cacheArr;
+      };
+
+      const res = bubble_sort(arr);
+      console.log(`res`, res);
+    </script>
+  </body>
+</html>
