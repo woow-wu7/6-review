@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 100转换为二进制:
+      // 100/2=50....(余数为0);
+      // 50/2=25.....(余数为0);
+      // 25/2=12.....(余数为1);
+      // 12/2=6......(余数为0);
+      // 6/2=3.......(余数为0);
+      // 3/2=1.......(余数为1);
+      // 1/2=0.......(余数为1);
+      // 所以100的二进制表示形式为1100100;
+
+      class Stack {
+        stacks = [];
+        push = (element) => this.stacks.push(element);
+        pop = () => this.stacks.pop(); // 这里简单模拟，不做边界等情况的分析
+        size = () => this.stacks.length;
+      }
+
+      function decimalToBinary(number) {
+        const stack = new Stack();
+
+        // 存
+        while (number > 0) {
+          stack.push(number % 2);
+          number = Math.floor(number / 2); // 小数时，向下取整数
+        }
+
+        // 取
+        let result = "";
+        while (stack.size()) {
+          result += stack.pop();
+        }
+
+        return Number(result);
+      }
+
+      const res = decimalToBinary(3);
+      console.log(`res`, res);
+    </script>
+  </body>
+</html>
