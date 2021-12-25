@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 快排
+
+      const arr = [1, 6, 3, 2, 5, 4];
+      const quick_sort = (arr) => {
+        if (arr.length <= 1) return arr;
+
+        const left = [];
+        const right = [];
+        const middle = [];
+
+        for (let i = 0; i < arr.length; i++) {
+          const pivot = Math.floor(arr.length / 2);
+
+          if (arr[i] > arr[pivot]) {
+            right.push(arr[i]);
+          }
+          if (arr[i] < arr[pivot]) {
+            left.push(arr[i]);
+          }
+          if (arr[i] === arr[pivot]) {
+            middle.push(arr[i]);
+          }
+        }
+
+        return quick_sort(left).concat(middle, quick_sort(right));
+      };
+
+      const res = quick_sort(arr);
+      console.log(`res`, res);
+    </script>
+  </body>
+</html>

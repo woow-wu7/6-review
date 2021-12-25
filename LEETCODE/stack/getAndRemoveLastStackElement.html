@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 用 ( 递归 ) 实现 ( 删除并返回栈底元素 )
+
+      // const stack = [1, 2, 3]; // 我们直接用数组的pop和push来模拟一个栈，那么1是栈底，3是栈顶
+
+      // const getAndRemoveLastStackElement = (stack) => {
+      //   const result = stack.pop();
+      //   if (!stack.length) {
+      //     return result;
+      //   } else {
+      //     const last = getAndRemoveLastStackElement(stack);
+      //     stack.push(result);
+      //     return last;
+      //   }
+      // };
+      // const res = getAndRemoveLastStackElement(stack);
+      // console.log(`res`, res);
+      // console.log(`stack-删除栈底后`, stack);
+
+      // 过程分析
+
+      // 1
+      // 第一次 getAndRemoveLastStackElement
+      // - result：3
+      // - stack：[1, 2]
+      // - const last = getAndRemoveLastStackElement(stack)
+      // ---- stack.push(result) ---> 该代码这里不会执行，因为进入getAndRemoveLastStackElement([1,2])
+      // ---- return last ----------> 该代码这里不会执行，因为进入getAndRemoveLastStackElement([1,2])
+
+      // 2
+      // 第二次
+      // - result：2
+      // - stack：[1]
+      // - const last = getAndRemoveLastStackElement(stack)
+      // ---- stack.push(result) ---> 该代码这里不会执行，因为进入getAndRemoveLastStackElement([1])
+      // ---- return last ----------> 该代码这里不会执行，因为进入getAndRemoveLastStackElement([1])
+
+      // 3
+      // 第三次
+      // - result：1
+      // - 此时， stack.pop()后的stack已经是空栈了，直接 return 1
+
+      // 4
+      // 接着执行 2 中没有执行的代码
+      // - result：2
+      // - last： 1
+      // - stack.push(2) ==================> 此时 stack = [2]
+      // - return 1
+
+      // 5
+      // 接着执行 1 中没有执行的代码
+      // - result：3
+      // - last：1
+      // ---- stack.push(3) ===============> 此时 stack = [2, 3]
+      // ---- return 1
+
+      //获取到栈底元素返回并移除
+      function getAndRemoveLastElement(stack) {
+        let result = stack.pop();
+        if (stack.length == 0) {
+          return result;
+        } else {
+          let last = getAndRemoveLastElement(stack);
+          stack.push(result);
+          return last;
+        }
+      }
+
+      //调用getAndRemoveLastElement，将获取的栈底元素压入到栈中
+      function reverse(stack) {
+        if (stack.length == 0) {
+          return;
+        }
+        let i = getAndRemoveLastElement(stack);
+        reverse(stack);
+        stack.push(i);
+      }
+    </script>
+  </body>
+</html>
