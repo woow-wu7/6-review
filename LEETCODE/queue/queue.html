@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 数组 实现 队列
+      // enqueue队尾入队，dequeue队首出队
+
+      class Queue {
+        queue = [];
+
+        // 队尾入队 rear - 队尾插入
+        enqueue = (element) => {
+          this.queue.push(element);
+        };
+
+        // 对首出队 front - 队首删除
+        dequeue = () => this.queue.shift();
+
+        // 队首
+        front = () => this.queue[0];
+
+        // 队尾
+        near = () => this.queue[this.size() - 1];
+
+        size = () => this.queue.length;
+
+        clear = () => (this.queue = []);
+
+        isEmpty = () => !!this.size();
+      }
+    </script>
+  </body>
+</html>
