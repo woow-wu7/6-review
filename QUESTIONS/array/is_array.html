@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 判断数组的方法
+
+      const arr = [1, 2, 3];
+
+      // 1
+      // Array.isArray(arr)
+      const isArray = Array.isArray(arr);
+
+      // 2
+      // Object.prototype.toString.call(arr) -> '[object, Array]'
+      const typeString = Object.prototype.toString.call(arr);
+      const isArray2 = typeString.includes("Array");
+
+      // 3
+      // array instanceof Array
+      const isArray3 = arr instanceof Array;
+
+      // 4
+      // object
+      // - Object.prototype.isPrototypeOf(obj)
+      // - 用来判断 ( Object.prototype ) 是不是 ( 参数对象 ) 的 ( 原型对象 )
+      // array
+      // - Array.prototype.isPrototypeOf(arr) -> 因为所有的数组都是构造函数Array通过new命名生成的，所以 (  array实例的原型 ) 就是 ( Array.prototype )
+      const isArray4 = Array.prototype.isPrototypeOf(arr);
+
+      // 5
+      // array.constructor === Array
+      // array实例可以继承其原型对象上的constructor属性，指向原型对象的构造函数，即 Array.prototype.constructor === Array
+      const isArray5 = arr.constructor === Array;
+    </script>
+  </body>
+</html>
