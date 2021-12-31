@@ -49,6 +49,7 @@ class _Promise {
         //   onFulfilled(this.value);
         // })
         (value) => setTimeout(() => onFulfilled(value))
+        // 这里把onFulfilled再包装一层的原因是：可以传入参数，而参数正是终值
       );
       this.onRejectedCallbacks.push(
         // setTimeout(() => {
