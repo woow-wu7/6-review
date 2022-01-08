@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 树 转成 数组
+      const tree = [
+        {
+          id: 1,
+          children: [
+            {
+              id: 2,
+              parentId: 1,
+            },
+            {
+              id: 3,
+              parentId: 1,
+              children: [
+                {
+                  id: 4,
+                  parentId: 3,
+                },
+              ],
+            },
+          ],
+        },
+      ];
+
+      function treeToArray(tree) {
+        const result = [];
+
+        function normalize(tree) {
+          for (let i = 0; i < tree.length; i++) {
+            const itemChildren = tree[i].children;
+            if (itemChildren) {
+              result.push(tree[i]);
+              normalize(itemChildren);
+              delete itemChildren; // 做拆平时，删除当前一层的children
+            } else {
+              result.push(tree[i]);
+            }
+          }
+        }
+        normalize(tree);
+
+        return result;
+      }
+
+      const res = treeToArray(tree);
+      console.log(`res`, res);
+    </script>
+  </body>
+</html>
