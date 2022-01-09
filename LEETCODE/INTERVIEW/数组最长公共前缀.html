@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 编写一个函数来查找字符串数组中的最长公共前缀
+      // - 注意审题：是最长公共 - 前缀 !!!!!!!!
+      // - 解题思路：
+      //    - 以第一个成员字符串作为最长公共前缀
+      //    - 依次和后面的成员比较，找出第12个相同的前缀，再拿这个公共前缀后第3个成员对比，公共前缀在和第4个成员对比
+      // - 比如：
+      // 第一次 ( flower flogwx flgod ) -> flo
+      // 第二次 ( flo flgod ) -> fl
+
+      const strs = ["flower", "flow", "floight"];
+      var longestCommonPrefix = function (strs) {
+        return strs.reduce((pre, cur) => {
+          let res = "";
+          const min = Math.min(pre.length, cur.length);
+          for (let i = 0; i < min; i++) {
+            if (pre[i] === cur[i]) {
+              res += pre[i];
+            } else break;
+          }
+          return res;
+        });
+      };
+      const res = longestCommonPrefix(strs);
+      console.log(`res`, res);
+    </script>
+  </body>
+</html>
