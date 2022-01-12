@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 最长回文子串
+      // 思路
+      //  - 1. 找出所有子串，然后判断哪些子串是回文子串
+      //  - 2. 用一个long变量标记最长的回文子串，如果每次得到的回文串比上一次长，则更新为较长的回文子串
+
+      const str = "abasbaadc";
+
+      const longestPalindrome = (str) => {
+        let long = "";
+        for (let i = 0; i < str.length; i++) {
+          for (let j = i + 1; j < str.length; j++) {
+            const childStr = str.slice(i, j);
+            const childReverseStr = childStr.split("").reverse().join("");
+            if (childStr === childReverseStr && long.length < childStr.length) {
+              long = childStr;
+            }
+          }
+        }
+        return long;
+      };
+
+      const res = longestPalindrome(str);
+      console.log(`res`, res);
+    </script>
+  </body>
+</html>

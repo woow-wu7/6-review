@@ -8,14 +8,64 @@
   </head>
   <body>
     <script>
-      class A {
-        name = 1; // 实例属性
-      }
-      const a = new A();
-      console.log(`A`, A)
-      console.log(`A.prototype`, A.prototype);
-      console.log(`a`, a);
-      console.log(`Object.getPrototypeOf(a) === A.prototype`, Object.getPrototypeOf(a) === A.prototype)
+      // class A {
+      //   name = 1; // 实例属性
+      // }
+      // const a = new A();
+      // console.log(`A`, A);
+      // console.log(`A.prototype`, A.prototype);
+      // console.log(`a`, a);
+      // console.log(
+      //   `Object.getPrototypeOf(a) === A.prototype`,
+      //   Object.getPrototypeOf(a) === A.prototype
+      // );
+    </script>
+    <script>
+      // 最长公共前缀
+      // const strs = ["flower", "flow", "floight"];
+      // var longestCommonPrefix = function (strs) {
+      //   return strs.reduce((pre, cur) => {
+      //     let res = "";
+      //     let min = Math.min(pre.length, cur.length);
+      //     for (let i = 0; i < min; i++) {
+      //       if (pre[i] === cur[i]) {
+      //         res += pre[i];
+      //       } else break;
+      //     }
+      //     return res;
+      //   });
+      // };
+      // const res = longestCommonPrefix(strs);
+      // console.log(`res`, res);
+    </script>
+    <script>
+      // const arr = [
+      //   { id: 1, parentId: -1 },
+      //   { id: 2, parentId: 1 },
+      //   { id: 3, parentId: 1 },
+      //   { id: 4, parentId: 2 },
+      //   { id: 5, parentId: 4 },
+      // ];
+      // function listToTree(arr) {
+      //   const map = {};
+      //   const tree = [];
+      //   for (let i = 0; i < arr.length; i++) {
+      //     const item = arr[i];
+      //     item.children = [];
+      //     map[item.id] = item;
+      //   }
+      //   for (let i = 0; i < arr.length; i++) {
+      //     const item = arr[i];
+      //     if (item.parentId !== -1) {
+      //       map[item.parentId].children.push(item);
+      //     } else {
+      //       tree.push(item);
+      //     }
+      //   }
+      //   return tree;
+      // }
+      // const res = listToTree(arr);
+      // console.log(`res`, res);
     </script>
   </body>
 </html>
