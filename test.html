@@ -117,38 +117,74 @@
        * @param {ListNode} list2
        * @return {ListNode}
        */
-      var mergeTwoLists = function (list1, list2) {
-        if (!list1) return list2;
-        if (!list2) return list1;
+      // var mergeTwoLists = function (list1, list2) {
+      //   if (!list1) return list2;
+      //   if (!list2) return list1;
 
-        let list3 = new ListNode();
-        const temp = list3
+      //   let list3 = new ListNode();
+      //   const temp = list3
 
-        while (list1 || list2) {
-          if (list1.val < list2.val) {
-            list3.next = list1;
-            list3 = list3.next;
-            list1 = list1.next;
-          } else {
-            list3.next = list2;
-            list3 = list3.next;
-            list2 = list2.next;
-          }
+      //   while (list1 || list2) {
+      //     if (list1.val < list2.val) {
+      //       list3.next = list1;
+      //       list3 = list3.next;
+      //       list1 = list1.next;
+      //     } else {
+      //       list3.next = list2;
+      //       list3 = list3.next;
+      //       list2 = list2.next;
+      //     }
+      //   }
+
+      //   while (list1) {
+      //     list3.next = list1;
+      //     list3 = list3.next;
+      //     list1 = list1.next;
+      //   }
+
+      //   while (list2) {
+      //     list3.next = list2;
+      //     list3 = list3.next;
+      //     list2 = list2.next;
+      //   }
+
+      //   return temp.next;
+      // };
+    </script>
+    <script>
+      // 给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。
+      // ---
+      // 输入： head = [1,2,3,4,5]
+      // 输出： [5,4,3,2,1]
+      // ---
+      // 输入：head = []
+      // 输出：[]
+      // ---
+
+      /**
+       * Definition for singly-linked list.
+       * function ListNode(val, next) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.next = (next===undefined ? null : next)
+       * }
+       */
+      /**
+       * @param {ListNode} head
+       * @return {ListNode}
+       */
+      var reverseList = function (head) {
+        let cur = head;
+        let pre = null;
+
+        while (cur) {
+          let temp = cur.next;
+
+          cur.next = pre;
+          pre = cur;
+          cur = temp;
         }
 
-        while (list1) {
-          list3.next = list1;
-          list3 = list3.next;
-          list1 = list1.next;
-        }
-
-        while (list2) {
-          list3.next = list2;
-          list3 = list3.next;
-          list2 = list2.next;
-        }
-
-        return temp.next;
+        return pre;
       };
     </script>
   </body>
