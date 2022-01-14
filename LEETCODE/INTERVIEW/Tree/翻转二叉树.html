@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 翻转一棵二叉树
+      // 前
+      //      4
+      //    /   \
+      //   2     7
+      //  / \   / \
+      // 1   3 6   9
+      // 后
+      //      4
+      //    /   \
+      //   7     2
+      //  / \   / \
+      // 9   6 3   1
+
+      /**
+       * Definition for a binary tree node.
+       * function TreeNode(val, left, right) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.left = (left===undefined ? null : left)
+       *     this.right = (right===undefined ? null : right)
+       * }
+       */
+      /**
+       * @param {TreeNode} root
+       * @return {TreeNode}
+       */
+      var invertTree = function (root) {
+        reverse(root);
+
+        function reverse(root) {
+          if (!root) return; // 递归结束条件
+
+          [root.left, root.right] = [root.right, root.left]; // 递归交换左右子树
+
+          reverse(root.left); // 递归
+          reverse(root.right);
+        }
+
+        return root;
+      };
+    </script>
+  </body>
+</html>
