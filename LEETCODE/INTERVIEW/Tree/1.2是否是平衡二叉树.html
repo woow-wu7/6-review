@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * Definition for a binary tree node.
+       * function TreeNode(val, left, right) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.left = (left===undefined ? null : left)
+       *     this.right = (right===undefined ? null : right)
+       * }
+       */
+
+      // getDeep
+      // - 获取二叉树的最大高度
+      // - 左右子树高度的较大值，递归回溯
+      function getDeep(root) {
+        if (!root) return 0;
+        const leftDeep = getDeep(root.left);
+        const rightDeep = getDeep(root.right);
+        return Math.max(leftDeep, rightDeep) + 1;
+      }
+
+      // isBalanced
+      // - 是否是平衡二叉树
+      var isBalanced = function (root) {
+        if (!root) return true; // ------- 递归结束的条件，是平衡二叉树
+        const leftHeight = getDeep(root.left); // 参数节点的左子树的高度
+        const rightHeight = getDeep(root.right); // 参数节点的右子树的高度
+        const diff = Math.abs(leftHeight - rightHeight); // 左右子树的高度差的绝对值
+        if (diff > 1) return false; // --- 左右子树高度差绝对值大于1，就不是平衡二叉树
+
+        return isBalanced(root.left) && isBalanced(root.right); // 递归判断左右子树是否是平衡二叉树
+      };
+    </script>
+  </body>
+</html>
