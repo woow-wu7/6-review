@@ -30,7 +30,7 @@
         if (!root) return true;
 
         function check(left, right) {
-          if (!left && !right) return true; // 比较的两个节点不存在 -> 对称
+          if (!left && !right) return true; // 比较的两个节点不存在 -> 对称，注意这里不能调换三个if判断的顺序，包保证第一个if始终在最上面
           if (!left || !right) return false; // 比较的两个节点，一边存在，一边不存在 -> 非对称
           if (left.val !== right.val) return false; // 比较的两个节点，不等 -> 非对称
 
