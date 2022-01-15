@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * Definition for a binary tree node.
+       * function TreeNode(val, left, right) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.left = (left===undefined ? null : left)
+       *     this.right = (right===undefined ? null : right)
+       * }
+       */
+      /**
+       * @param {TreeNode} root1
+       * @param {TreeNode} root2
+       * @return {TreeNode}
+       */
+      var mergeTrees = function (root1, root2) {
+        function merge(root1, root2) {
+          if (!root1) return root2;
+          if (!root2) return root1;
+
+          // 我们以root1作为基准，合并后，返回合并后的root1
+          root1.val = root1.val + root2.val;
+          root1.left = merge(root1.left, root2.left); //递归
+          root1.right = merge(root1.right, root2.right);
+
+          return root1;
+        }
+
+        return merge(root1, root2);
+      };
+    </script>
+  </body>
+</html>
