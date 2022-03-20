@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 执行顺序 - 案例3
+      // async await 函数
+      const a = async () => {
+        // async 这里可以看作普通函数，唯一的区别是返回值
+        console.log(2);
+        await b(); // 遇到await，会先执行await紧跟着的函数，然后跳出async函数，执行主线程其他任务，执行完毕后再回到await，继续往下执行
+        console.log(5);
+      };
+
+      const b = async () => {
+        console.log(3);
+      };
+
+      console.log(1);
+      a();
+      console.log(4);
+
+      // 1 2 3 4 5
+    </script>
+  </body>
+</html>
