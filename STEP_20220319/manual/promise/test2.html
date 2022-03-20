@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 执行顺序 - 案例2
+      console.log(1);
+      // A promise
+      new Promise((resolve) => {
+        console.log(2);
+        resolve();
+        console.log(3);
+      }).then((res) => {
+        // E then
+        console.log(4);
+        // C 定时器
+        setTimeout(() => console.log(5));
+      });
+      console.log(6);
+      // B 定时器
+      setTimeout(() => {
+        console.log(7);
+        // D promise
+        new Promise((resolve) => {
+          console.log(8);
+          resolve();
+        }).then(() => console.log(9)); // F then
+      });
+      console.log(10);
+
+      // 1 2 3 6 10
+      // 宏任务队列
+      // 微任务队列 4 setTimeout5
+      // 宏任务队列 7 8 promise9
+
+      // (1)
+      // 4 -------> 此时的宏任务队列 7 8 promise9 5
+      // 7 8
+      // 9
+      // 5
+
+      // 1 2 3 6 10 4 7 8 9 5
+    </script>
+  </body>
+</html>
