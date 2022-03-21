@@ -8,6 +8,8 @@
   </head>
   <body>
     <script>
+      // 执行顺序 - 案例4
+
       async function a() {
         console.log("1");
         await b();
@@ -16,7 +18,7 @@
       async function b() {
         console.log("3");
         setTimeout(() => console.log("4"), 0);
-        console.log("5");
+        console.log("5"); // 3 5 都会立即执行
       }
       console.log("6");
       setTimeout(function () {
@@ -24,25 +26,23 @@
       }, 0);
       a();
       new Promise(function (resolve) {
-        console.log("8");
+        console.log("8"); // 8 立即执行
         resolve();
       }).then(function () {
         console.log("9");
       });
       console.log("10");
 
-      // 6 1 3 5 8 10 2
+      // 6 1 3 5 8 10
       // 宏任务队列：setTimeout7 setTimeout4
-      // 微任务队列：9
+      // 微任务队列：2 9
 
-      // 总 6 1 3 5 8 2 10 9 7 4
+      // 总 6 1 3 5 8 10  2 9 7 4
 
       // async ... await
-      //- async
-      //  - 与普通函数的区别是：async函数的返回值始终是一个promise对象
-      //- await
-      //  - 1. await 只能用于 async 函数中
-      //  - 2. 【 当遇到 await 时，会执行紧跟着的await后面的函数，执行完后，( 立即跳出async函数，执行主线程的其他内容 )，执行完主线程内容后，回到 ( await ) 处继续执行 】
+      // - async
+      // - ( !!!重要!!! )
+      // - 当 async 函数中有 await 时，执行完await后面的表达式，async会让出当前线程，将await表达式后面的代码放入 ( 微任务队列 ) 中，继续执行 async 函数后面的代码
     </script>
   </body>
 </html>
