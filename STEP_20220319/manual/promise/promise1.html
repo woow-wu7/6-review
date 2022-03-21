@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // Promise是一个类，通过new的方式调用构造函数
+      class _Promise {
+        constructor(executor) {
+          // executor必须是一个函数
+          if (typeof executor !== "function") {
+            throw new TypeError(
+              `Promise resolver ${executor} is not a function`
+            );
+          }
+          // 调用
+          executor(this.resolve, this.reject);
+        }
+
+        status = "pending";
+        value = null;
+        reason = null;
+
+        // resolve
+        // resolve在Promise中声明，在参数回调中调用
+        // resolve执行的时机必须是pending状态
+        resolve = (value) => {
+          if (this.status === "pending") {
+            this.status = "fulfilled";
+            this.value = value;
+          }
+        };
+
+        reject = (reason) => {
+          if (this.status === "pending") {
+            // 同理
+            this.status = "rejected";
+            this.reason = reason;
+          }
+        };
+
+        then = (onFulfilled, onRejected) => {
+          if (this.status === "fulfilled") {
+            onFulfilled(this.value); // onFulfilled函数执行的时机时，fulfilled状态
+          }
+          if (this.status === "rejected") {
+            onRejected(this.reason);
+          }
+        };
+      }
+
+      const promise = new _Promise((resolve) => {
+        resolve(1);
+      }).then((value) => console.log(value));
+    </script>
+  </body>
+</html>
