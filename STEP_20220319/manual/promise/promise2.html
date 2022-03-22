@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // step 2
+      // - 1. 解决promise外的同步优先于then的回调先执行
+      // - 2. 解决promise中有异步的时，then的回调执行时状态是pending，导致不执行回调内部代码
+      class _Promise {
+        constructor(executor) {
+          if (typeof executor !== "function") {
+            throw new TypeError(
+              `Promise resolver ${executor} is not a function`
+            );
+          }
+          executor(this.resolve, this.reject);
+        }
+
+        status = "pending";
+        value = null;
+        reason = null;
+        onFulfilledCallbacks = [];
+        onRejectedCallbacks = [];
+
+        // resolve函数有三个作用
+        // 1. 改变状态 pending->fulfilled
+        // 2. 改变终值
+        // 3. 执行 ( 当promise中存在异步，then方法先执行的bug，then用队列维护当现在pending状态不执行then的回调，而是当resolve后在执行then的成功回调的队列 )
+        resolve = (value) => {
+          console.log("resolve函数执行了");
+          if (this.status === "pending") {
+            this.status = "fulfilled";
+            this.value = value;
+            this.onFulfilledCallbacks.forEach((fn) => fn(this.value));
+          }
+        };
+
+        reject = (reason) => {
+          if (this.status === "pending") {
+            this.status = "rejected";
+            this.reason = reason;
+            this.onRejectedCallbacks.forEach((fn) => fn(this.reason));
+          }
+        };
+
+        // then
+        // - 需要做三种状态的判断
+        // - then的特点
+        //  - 1. then的两个回调的执行时机，一定是要promise的整个状态变成 fulfilled 或 rejected 时
+        //  - 2. then返回的是一个新的 promise
+        // - then的思考
+        //  - 问题1 promise中只有同步任务时，promise外也是同步任务，如何保证同步任务先执行，then的回调后执行 ---- then中用setTime来模拟
+        //  - 问题2 promise存在异步时，如何保证then在异步执行完后执行 ----------------- then中队列维护，通过status来判断
+        then = (onFulfilled, onRejected) => {
+          if (typeof onFulfilled !== "function") onFulfilled = (value) => value;
+          if (typeof onRejected !== "function") onRejected = (reason) => reason;
+
+          if (this.status === "fulfilled") {
+            // 这里的setTimeout是为了保证 ( promise外的同步任务 ) 优先于 ( then的两个回调先执行 )
+            setTimeout(() => {
+              onFulfilled(this.value);
+            });
+          }
+          if (this.status === "rejected") {
+            setTimeout(() => {
+              // 同上
+              onRejected(this.reason);
+            });
+          }
+
+          // 当promise中存在异步时，then会优先于resolve执行，所以需要有以下判断和策略
+          // 注意点：当promise的状态是pending状态时，是不知道具体处于哪个阶段的，所以两个数组都要push值
+          if (this.status === "pending") {
+            this.onFulfilledCallbacks.push((value) => onFulfilled(value)); // 维护包装函数
+            this.onRejectedCallbacks.push((reason) => onRejected(reason));
+          }
+        };
+      }
+
+      console.log(1);
+      const _promise = new _Promise((resolve) => {
+        console.log(2);
+        setTimeout(() => resolve(5));
+        console.log(3);
+      }).then((value) => console.log(value, "then中的value"));
+      console.log(4);
+    </script>
+  </body>
+</html>
