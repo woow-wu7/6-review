@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 原型链继承
+      function Father(name) {
+        this.name = name;
+      }
+      Father.prototype.age = 20;
+
+      function Child(sex) {
+        this.sex = sex;
+      }
+
+      // 1. 原型链继承：将 ( 子类.prototype ) 指向 ( 父类的实例 )
+      // 2. 原型链继承的缺点1:不能实现多继承
+      Child.prototype = new Father("woow_wu7");
+      const isTrue = Child.prototype.constructor === Father; // true，所以当修改prototype属性时，需要同时修改constructor的指向，防止引用出错
+      Child.prototype.constructor = Child; // 修改prototype时，需要同时修改constructor的指向
+
+      const instance = new Child("man"); // 原型链继承的缺点2：在生成子类实例时不能向父类传参
+    </script>
+  </body>
+</html>

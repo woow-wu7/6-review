@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 借用构造函数继承
+      function Father1(name) {
+        this.name = name;
+      }
+      function Father2(age) {
+        this.age = age;
+      }
+
+      function Child(name, age, sex) {
+        Father1.call(this, name); // 借用构造函数继承
+        Father2.call(this, age); // 优点：1.多继承
+        this.sex = sex; // 优点3: 属性和方法生成在子类实例上，修改互不影响
+      }
+
+      const instance = new Child("woow_wu7", 20, "man"); // 优点：生成子类实例时，可以向父类传参
+    </script>
+  </body>
+</html>

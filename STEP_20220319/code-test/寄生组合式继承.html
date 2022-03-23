@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 寄生组合式继承
+      function Father1(name) {
+        this.name = name;
+      }
+      Father1.prototype.address = "hangzhou";
+      function Father2(age) {
+        this.age = age;
+      }
+
+      function Child(name, age, sex) {
+        Father1.call(this, name); // 借用构造函数继承
+        Father2.call(this, age);
+        this.sex = sex;
+      }
+
+      // Child.prototype = new Father1("woow_wu7"); // 原型链继承
+      // Child.prototype.constructor = Child; // 修改prototype时，一定要同时修改 constructor 的指向，防止引用出错，不修改则constructor指向父类
+
+      function Parasitic() {} // 中间函数没有任何属性和方法
+      Parasitic.prototype = Father1.prototype;
+      Parasitic.prototype.constructor = Parasitic; // 同样 prototype 和 constructor 同时修改
+      Child.prototype = new Parasitic(); // 这样在原型链这条继承上就没有再调用父类Father1了，而是使用的Father.prototype
+
+      const instance = new Child("woow_wu8", 20, "man");
+      console.log("instance", instance);
+    </script>
+  </body>
+</html>
