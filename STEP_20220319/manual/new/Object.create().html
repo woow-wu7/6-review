@@ -9,6 +9,22 @@
   <body>
     <script>
       // 手写 Object.create()
+      // const instance = Object.create(obj)
+      // 原理： 以参数对象为原型，生成实例对象
+      // 实现思路：利用 ( 原型链继承 )
+      function _create(obj) {
+        function Temp() {} // 一个空的构造函数
+        Temp.prototype = obj; // 将构造函数的prototype指向参数对象
+        Temp.prototype.constructor = Temp; // 注意：当修改了构造函数的prototype属性后，需要修改 ( Constructor.prototype.constructor ) 的指向
+        const instance = new Temp(); // 生成实例，obj就是instance的原型对象
+        return instance;
+      }
+
+      const o = {
+        name: "woow_wu7",
+      };
+      const instance = _create(o);
+      console.log(Object.getPrototypeOf(instance) === o); // true
     </script>
   </body>
 </html>
