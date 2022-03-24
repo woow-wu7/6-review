@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- history-router -->
+    <!-- 注意：需要服务端支持 -->
+  </head>
+  <body>
+    <a href="javascript:void(0)" data-href="/home">home</a>
+    <a href="javascript:void(0)" data-href="/other">other</a>
+    <div id="content"></div>
+    <script>
+      const routes = [
+        {
+          path: "/home",
+          component: "<h1>home page</h1>",
+        },
+        {
+          path: "/other",
+          component: "<h1>other page</h1>",
+        },
+      ];
+
+      class HistoryRouter {
+        constructor(routes) {
+          this.route = {};
+          this.createRouteMap(routes);
+
+          this.bindEvent();
+          this.init();
+        }
+
+        createRouteMap = (routes) => {
+          routes.forEach((route) => {
+            this.route[route.path] = () =>
+              (document.getElementById("content").innerHTML = route.component);
+          });
+        };
+
+        bindEvent = () => {
+          const aList = document.getElementsByTagName("a");
+          Array.from(aList).forEach((a) => {
+            a.addEventListener("click", () => {
+              const path = a.getAttribute("data-href");
+              this.changeUrl(path);
+            });
+          });
+        };
+
+        changeUrl = (path) => {
+          window.history.pushState({}, null, path);
+          this.updateView();
+        };
+
+        init = () => {
+          window.addEventListener("load", this.updateView, false);
+          window.addEventListener("popstate", this.updateView, false);
+        };
+
+        updateView = () => {
+          const path = window.location.pathname || "/home";
+          this.route[path]?.();
+        };
+      }
+
+      new HistoryRouter(routes);
+    </script>
+  </body>
+</html>

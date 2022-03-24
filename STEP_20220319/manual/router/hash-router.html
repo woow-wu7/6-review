@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- hash-router -->
+  </head>
+  <body>
+    <a href="#/home">home</a>
+    <a href="#/other">other</a>
+    <div id="content"></div>
+    <script>
+      const routes = [
+        {
+          path: "/home",
+          component: "<h1>home page</h1>",
+        },
+        {
+          path: "/other",
+          component: "<h1>other page</h1>",
+        },
+      ];
+
+      class HashRouter {
+        constructor(routes) {
+          this.route = {};
+          this.createRouteMap(routes);
+          this.init();
+        }
+
+        createRouteMap = (routes) => {
+          routes.forEach((route) => {
+            this.route[route.path] = () =>
+              (document.getElementById("content").innerHTML = route.component);
+          });
+        };
+
+        init = () => {
+          window.addEventListener("load", this.updateView, false);
+          window.addEventListener("hashchange", this.updateView, false);
+        };
+
+        updateView = () => {
+          const hash = window.location.hash.slice(1) || "/home";
+          this.route[hash]?.();
+        };
+      }
+
+      new HashRouter(routes);
+    </script>
+  </body>
+</html>

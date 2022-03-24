@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 柯里化阶段三
+
+      const add = (a, b, c, d, e) => a + b + c + d + e;
+
+      const curryCreator = (addFn) => {
+        let totalParams = [];
+
+        const curry = (...rest) => {
+          totalParams = [...totalParams, ...rest];
+
+          if (totalParams.length < addFn.length) {
+            return curry;
+          }
+          return addFn.apply(null, totalParams);
+        };
+
+        return curry;
+      };
+
+      const curry = curryCreator(add);
+      const res = curry(1, 2, 3)(4)(5); // 注意：此方法如果再次调用就会报错，因为计算部分和收集部分不能同时具有
+      console.log("res", res);
+    </script>
+  </body>
+</html>

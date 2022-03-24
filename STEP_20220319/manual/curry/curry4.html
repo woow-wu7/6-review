@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 柯里化阶段四
+      const curryCreator = (addFn) => {
+        let totalParams = [];
+
+        // curry函数始终用来收集
+        const curry = (...rest) => {
+          totalParams = [...totalParams, ...rest];
+          return curry;
+        };
+
+        // 再声明一个方法，调用时专门用来计算
+        curry.add = () => totalParams.reduce((sum, current) => sum + current);
+
+        return curry;
+      };
+
+      const curry = curryCreator();
+      curry(1, 2, 3)(4)(5)(6)(7, 2); // 注意：此方法如果再次调用就会报错，因为计算部分和收集部分不能同时具有
+      const res = curry.add();
+      console.log("res", res);
+    </script>
+  </body>
+</html>
