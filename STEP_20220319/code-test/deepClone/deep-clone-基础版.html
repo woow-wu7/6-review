@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const arr = [1, 2, 3, [4, 5]];
+      const obj = {
+        name: "woow_wu7",
+        score: {
+          en: 10,
+          zh: 20,
+        },
+      };
+      obj.circular = obj; // 循环引用
+
+      function deepClone(params) {
+        const type = Object.prototype.toString.call(params).slice(8, -1); // '[object Array]' '[object Object]'
+
+        let result = null;
+        if (type === "Array") result = [];
+        else if (type === "Object") result = {};
+        else result = params;
+
+        for (let i in params) {
+          if (params.hasOwnProperty(i)) {
+            if (typeof params[i] === "object") {
+              result[i] = deepClone(params[i]);
+            } else {
+              result[i] = params[i];
+            }
+          }
+        }
+
+        return result;
+      }
+
+      const result = deepClone(obj);
+      // console.log("arr === result", arr === result); // false
+      // arr[0] = 111;
+      // console.log("result", result);
+      // obj.score.en = 400;
+      // console.log(result);
+
+      // 1
+      // 循环引用
+      // - 循环引用需要通过 map 去缓存每一次参数
+      console.log("result", result);
+    </script>
+  </body>
+</html>
