@@ -1,5 +1,7 @@
 # 继承
 
+# (一) es5 的继承
+
 ### (1) 原型链继承
 
 - 原理：
@@ -42,3 +44,19 @@
 - 优点
   - 主要是为了解决组合式继承时两次两用父类有重复的属性的问题
 - parasitic 是寄生的意思
+
+# (二) es6 的继承
+
+- class 有两条继承线
+  - 是构造函数的语法糖，同时具有 ( **proto** ) 和 ( prototype ) 两条继承线
+- 具体
+  - 子类 的原型是 父类
+  - ( 子类.prototype ) 的原型是 ( 父类.prototype )
+
+# (三) 总结
+
+- 1. 所有的 ( 函数 )，都是 ( Function 构造函数 ) 的实例
+- 2. 所有 ( 函数.prototype ) 都是 ( Object 构造函数 ) 的实例
+- 注意点
+  - Function 的 ( 隐式原型 ) 和 ( 显示原型 ) 都是 ( Function.prototype )
+  - Function.prototype ---- **proto** ----> Object.prototype
