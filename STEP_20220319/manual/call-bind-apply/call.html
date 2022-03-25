@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // call方法的模拟实现
+
+      // 注意：这里不能是箭头函数
+      // - 箭头函数没有this，箭头函数中的this是 ( 箭头函数定义时所在作用域中的 上层作用域中的this )
+      // - 因为没有this，不能做构造函数，不能使用call，bind，apply
+      // - 箭头函数argument对象，可以使用 rest 参数代替
+      // - 箭头函数不能使用 yield，所以不能作为 generator 函数
+
+      const object = {
+        name: "woow_wu7",
+      };
+      function Constructor(name) {
+        console.log(this.name);
+        return this;
+      }
+
+      Function.prototype._call = function (obj) {
+        const context = obj || window;
+        context.fn = this; // Constructor._call() 调用时所子在的对象是 Constructor
+
+        const params = [...arguments].slice(1); // 注意：这里不需要判断obj是不是存在，因为 ( 虽然call方法的第一个参数是 ( 空 ) 时绑定的是window，那么后面的参数还是会把第一个参数作为被绑定的对象 )
+        const res = context.fn(...params);
+
+        Reflect.deleteProperty(context, "fn"); // 删除fn
+        return res;
+      };
+
+      const result = Constructor._call(object);
+      console.log("result", result);
+    </script>
+
+    <!-- 分隔符 -->
+    <script>
+      // call方法的应用
+      const obj = {};
+
+      console.log("obj.toString", obj.toString); // 调用obj原型上的toString
+
+      obj.toString = () => "reWrite obj prototype toString"; // 因为：--- 自身又声明了头String，就会发生覆盖，自身定义覆盖掉原型上的属性
+
+      console.log("obj.toString", obj.toString); // 所以：--------------- 当自身和原型上有相同的属性时，会先找自身，再找原型
+
+      console.log(
+        "Object.prototype.toString.call(obj)",
+        Object.prototype.toString.call(obj) // call方法的应用就是调用对象原生的prototype上的方法，而不用担心会被覆盖
+      );
+    </script>
+  </body>
+</html>

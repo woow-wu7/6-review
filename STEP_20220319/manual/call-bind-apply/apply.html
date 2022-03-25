@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // apply 方法的模拟
+      const object = {
+        name: "woow_wu7",
+      };
+      function Constructor(name) {
+        console.log(this.name);
+        return this;
+      }
+
+      Function.prototype._apply = function (obj) {
+        const context = obj || window;
+
+        context.fn = this;
+
+        const params = [...arguments].slice(1);
+
+        const result = context.fn(...params);
+
+        Reflect.deleteProperty(context, "fn");
+
+        return result;
+      };
+
+      const res = Constructor._apply(object);
+      console.log("res", res);
+    </script>
+  </body>
+</html>

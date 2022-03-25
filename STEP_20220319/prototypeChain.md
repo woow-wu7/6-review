@@ -83,6 +83,17 @@ console.log(Object.getPrototypeOf(instance) === o); // true
   - 找出数组最大元素：Math.max.apply(null, array)
   - 将类似数组的对象转成数组：Array.prototype.slice.apply(类似数组的对象)
 
+### (2.1) 箭头函数
+
+- 特点
+  - 没有 this：----------------- 箭头函数没有自己的 this
+    - 因为没有 this，所以不能作为构造函数：------------ 因为没有 this，所以不能作为构造函数
+    - 因为没有 this，所以不能使用 call，bind，apply 来绑定 this
+  - 没有 arguments 对象：-------- 没有 arguments 对象，可以使用 rest 参数获取
+  - 不能作为 generator 函数：----- 不能使用 yield，所以不能作为 generator 函数
+- this
+  - 箭头函数中的 this，是 ( 箭头函数定义时所在作用域的 上层作用域中的 this )
+
 ### (3) 原型对象
 
 - 构造函数的缺点

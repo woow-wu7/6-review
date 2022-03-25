@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // bind
+
+      const obj = {
+        name: "woow_wu7",
+      };
+      function Constructor(age) {
+        return this.name + age;
+      }
+
+      Function.prototype._bind = function (obj) {
+        const context = obj || window;
+        const bindParams = [...arguments].slice(1); // 获取外层参数
+
+        const Temp = function () {}; // 寄生原型链式继承
+        Temp.prototype = this.prototype;
+
+        const self = this;
+        function fBind() {
+          const otherParams = [...arguments]; // 内层参数
+          const totalParams = bindParams.concat(otherParams); // 总参数
+
+          const res = self.apply(
+            this instanceof self ? this : self,
+            // 1. 如果是通过new来调用，this指向实例，而self是被绑定的函数
+            // 2. 在下面通过 ( 寄生原型链式继承，将 this实例的原型指向了temp实例，而temp实例的原型是self.prototype)
+            // 3. 所以：通过new调用，this绑定为实例对象，不是new调用就this就绑定为传入的参数对象
+            totalParams
+          );
+          return res;
+        }
+        fBind.prototype = new Temp(); // 这样如果通过new来调用，fBind生成的实例就能继承Constructor.prototype上的属性和方法
+
+        return fBind;
+      };
+    </script>
+  </body>
+</html>
