@@ -292,3 +292,33 @@
   - section{main footer}
   - section 和其上的所有父元素都要设置 height: 100%;
   - main ------> min-height: calc(100% - footer 的高度)
+
+### (16) css 选择器
+
+- 元素型选择器
+- 关系型选择器
+- 属性选择器
+- 伪类选择器
+- 元素选择器
+  - - 通配符选择器
+  - Element 元素选择器
+  - `#` id 选择器
+  - . 类选择器
+- 关系选择器
+  - E > F 子选择器
+  - E F 后代选择器
+  - E+F 相邻选择器，选择符合条件的相邻的兄弟元素 ( E 元素后相邻的兄弟元素 F )
+  - E~F 兄弟选择器，选择符合条件的所有兄弟元素，不强调相邻 ( E 元素后面的所有兄弟元素 )
+- 属性选择器
+  - E[att]
+  - E[att="val"] att 属性值是 val 的元素
+  - E[att~="val"] 选择具有 att 属性且属性值其中一个等于 val 的 E 元素（包含只有一个值且该值等于 val 的情况）
+  - E[att^="val"] 开头：选择 att 属性以 val 开头的元素
+  - E[att$="val"] 结尾
+  - E[att*="val"] 包含
+- 伪类选择器
+  - E:link
+  - E:visited
+  - E:hover
+  - E:active
+  - E:focus
