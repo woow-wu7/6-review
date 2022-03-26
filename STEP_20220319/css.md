@@ -323,6 +323,11 @@
   - E:active
   - E:focus
 
+### (16.1) css 选择器的权重
+
+- 内联(行内)样式 > id > class，属性 > 元素，伪元素 > 通配符，关系
+- 行内样式 > id 选择器 > class 选择器，属性选择器 > 元素选择器，伪元素选择器 > 通配符选择器，关系型选择器
+
 ### (17) @import 和 link 的区别？
 
 - 权重
@@ -360,3 +365,23 @@
   - 6. 显示和隐藏 可见 DOM 元素
   - 7. 激活 css 伪类
   - 8. offsetWidth, width, clientWidth, scrollTop/scrollHeight 的计算， 会使浏览器将渐进回流队列 Flush，立即执行回流
+
+### (19) html5 新特性
+
+- 新添加的语义化标签
+  - section
+  - header
+  - footer
+  - aside
+  - main
+  - nav
+- 新的媒体标签
+  - audio
+  - video
+- **canvas**
+- 拖拽
+- web worker
+- 地理位置
+- storage
+  - localStorage
+  - sessionStorage
