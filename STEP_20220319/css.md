@@ -322,3 +322,22 @@
   - E:hover
   - E:active
   - E:focus
+
+### (17) @import 和 link 的区别？
+
+- 权重
+  - link 标签引入的样式 权重 > @import 引入的样式
+- DOM 可控性
+  - js 可以操作 DOM，而 link 标签属于 DOM
+  - js 不能操作 @import
+- 加载顺序
+  - link：加载 css 和页面一起加载
+  - @import：页面加载完成后，再加载 css
+- 兼容性
+  - @import 是 css2 的语法，ie5 以上才兼容，兼容性比较差
+  - link 是 html 标签
+- 类型
+  - css：@import 是 css 语法，只有导入样式的作用
+  - html：link 是 html 标签，除了加载 css，link 标签上还具有其他属性 rel 属性
+- 总结
+  - 总体上 link 比 @import 优秀
