@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .triangle {
+        width: 0;
+        height: 0;
+        border-top: 200px solid red;
+        border-bottom: 200px solid yellow;
+        border-left: 200px solid rgb(255, 0, 234);
+        border-right: 200px solid rgb(0, 255, 0);
+      }
+
+      .contrast {
+        width: 200px;
+        height: 200px;
+        background: black;
+        color: #fff;
+        display: inline-block;
+      }
+
+      .up-triangle {
+        width: 0;
+        height: 0;
+        border: 200px solid #fff;
+        border-bottom: 200px solid red;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="triangle"></div>
+
+    <div class="contrast">
+      <p>width: 200px</p>
+      <p>height: 200px</p>
+      <p>注意：三角形的底边是border宽度的两倍</p>
+    </div>
+
+    <div class="up-triangle"></div>
+  </body>
+</html>

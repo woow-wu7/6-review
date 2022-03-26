@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .left {
+        float: left;
+        width: 200px;
+        background: red;
+      }
+      .right {
+        float: right;
+        width: 200px;
+        background: red;
+      }
+      .center {
+        background: yellow;
+        margin-left: 200px;
+        margin-right: 200px;
+
+        /* 注意：这里可以使用 overflow: hidden; 来触发BFC来代替 margin-left + margin-right */
+        /* overflow: hidden; */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="left">left</div>
+    <div class="right">right</div>
+    <div class="center">
+      center + center + center + center + center + center + center + center +
+      center + center + center + center + center + center + center + center +
+      center + center + center + center + center + center + center + center +
+      center + center + center + center +
+    </div>
+    <!-- 一定要注意：center放在最后 -->
+  </body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* 用于对比 */
+      .contrast {
+        height: 100px;
+        position: relative;
+        background: yellow;
+        margin: 10px 0;
+      }
+      .contrast::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: red;
+      }
+
+      /* 1p物理像素 */
+      .container {
+        height: 500px;
+        background: yellow;
+        position: relative;
+      }
+      /* 伪元素 - 当前元素的第一个子元素，不在DOM中 */
+      .container::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        /* 设置高度为1px */
+        height: 1px;
+        background: red;
+      }
+      @media screen and (-webkit-min-device-pixel-ratio: 2) {
+        .container::before {
+          transform: scaleY(0.5);
+          /* 缩小：一半 */
+        }
+      }
+      @media screen and(-webkit-min-device-pixel-ratio: 3) {
+        .container::before {
+          transform: scaleY(0.3333);
+          /* 缩小：1/3 */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="contrast">
+      <div id="current-device-pixel-ratio"></div>
+    </div>
+
+    <div class="container"></div>
+    <script>
+      // 1 像素物理边框
+
+      // 1 如何获取 ( 屏幕像素比 )
+      const devicePixelRatio = window.devicePixelRatio;
+      console.log("devicePixelRatio: ", devicePixelRatio);
+
+      const monitor = document.getElementById("current-device-pixel-ratio");
+      monitor.innerHTML = `当前屏幕像素比：${devicePixelRatio}`;
+    </script>
+  </body>
+</html>

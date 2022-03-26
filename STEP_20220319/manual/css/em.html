@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #contrast {
+        font-size: 30px;
+      }
+      .father {
+        font-size: 30px;
+      }
+      .child {
+        font-size: 0.5em;
+        /* font-size: 0.5em 相当于 font-size: 15px; */
+        height: 4em;
+        /* height: 1em; 相当于 height: 60px; 因为 em作为 ( 除了font-size的属性单位外的 ) 其他属性的单位时，指代是 ( 1em = 自身font-size的大小) */
+        background: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="contrast">
+      <p>正常font-size: 30px的大小</p>
+    </div>
+    <div class="father">
+      <div class="child">
+        <p>
+          em:作为font-size的单位是指父元素的font-size大小；作为其他属性单位时指代的是自身font-size属性的大小
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

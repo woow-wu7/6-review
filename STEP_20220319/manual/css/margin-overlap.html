@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .up {
+        margin-bottom: 50px;
+        background: red;
+      }
+
+      .down-wrap {
+        overflow: hidden;
+        /* display: table-cell; */
+      }
+
+      .down {
+        margin-top: 50px;
+        background: yellow;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 解决margin上下重叠 -->
+    <div class="up">上</div>
+    <div class="down-wrap">
+      <div class="down">下</div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .father {
+        position: absolute;
+        top: 50%;
+        background-color: yellow;
+        width: 400px;
+        height: 400px;
+        transform: scale(1);
+      }
+      .child {
+      }
+      .grandson {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        background-color: goldenrod;
+        width: 200px;
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="father">
+      transform: scale(1);
+      <div class="child">
+        <div class="grandson">
+          position:
+          fixed;基于窗口定位；但是当祖先元素设置了transform是非none值时，则是基于该祖先元素来定位
+        </div>
+      </div>
+    </div>
+    <script></script>
+  </body>
+</html>
