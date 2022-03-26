@@ -341,3 +341,22 @@
   - html：link 是 html 标签，除了加载 css，link 标签上还具有其他属性 rel 属性
 - 总结
   - 总体上 link 比 @import 优秀
+
+### (18) repaint 重绘 和 reflow 重排(回流)
+
+- repaint
+  - 对 DOM 的修改只导致了 ( 样式 ) 的变化，并没有改变 ( 几何属性 )，浏览器不需要从新计算几何样式，而是从新绘制新的样式，这个过程叫做重绘 repaint
+- reflow
+  - 对 DOM 的修改引发了 DOM 几何尺寸的变化(宽高，隐藏等)，浏览器需要 ( 重新计算 ) 元素的集合属性，同时 ( 其他元素的集合属性 和 位置也将受到影响 )，浏览器需要重新将计算结果绘制出来，这个过程叫做回流 reflow
+- 特点
+  - reflow 一定会 repaint
+  - repaint 不一定会 reflow
+- **常见的引起回流 reflow 的操作**
+  - 1. 页面的首次渲染
+  - 2. 浏览器窗口的变化
+  - 3. 元素的 尺寸 和 位置 发生变化
+  - 4. 元素的 字体 发生变化
+  - 5. 添加和删除 可见 DOM 元素
+  - 6. 显示和隐藏 可见 DOM 元素
+  - 7. 激活 css 伪类
+  - 8. offsetWidth, width, clientWidth, scrollTop/scrollHeight 的计算， 会使浏览器将渐进回流队列 Flush，立即执行回流
