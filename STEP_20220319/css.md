@@ -266,3 +266,29 @@
   - father ----------> display: grid;
   - child -----------> justify-self: center;
   - child -----------> align-self: center;
+
+### (16) sticky-footer
+
+- 效果定义
+  - 当内容不足一屏时，保持在底部。
+  - 当内容超过一屏时，在内容的最底部
+- 实现方式
+  - margin + padding
+  - calc 动态计算
+  - flex 布局
+- margin-padding
+  - 特点：适合 ( footer 的高度固定 ) 的情况，兼容性好
+  - section{main footer}
+  - section 和其上的所有父元素都要设置 height: 100%;
+  - main ------> min-height: 100%; padding-bottom: 200px; box-sizing: border-box;
+  - footer ----> margin-top: -200px;
+- flex
+  - 特点：( 不需要知道 footer 的高度 )
+  - section{main footer}
+  - section ---> display: flex; flex-direction: column; min-height: 100%; 同时 section 以上的父元素都要设置 height: 100%才可以
+  - main ------> flex: 1;
+- calc
+  - 特点：也只是适合于 ( footer 高度固定 ) 的情况
+  - section{main footer}
+  - section 和其上的所有父元素都要设置 height: 100%;
+  - main ------> min-height: calc(100% - footer 的高度)
