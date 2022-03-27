@@ -7,7 +7,7 @@ const {
   AfterCompilePlugin,
   EmitPlugin,
   DonePlugin,
-} = require("../plugins/index.js");
+} = require("../plugins/index.js.js");
 
 module.exports = {
   mode: "development",
