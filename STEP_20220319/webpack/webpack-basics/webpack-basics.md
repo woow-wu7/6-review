@@ -86,3 +86,37 @@ module: {
 - 源码
   - 源码地址：https://github.com/woow-wu7/8-divine/blob/main/examples/main.js
   - 源码地址 2: https://github.com/woow-wu7/7-compiler/blob/main/webpack.config.js
+
+### (三) hash chunk-hash content-hash 之间的区别
+
+- hash
+  - 作用：只要项目中有文件修改，整个项目构建的 hash 都会改变，并且全部文件都共用相同的 hash
+  - 弊端：如果只修改了一个文件，整个文件的缓存都将失效，因为真个文件的 hash 都改变了
+- chunkhash
+  - 相对于 hash，chunkhash 的影响范围较小
+  - 原理：
+    - 根据不同的入口文件(Entry)进行依赖文件解析、构建对应的 chunk，生成对应的哈希值
+    - 不同入口打包生成的 chunk 的 hash 不一样
+  - 测试
+    - 请使用 cnpm run build 进行 chunkhash 的测试，main 和 other 的 js 文件的 hash 值就不一样
+  - 例子：
+    - 策略：比如一个项目有 6 个组件，123 打包为一个 thunk1 输出一组 js/css，456 打包为另一个 thunk2 输出另一组 js/css
+    - 结果： 如果使用 chunkhash，打包完成后 chunk1 的 hash 和 chunk2 的 hash 就不一样，改动了 123，456 的 chunk2 的 hash 就不会变，缓存仍然有效
+- contenthash
+  - 1. 影响范围最小，在 hash，chunkhash，contenthash 三者中
+  - 2. 遇到问题
+    - 使用 chunkhash，如果 index.css 被 index.js 引用了，那么 ( css 文件和 js 文件 ) 就会 ( 共用相同的 chunkhash 值 )
+    - 如果 index.js 更改了代码，css 文件就算内容没有任何改变，由于是该模块发生了改变，导致 css 文件会重复构建
+  - 3. 解决方法
+    - 使用 ( mini-css-extract-plugin ) 里的 ( contenthash ) 值，保证即使 css 文件所处的模块里就算其他文件内容改变，只要 css 文件内容不变，那么不会重复构建
+- 总结
+  - hash(任何一个文件修改，整个打包所有文件的 hash 都会改变)： - 是根据整个项目构建，要项目里有文件更改，整个项目构建的 hash 值都会更改，并且全部文件都共用相同的 hash 值
+  - chunkhash(只影响到不同 entry 划分的 chunk)：chunkhash 根据不同的入口文件(Entry)进行依赖文件解析、构建对应的代码块（chunk），生成对应的哈希值，某文件变化时只有该文件对应代码块（chunk）的 hash 会变化
+  - contentHash(即使是相同 chunk 的 js 和 css，改动 js 只会影响对应的 js 而不会影响到 css)：每一个代码块（chunk）中的 js 和 css 输出文件都会独立生成一个 hash，当某一个代码块（chunk）中的 js 源文件被修改时，只有该代码块（chunk）输出的 js 文件的 hash 会发生变化
+  - 换种说法
+    - 1. hash 任何一个文件修改，整体的 hash 都会变化
+    - 2. thunk-hash 通过不同 entry 打包成不同的 chunk，不同 chunk 文件的修改不会相互影响，只会影响相同名的 chunk 的所有内容
+    - 3. content-hash，即使是相同名的 chunk，但是资源类型不一样，在未修改时也不会变
+- 使用
+  - 在哪些地方可以使用到 hash chunkhash contenthash
+  - 凡是在 webpack.config.js 中具有 ( filename ) 属性的地方都可以使用 ( 占位符的方式 [hash] ) 使用到这几种 hash
