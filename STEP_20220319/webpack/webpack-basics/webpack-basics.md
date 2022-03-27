@@ -1,4 +1,4 @@
-# webpack 性能优化
+# (一) webpack 性能优化
 
 ### (1) noParse
 
@@ -72,3 +72,17 @@ module: {
 - scope-host
   - webpack 会自动省略一些可以优化的代码
   - 比如：在声明多个变量相加时，会合并变量
+
+### (二) cross-env 和 webpack.DefinePlugin 和 mode 的区别
+
+- cross-env -----------------> 指定 ( node ) 环境中的 环境变量 ------> 即 ( webpack.config.js ) 文件中的环境变量
+- webpack.DefinePlugin() ----> 指定 ( 浏览器 ) 环境中的 环境变量 -----> 即 ( 各个 module 模块 js ) 文件中的环境变量
+- mode ----------------------> 指定 ( 浏览器 ) 环境中的 环境变量
+- 相等
+  - ( mode: 'development' ) 相当于 ( webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify('development')}) )
+- 如何同步 浏览器环境 和 node 环境中的环境变量
+  - 答案：mode: process.env.NODE_ENV
+  - 原理：( cross-env NODE_ENV=aaa ) => 那么这里的 ( process.env.NODE_ENV=aaa ) => 推出 ( mode=aaa ) => ( webpack.DefinePLugin({'process.env.NODE_ENV': JSON.stringify(aaa)}) ) => ( 在浏览器环境中的 process.env.NODE_ENV=aaa )
+- 源码
+  - 源码地址：https://github.com/woow-wu7/8-divine/blob/main/examples/main.js
+  - 源码地址 2: https://github.com/woow-wu7/7-compiler/blob/main/webpack.config.js
