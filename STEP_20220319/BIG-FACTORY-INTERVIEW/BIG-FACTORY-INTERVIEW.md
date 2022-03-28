@@ -27,6 +27,8 @@
 - Object.freeze() --- 不能 添加，删除，修改，属性
 - 应用
   - react 中的 ( ref.current ) 中的 current 属性就是只能修改，不能添加和删除，因为利用了 Object.seal() 实现
+- seal 密封的意思
+- freeze 冻结的意思
 
 ### (3) 跨标签通信
 
@@ -63,4 +65,7 @@
 - const targetWindow = window.open('targeWindow的url')
 - 发消息postMessage：targetWindow.postMessage
 - 收消息onmessage：window.addEventListener('message') 或者 window.onmessage = function(){}
+- 注意：发送消息时，需要保证接收消息的页面已经加载完成，通过 window.onload 中做监听
+
+4. 链接 https://juejin.cn/post/6844903811232825357#heading-11
 ```

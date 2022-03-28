@@ -152,3 +152,48 @@ optimization: {
 - 使用
   - 在哪些地方可以使用到 hash chunkhash contenthash
   - 凡是在 webpack.config.js 中具有 ( filename ) 属性的地方都可以使用 ( 占位符的方式 [hash] ) 使用到这几种 hash
+
+### (四) webpack 多页面打包
+
+- 前置知识
+  - entry
+    - 可以是一个对象，不同的 key 表示不同的入口文件
+  - output
+    - 可以使用[name]占位符，[]是占位符，name 表示 entry 中的不同 key
+  - chunks
+    - HTMLWebpackPlugin 中可以配置 chunks，表示当前 html 引用的 js 文件
+
+```
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  mode: 'development',
+  entry: {
+    home: './src/home.js',
+    other: './src/other.js', // -------------------------- entry中通过对象key指定多个入口文件，webpack会根据不同的入口文件，分别进行依赖分析并打包
+  },
+  output: {
+    filename: '[name].js', // ---------------------------- []占位符，name表示entry对象中的 key
+    path: path.resolve(__dirname, 'dist')
+  },
+  devServer: {
+    contentBase: path.resolve(__dirname, 'dist'),
+    port: 5000,
+    open: true,
+    compress: true,
+  },
+  plugins: [
+    new HtmlWebpackPlugin({ // ---------------------------- html-webpack-plugin可以new多个
+      template: './src/index.html',
+      filename: 'home.html',
+      chunks: ['home'] // --------------------------------- 每个chunk对应加载哪些打包后的 js 文件，即 output指定的输出js文件
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      filename: 'other.html',
+      chunks: ['other']
+    }),
+  ]
+}
+```
