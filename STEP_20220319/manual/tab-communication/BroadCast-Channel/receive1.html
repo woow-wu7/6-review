@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 注意：参数表示的是广播的唯一标识符
+      const broadCastChannel = new BroadcastChannel("center");
+
+      // broadCastChannel.onmessage 接收消息
+      broadCastChannel.onmessage = function (e) {
+        console.log("接收到广播1", e.data);
+      };
+    </script>
+  </body>
+</html>

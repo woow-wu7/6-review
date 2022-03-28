@@ -386,5 +386,25 @@
   - localStorage
   - sessionStorage
 
-### (20) 动画
-- 
+### (20) pointer-events - 设置事件穿透
+
+- 作用：可以设置 ( 事件穿透 )
+- 具体：指定在什么特定的情况下，target 可以设置为 ( 鼠标事件 ) 的 ( target )
+- 详细
+  - pointer-events: none; ------- 表示 ( 该 css 选择器对应的 target 永远不会成为**鼠标事件**的 target )，即不会对 ( 鼠标事件进行响应 )
+  - pointer-events: auto -------- 默认值，对鼠标事件进行响应
+
+### (21) 如何实现 平行四边形
+
+- 可以利用 transform 中的 ( skew ) 来实现
+- transform: skew(x-angle,y-angle) 表示 ( 水平倾斜的角度 ) 和 ( 垂直倾斜的角度 )
+- 注意：参数有两个，第一个表示水平倾斜的角度，第二个表示垂直倾斜的角度
+- 详细：https://juejin.cn/post/7029703494877577246
+
+### (21) transform 修改原点
+
+- 1. 默认原点：transform 进行变换时 ( 默认原点 ) 是 ( 中心点 )
+- 2. 修改原点：transform-origin 可以修改 ( 原点 )
+- **transform-origin**
+  - transform-origin: x-axis y-axis z-axis;
+  - 单位：可以是 百分数，px，top 等等

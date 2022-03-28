@@ -73,6 +73,38 @@ module: {
   - webpack 会自动省略一些可以优化的代码
   - 比如：在声明多个变量相加时，会合并变量
 
+### (7) optimization.splitChunks
+
+- 作用：抽离公共组件 和 第三方组件
+- 具体
+  - optimization -> splitChunks -> cacheGroups -> venders|commons
+
+```
+optimization: {
+  minimizer: {}, // 压缩css和js的配置项
+  splitChunks: { // 分割chunk
+    cacheGroups: { // 缓存组
+      commons: { // 公共组件
+
+      },
+      venders: { // 第三方组件
+        name: '', // 打包后的名字
+        minChunks: 1, // 被引用的最小次数，大于等于该数字时就会单独打包成一个chunk
+        priority: 11, // 表示优先级，值越大表示优先级越高
+        minSize: 1, // 最小的大小，大于等于该值就会单独打包
+      }
+    }
+  }
+}
+```
+
+### (8) fileLoader 和 urlLoader
+
+- fileLoader 将图片打包到文件夹中，并将图片的地址返回会来
+- urlLoader
+  - 1. 除了 fileLoader 的功能外
+  - 2. 可以通过 option 中的 limit 来指定一个 ( 值 )，当文件小于 ( 该阈值 ) 时，会将图片转成 ( base64 )
+
 ### (二) cross-env 和 webpack.DefinePlugin 和 mode 的区别
 
 - cross-env -----------------> 指定 ( node ) 环境中的 环境变量 ------> 即 ( webpack.config.js ) 文件中的环境变量

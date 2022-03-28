@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>发送消息页面</div>
+    <button id="button">发送消息</button>
+    <script>
+      const targetWindow = window.open(
+        "http://127.0.0.1:5500/STEP_20220319/manual/tab-communication/window.open/receive.html"
+      );
+      const button = document.getElementById("button");
+      button.addEventListener(
+        "click",
+        () => {
+          targetWindow.postMessage("发送消息");
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
