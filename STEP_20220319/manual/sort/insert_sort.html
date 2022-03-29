@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // insert_sort 插入排序
+      // 类比 打牌
+      // 原理
+      // 1. 两个数组 ( 有序数组 ) 和 ( 无序数组 )
+      // 2. 无序数组从元素组第二个元素开始，即有序数组的初始长度是1
+      // 3. ！！！遍历无序数组，依次取出第一个元素和有序数组的最后一个值比较，如果有序数组最后的值 > 无序数组的第一个值，有序数组最后一个值往后移动一位，继续重复
+      // 4. 最终 j+1 的位置，就是需要插入元素的位置
+
+      const arr = [1, 6, 3, 5, 2, 4];
+
+      function insert_sort(arr) {
+        for (let i = 1; i < arr.length; i++) {
+          // 遍历无序数组，从下标1开始
+          const cache = arr[i];
+
+          let j = i - 1;
+          while (j >= 0 && arr[j] > cache) {
+            // 从后往前遍历有序数组
+            arr[j + 1] = arr[j]; // 大于，往后移动一位
+            j--;
+          }
+
+          arr[j + 1] = cache; // j+1的位置就是需要插入的位置
+        }
+
+        return arr;
+      }
+
+      const resArr = insert_sort(arr);
+      console.log("resArr: ", resArr);
+    </script>
+  </body>
+</html>

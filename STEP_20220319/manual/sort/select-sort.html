@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // select_sort 选择排序
+      // 原理
+      // 1. 从数组中选择第一个元素min，和剩下的元素j一一做对比，如果 min < j，交换位置
+      // 2. 出去第一个元素以外的数组中，再选第一个成员，和之后的成员一一对比，如果 min < j，交换位置
+      // 3. 不断重复以上步骤
+
+      const arr = [1, 5, 3, 4, 2];
+
+      function select_sort(arr) {
+        for (let i = 0; i < arr.length; i++) {
+          let cache = arr[i];
+          for (let j = i + 1; j < arr.length; j++) {
+            if (arr[j] < cache) {
+              [cache, arr[j]] = [arr[j], cache];
+            }
+          }
+          arr[i] = cache;
+        }
+
+        return arr;
+      }
+
+      const resArr = select_sort(arr);
+      console.log("resArr: ", resArr);
+    </script>
+  </body>
+</html>

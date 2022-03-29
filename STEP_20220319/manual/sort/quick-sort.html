@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // quick_sort 快排
+      // - 利用递归的思想，不会在返回段拼接，注意递归结束条件
+
+      const arr = [1, 4, 2, 6, 5, 3];
+
+      function quick_sort(arr) {
+        if (arr.length <= 1) return arr;
+        const pivot = Math.floor(Math.random() * arr.length); // Math.random边界 [0, 1)
+
+        const left = [];
+        const right = [];
+        const middle = [];
+
+        for (let i = 0; i < arr.length; i++) {
+          // 这里一定要注意 i < arr.length 或者 i <= arr.length -1
+          if (arr[i] < arr[pivot]) left.push(arr[i]);
+          if (arr[i] > arr[pivot]) right.push(arr[i]);
+          if (arr[i] === arr[pivot]) middle.push(arr[i]);
+        }
+
+        return quick_sort(left).concat(middle, quick_sort(right));
+      }
+
+      const res = quick_sort(arr);
+      console.log("res", res);
+    </script>
+  </body>
+</html>

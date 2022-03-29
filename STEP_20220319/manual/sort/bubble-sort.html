@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 冒泡排序
+      // bubble-sort
+
+      // 原理
+      // - 两层循环，外层循环表示比较的趟数，里层循环表示每趟比较的次数
+      // - 趟数：数组长度 - 1
+      // - 每趟比较的次数：总趟数 - 当前趟数
+
+      // 待优化的点
+      // 1. 如果一共要比较20趟，当18的趟都已经排好序了，剩下的就不需要再比较了
+
+      // bubble 是冒泡的意思
+
+      const arr = [1, 4, 2, 3, 6, 5, 7, 8];
+
+      function bubble_sort(arr) {
+        const len = arr.length;
+        let outCount = 0;
+        let inCount = 0;
+
+        for (let i = 0; i < len - 1; i++) {
+          outCount++;
+          let isSortOk = true;
+
+          for (let j = 0; j < len - 1 - i; j++) {
+            inCount++;
+            if (arr[j] > arr[j + 1]) {
+              isSortOk = false; // 进入比价，说明没有排好序
+              [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]; // 这里注意：如果都省略分号的话，( 小括号，中括号 ) 前面的语句末尾是需要加分号的，或则在小括号，中括号的最前面加分号
+            }
+          }
+
+          if (isSortOk) {
+            break; // 排好序直接跳出外层循环，结束整个以后的比价
+          }
+        }
+
+        console.log("outCount", outCount);
+        console.log("inCount", inCount);
+        return arr;
+      }
+
+      const resArr = bubble_sort(arr);
+
+      console.log("resArr: ", resArr);
+    </script>
+  </body>
+</html>
