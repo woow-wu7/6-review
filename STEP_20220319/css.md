@@ -408,3 +408,39 @@
 - **transform-origin**
   - transform-origin: x-axis y-axis z-axis;
   - 单位：可以是 百分数，px，top 等等
+
+### (22) css 实现右箭头
+
+- transform: rotate(45deg)
+- border-top + border-right
+
+### (23) css 如何控制移动端小于 12px 的字体
+
+```
+1. 前置知识
+- 浏览器上能设置的最小字体是 12px，当小于12px的汉子会当作12px来处理
+
+2. 解决方案有
+- zoom
+- transform: scale() + transform-origin: left;
+
+zoom
+- zoom表示变焦，可以改变页面上元素的尺寸
+- zoom:50% 和 zoom:0.5 都表示缩小到原来的一半
+
+transform
+- transform: scale(0.5)
+- transform-origin: left;
+- 注意：
+  - 出现问题：transform: scale(0.5) 进行字体缩放后，字体虽然变小了，但是位置缺变化了
+  - 分析原因：因为transform的操作，默认的 ( 原点 ) 是 ( 正中心位置 )
+  - 如何解决：transform-origin: left;
+- 额外知识
+  - 描述：transfrom 是 ( 不会 ) 引起 ( reflow回流 ) 的，只会 ( repaint重绘 )
+  - 原因：
+    - 浏览器渲染会经过 parseHTML -> parseStylesheet -> evaluteScript -> layout -> paint -> composite
+    - transform ------------ 是在 composite合成层
+    - width，left，margin --- 是在 layout 层，不在同一层
+    - 分层是为了减少重绘制的时间
+    - transform还能开启 GPU 加速
+```

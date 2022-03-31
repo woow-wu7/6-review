@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .contrast {
+        font-size: 12px;
+      }
+      .content {
+        font-size: 12px;
+        zoom: 0.5;
+      }
+      .content2 {
+        font-size: 12px;
+        transform: scale(0.5);
+
+        transform-origin: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="contrast">对比字体大小：12px</div>
+    <div class="content">zoom方式 ---- 在移动端设置小于12px的字体</div>
+    <div class="content2">
+      transform:scale()方式 ---- 在移动端设置小于12px的字体
+    </div>
+  </body>
+</html>

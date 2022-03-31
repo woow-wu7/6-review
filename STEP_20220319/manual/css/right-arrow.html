@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* css实现右箭头 */
+      .right-arrow {
+        width: 8px;
+        height: 8px;
+        border-top: 2px solid red;
+        border-right: 2px solid red;
+        transform: rotate(45deg);
+      }
+
+      .wrap {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 130px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="content">css 实现右箭头</div>
+      <div class="right-arrow"></div>
+    </div>
+  </body>
+</html>
