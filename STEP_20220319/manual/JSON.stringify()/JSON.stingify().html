@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 手写JSON.stringify
+      function JSONStringify(params) {
+        const type = Object.prototype.toString.call(params);
+        const isNumber = type.includes("Number");
+        const isString = type.includes("String");
+        const isBoolean = type.includes("Boolean");
+        const isNull = type.includes("Null");
+        const isUndefined = type.includes("Undefined");
+        const isSymbol = type.includes("Symbol");
+        const isFunction = type.includes("Function");
+        const isArray = type.includes("Array");
+        const isObject = type.includes("Object");
+        const isUndefinedFunctionSymbol = (data) => {
+          return typeof data === 'undefined' ||
+          typeof data === 'function' ||
+          typeof data === 'symbol'
+         }
+
+        // BigInt ---- const isBigInt = type.includes('BigInt') ------ 注意 Json.stringify() 不能处理BigInt
+        // NaN ------- 通过 Number.isNaN() 来判断
+        // Infinity -- 通过直接是否相等来判断
+        // string ---- string返回的是 "string" 双引号的字符串
+        if (isUndefined || isFunction || isSymbol) return undefined;
+        else if (isNull || Number.isNaN(params) || params === Infinity) return "null";
+
+        // string
+        else if (isString) return '"' + params + '"'; // 这里必须是双引号
+
+        // number boolean
+        else if (isNumber || isBoolean) return String(params);
+
+
+        // function
+        else if (params.toJSON && isFunction) { // 对象可能内置toJSON方法来自定义序列化对象
+          return jsonStringify(data.toJSON());
+        }
+
+        // array
+        else if (isArray) {
+          let resultArr = [];
+          for (let i = 0; i < params.length; i++) {
+            if (isUndefinedFunctionSymbol(params[i])) { // 数组中有 undefined function symbol 转成 "null"
+              resultArr[i] = "null";
+            } else {
+              resultArr[i] = JSONStringify(params[i]); // 递归调用自己
+            }
+          }
+          resultArr = "[" + resultArr + "]";
+          return resultArr.replace(/'/g, '"'); // 将单引号改成双引号
+        }
+
+        // object
+        else if (isObject){
+          let result = [];
+          Object.keys(params).forEach((item, index) => {
+            if (typeof item !== "symbol") {
+              //key 如果是 symbol 对象，忽略
+              if (
+                params[item] !== undefined && typeof params[item] !== 'function' && typeof params[item] !== 'symbol'
+              ) {
+                //键值如果是 undefined、function、symbol 为属性值，忽略
+                result.push('"' + item + '"' + ":" + JSONStringify(params[item]));
+              }
+            }
+          });
+          return ("{" + result + "}").replace(/'/g, '"');
+        }
+      }
+
+      const res = JSONStringify({a: 1, b: "1", c: false,  e: undefined, f: function(){}, g: Symbol(1), h: null, i: NaN, j: [1,'1',false, undefined, function(){}, Symbol(1), null, NaN]});
+      console.log("res: ", res);
+      console.log('typeof res', typeof res)
+    </script>
+  </body>
+</html>
