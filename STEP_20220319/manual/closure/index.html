@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 闭包陷阱
+
+      // react闭包陷阱链接 https://codesandbox.io/s/reactbi-bao-xian-jing-uld1nu
+
+      // for (var i = 0; i < 10; i++) {
+      //   setTimeout(() => {
+      //     console.log("i", i);
+      //   }, 1000);
+      // }
+
+      // for (let i = 0; i < 10; i++) {
+      //   setTimeout(() => {
+      //     console.log("i", i);
+      //   }, 1000);
+      // }
+
+      for (var i = 0; i < 10; i++) {
+        (function (i) {
+          setTimeout(() => {
+            console.log("i", i);
+          }, 1000);
+        })(i);
+        // 原理
+        // - 利用了闭包，形成闭包有三个条件
+        // - 1. 有嵌套的函数
+        // - 2. 内层函数 setTimeout 引用了外层函数中的变量i ( 形参会在函数调用，函数体未执行前，进行形参赋值为实参，即生成变量对象 )
+        // - 3. 执行了外层函数
+      }
+    </script>
+  </body>
+</html>

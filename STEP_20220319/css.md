@@ -436,11 +436,32 @@ transform
   - 分析原因：因为transform的操作，默认的 ( 原点 ) 是 ( 正中心位置 )
   - 如何解决：transform-origin: left;
 - 额外知识
-  - 描述：transfrom 是 ( 不会 ) 引起 ( reflow回流 ) 的，只会 ( repaint重绘 )
+  - 描述：transform 是 ( 不会 ) 引起 ( reflow回流 ) 的，只会 ( repaint重绘 )
   - 原因：
-    - 浏览器渲染会经过 parseHTML -> parseStylesheet -> evaluteScript -> layout -> paint -> composite
+    - 浏览器渲染会经过 parseHTML -> parseStylesheet -> evaluateScript -> layout -> paint -> composite
     - transform ------------ 是在 composite合成层
     - width，left，margin --- 是在 layout 层，不在同一层
     - 分层是为了减少重绘制的时间
     - transform还能开启 GPU 加速
+```
+
+### (24) 单行省略号 和 多行省略号
+
+```
+单行省略号
+---
+overflow: hidden;
+text-overflow: ellipsis; // 文本溢出显示省略号，ellipsis是省略号的意思
+white-space: nowrap;
+```
+
+```
+多行省略号
+---
+overflow: hidden;
+text-overflow: ellipsis; // 前面两个属性和单行省略号相同
+
+display: -webkit-box;
+-webkit-line-clamp: 2; // 指定多少行后显示省略号
+-webkit-box-orient: vertical; // 指定垂直方向上
 ```
