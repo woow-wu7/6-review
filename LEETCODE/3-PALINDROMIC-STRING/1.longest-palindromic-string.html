@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>找出所有子串后做判断-最长回文子串</title>
+  </head>
+  <body>
+    <script>
+      // 最长回文字符串
+      // - longest 最长的
+      // - palindromic 回文的 adj
+
+      // 题目
+      // - 找出字符串中的 - 最长回文子串
+
+      // 方法
+      // - 1. 找出所有子串，再判断是不是回文字符串
+      // - 2. 动态更新最长的
+      const str = "abcdeeffeedc";
+
+      function longest_palindromic_string(str) {
+        let result = "";
+        for (let i = 0; i < str.length; i++) {
+          for (let j = i + 1; j <= str.length; j++) {
+            const subStr = str.slice(i, j);
+            const reverseSubStr = subStr.split("").reverse().join("");
+
+            if (subStr === reverseSubStr && subStr.length > result.length) {
+              result = subStr;
+            }
+          }
+        }
+
+        return result;
+      }
+
+      const res = longest_palindromic_string(str);
+      console.log("res: ", res);
+      console.log("typeof res", typeof res);
+    </script>
+  </body>
+</html>

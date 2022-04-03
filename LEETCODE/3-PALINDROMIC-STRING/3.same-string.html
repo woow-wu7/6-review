@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 两个字符串的 - 最大相同子串
+      const str1 = "abcdefg";
+      const str2 = "fambcdehks";
+
+      function getMaxSameStr(str1, str2) {
+        let start = 0; // 两个字符串 公共串 的起始位置
+        let maxSameLength = 0; // 两个串从 start 开始时，最大的相同子串的长度
+
+        // i 遍历 str1
+        // j 遍历 str2
+        for (let i = 0; i < str1.length; i++) {
+          for (let j = 0; j < str2.length; j++) {
+            let temp = 0; // 临时缓存，ij开始时的 - 相同的串
+            for (
+              let k = 0;
+              k < Math.min(str1.length - i, str2.length - j); // 其中一个串遍历完就停止，取最小值
+              k++
+            ) {
+              if (str1[k + i] === str2[k + j]) {
+                // str1从i开始，str2从j开始，开始取，获取相等的最大长度
+                temp++;
+                if (temp > maxSameLength) {
+                  // 更新最大的长度 和 起始位置
+                  maxSameLength = temp;
+                  start = i;
+                }
+              } else break;
+            }
+          }
+        }
+
+        return str1.slice(start, start + maxSameLength); // 因为 start是取的是和str1关联的，所以这里 str1 来截取
+      }
+
+      const res = getMaxSameStr(str1, str2);
+      console.log("res: ", res);
+    </script>
+  </body>
+</html>

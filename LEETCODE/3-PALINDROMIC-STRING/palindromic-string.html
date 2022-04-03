@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 回文串
+      const str = "abccba";
+
+      // 1
+      // 反转字符串
+      function palindromicString_reverse(str) {
+        const reverseStr = str.split("").reverse().join("");
+        return str === reverseStr;
+      }
+      const result = palindromicString_reverse(str);
+      console.log("result", result);
+
+      // 2
+      // 双指针
+      function palindromicString_pointer(str) {
+        // for
+        for (
+          let left = 0, right = str.length - 1;
+          left <= right;
+          left++, right-- // 左增右减
+        ) {
+          if (str[left] !== str[right]) return false;
+        }
+
+        // while
+        // let left = 0;
+        // let right = str.length - 1;
+        // while (left <= right) {
+        //   if (str[left] !== str[right]) return false;
+        //   left++;
+        //   right++;
+        // }
+
+        return true;
+      }
+      const pointerResult = palindromicString_pointer(str);
+      console.log("pointerResult: ", pointerResult);
+
+      // 3
+      // 递归
+      function palindromicString_recursive(str) {
+        const len = str.length;
+        if (len <= 1) return true;
+        // 如果是空字符串 或 字符串长度是1，则一定是回文字符串 ----- '' 或 '1'
+        // -------------------- true
+
+        const start = str[left];
+        const end = str[str.length - 1]; // 这里使用 const 是因为每次递归都是新声明的常量，常量的值本身不会改变
+
+        return start === end
+          ? palindromicString_recursive(str.slice(1, str.length - 1))
+          : false; // -------- false
+      }
+    </script>
+  </body>
+</html>
