@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 树 转成 数组
+      const tree = [
+        {
+          id: 1,
+          children: [
+            {
+              id: 2,
+              parentId: 1,
+            },
+            {
+              id: 3,
+              parentId: 1,
+              children: [
+                {
+                  id: 4,
+                  parentId: 3,
+                },
+              ],
+            },
+          ],
+        },
+      ];
+
+      const targetArr = [
+        { id: 1 },
+        { id: 2, parentId: 1 },
+        { id: 3, parentId: 1 },
+        { id: 4, parentId: 3 },
+      ];
+
+      function treeToArray(tree) {
+        const result = [];
+
+        function process(arr) {
+          for (let i = 0; i < arr.length; i++) {
+            const children = arr[i].children;
+            if (children) {
+              result.push(arr[i]);
+              process(arr[i].children); // 递归调用，始终操作同一个 result
+              delete arr[i].children; // 扁平后，删除children属性
+            } else {
+              result.push(arr[i]);
+            }
+          }
+        }
+
+        process(tree);
+
+        return result;
+      }
+
+      const res = treeToArray(tree);
+      console.log(`res`, res);
+    </script>
+  </body>
+</html>
