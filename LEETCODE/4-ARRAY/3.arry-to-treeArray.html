@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 扁平数组 转 树
+
+      const arr = [
+        { id: 1, parentId: -1 },
+        { id: 2, parentId: 1 },
+        { id: 3, parentId: 1 },
+        { id: 4, parentId: 2 },
+        { id: 5, parentId: 4 },
+      ];
+
+      const targetTree = {
+        id: 1,
+        children: [
+          {
+            id: 2,
+            parentId: 1,
+          },
+          {
+            id: 3,
+            parentId: 1,
+            children: [
+              {
+                id: 4,
+                parentId: 3,
+                children: {
+                  id: 5,
+                  parentId: 4,
+                },
+              },
+            ],
+          },
+        ],
+      };
+
+      function listToTree(arr) {
+        let map = {},
+          len = arr.length,
+          tree = [];
+
+        for (let i = 0; i < len; i++) {
+          arr[i].children = [];
+          map[arr[i].id] = arr[i];
+        }
+        for (let i = 0; i < len; i++) {
+          const item = arr[i];
+          if (item.parentId !== -1) {
+            map[item.parentId].children.push(item); // 具有引用关系
+          } else {
+            tree.push(item); // 这个item中是具有 children 属性的
+          }
+        }
+
+        return tree[0];
+        // 1. 这里返回的是类似 tree 的数组
+        // 2. 如果要真正的转成 tree，可以获取数组中的第一个成员
+      }
+
+      const res = listToTree(arr);
+      console.log(`res`, res);
+    </script>
+  </body>
+</html>
