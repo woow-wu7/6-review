@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 题目：合并两个有序的数组，合并后的数组要仍然保持有序
+      // 原理
+      // - 因为两个数组都是有序，我们再做一次升序排序
+      // - 因为是升序并且有序的两个数组，所以只需要比较 ( 同一下标位置的成员大小即可 )
+
+      const arr1 = [1, 4, 5, 7, 8];
+      const arr2 = [2, 3, 4, 5, 6];
+
+      function merge(arr1, arr2) {
+        // 预先处理 - 把两个数组都变成升序
+        const array1 = arr1.slice().sort((a, b) => a - b); // 浅拷贝，再升序
+        const array2 = arr2.slice().sort((a, b) => a - b);
+        const result = [];
+
+        for (let i = 0; i < Math.min(arr1.length, arr2.length); i++) {
+          // 取长度小的数组长度为遍历的边界，剩下的数组的成员一定有序并大于前面的值，木桶原理
+          array1[i] >= array2[i]
+            ? result.push(array2[i], array1[i])
+            : result.push(array1[i], array2[i]);
+        }
+
+        return result;
+      }
+
+      const res = merge(arr1, arr2);
+      console.log("res: ", res);
+    </script>
+  </body>
+</html>
