@@ -465,3 +465,11 @@ display: -webkit-box;
 -webkit-line-clamp: 2; // 指定多少行后显示省略号
 -webkit-box-orient: vertical; // 指定垂直方向上
 ```
+
+### (25) ul 和 ol 的区别
+
+- 区别
+  - ul 无序列表 -------- `unordered list 无序列表`
+  - ol 有序列表 -------- `ordered list 有序列别`
+- 去除 ul 和 ol 的 ( 默认样式 )
+  - `list-style: none;`

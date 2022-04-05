@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+spec:
+  # 定义容器，可以多个
+  containers:
+    - name: test-k8s # 容器名字
+      image: ccr.ccs.tencentyun.com/k8s-tutorial/test-k8s:v1 # 镜像
+    </script>
+  </body>
+</html>
