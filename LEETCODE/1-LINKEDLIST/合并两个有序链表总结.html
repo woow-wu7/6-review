@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 题目：合并两个有序链表
+      // 思路：
+      // - 1. 如果两个链表中有一个是null，则直接返回另一个链表
+      // - 2. 然后分别取两个链表的头节点进行比较，将 ( 结果链表的尾节点.next ) 指向 ( 较小链表的头节点 )
+      // - 3. 然后移动 ( 结果链表 ) 和 ( 较小链表的头节点 ) 的指针，继续进行以上比较
+      // - 4. 返回结果链表
+
+      /**
+       * Definition for singly-linked list.
+       * function ListNode(val, next) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.next = (next===undefined ? null : next)
+       * }
+       */
+      /**
+       * @param {ListNode} list1
+       * @param {ListNode} list2
+       * @return {ListNode}
+       */
+      var mergeTwoLists = function (list1, list2) {
+        if (list1 === null) return list2;
+        if (list2 === null) return list1;
+
+        let list3 = new ListNode(null);
+        const cacheList3 = list3;
+
+        while (list1 && list2) {
+          if (list1.val < list2.val) {
+            list3.next = list1;
+            list3 = list3.next;
+            list1 = list1.next;
+          } else {
+            list3.next = list2;
+            list3 = list3.next;
+            list2 = list2.next;
+          }
+        }
+
+        while (list1) {
+          list3.next = list1;
+          list3 = list3.next;
+          list1 = list1.next;
+        }
+        while (list2) {
+          list3.next = list2;
+          list3 = list3.next;
+          list2 = list2.next;
+        }
+
+        return cacheList3.next;
+      };
+    </script>
+  </body>
+</html>

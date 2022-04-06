@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 反转链表
+      // 1 题目
+      // - 给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。
+      // 2 思路
+      // - 正序遍历链表，将当前节点的next指向pre，然后移动指针进行下一次比较即可
+
+      function reverseLinkedList(head) {
+        if (head === null) return null; // 边界
+
+        let [prev, current] = [null, head]; // 头节点的上一个节点是null，current为head节点
+
+        while (current) {
+          const nextTemp = current.next; // 缓存当前节点的下一个节点，因为下面会修改 current.next，就无法找到正序遍历时的下一个节点
+          current.next = prev; // 反转指针
+
+          // (反转后的处理) - 修改指针指向后的处理，为下一次循环做准备
+          // 其实就是移动指针，往后移动
+          prev = current; // 将当前遍历的节点的上一个元素，指向当前节点 ----- 即遍历后移
+          current = nextTemp; // 将当前遍历的元素，重新设置为下一个元素 --- 即遍历后移
+        }
+
+        return prev;
+      }
+    </script>
+  </body>
+</html>

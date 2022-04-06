@@ -8,15 +8,33 @@
   </head>
   <body>
     <script>
-apiVersion: v1
-kind: Pod
-metadata:
-  name: test-pod
-spec:
-  # 定义容器，可以多个
-  containers:
-    - name: test-k8s # 容器名字
-      image: ccr.ccs.tencentyun.com/k8s-tutorial/test-k8s:v1 # 镜像
+      // 数组成员的最长公共前缀
+      // 注意：是前缀
+      // 思路：
+      // - 每个成员一一做对比即可
+
+      const strs = ["flower", "flow", "floight"];
+      function longestSamePre(strs) {
+        const res = strs.reduce((total, current) => {
+          let temp = ""; // 每次比较的最长公共子串
+          const min = Math.min(total.length, current.length); // 取两个串的最小串长度作为遍历的边界
+
+          for (let i = 0; i < min; i++) {
+            if (total[i] === current[i]) {
+              temp = temp + total[i];
+            } else {
+              break;
+            }
+          }
+
+          return temp; // 每次的返回值继续和下个成员做对比
+        });
+
+        return res;
+      }
+
+      const res = longestSamePre(strs);
+      console.log("res: ", res);
     </script>
   </body>
 </html>
