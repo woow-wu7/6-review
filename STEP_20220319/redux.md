@@ -65,3 +65,29 @@
 - 原理
   - 其实就是将 ( action 创建函数-actionCreator ) 执行的结果 ( action 对象 )，包装成一个函数 () => dispatch(action 创建函数执行的结果，即 action 对象)
   - 也就是说：执行 action 创建函数的时，会主动调用 dispatch 函数，将 action 提交给 reducer
+
+### (6) redux-chunk 源码
+
+- 很简单的三层高阶函数，满足 redux 中间件的三层，只是做了返回值的判断
+
+```
+
+function createThunkMiddleware(extraArgument) {
+  return ({ dispatch, getState }) =>
+    (next) =>
+    (action) => {
+      // action is function
+      if (typeof action === 'function') {
+        return action(dispatch, getState, extraArgument)
+      }
+
+      // action is object
+      return next(action)
+    }
+}
+
+const thunk = createThunkMiddleware()
+thunk.withExtraArgument = createThunkMiddleware
+
+export default thunk
+```
