@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 中序遍历二叉树
+      // - 左根右
+      /**
+       * Definition for a binary tree node.
+       * function TreeNode(val, left, right) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.left = (left===undefined ? null : left)
+       *     this.right = (right===undefined ? null : right)
+       * }
+       */
+      var inorderTraversal = function (root) {
+        const result = [];
+
+        function recursive(element) {
+          if (element) {
+            // 递归结束条件
+            recursive(element.left); // 左
+            result.push(element.val); // 根
+            recursive(element.right); // 右
+          }
+        }
+
+        recursive(root);
+
+        return result;
+      };
+    </script>
+  </body>
+</html>

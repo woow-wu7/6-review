@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 二叉树是否对称
+      // - 递归判断即可
+      /**
+       * Definition for a binary tree node.
+       * function TreeNode(val) {
+       *     this.val = val;
+       *     this.left = this.right = null;
+       * }
+       */
+      /**
+       * @param {TreeNode} root
+       * @return {boolean}
+       */
+      var isSymmetric = function (root) {
+        if (!root) return true; // 边界
+
+        function recursive(left, right) {
+          if (!left && !right) return true; // 边界
+          if (!left || !right) return false; // 对称位置，一边有节点，一边没有节点，false不对称
+          if (left.val !== right.val) return false; // 比较的两个节点值不相等，false不对称
+
+          return (
+            recursive(left.left, right.right) &&
+            recursive(left.right, right.left)
+          ); // 左左右右 左右右左
+        }
+
+        return recursive(root.left, root.right);
+      };
+    </script>
+  </body>
+</html>
