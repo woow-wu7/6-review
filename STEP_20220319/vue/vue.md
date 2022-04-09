@@ -95,6 +95,30 @@ computedWatcher
   - immediate：表示立即执行 callback，不用等到 key 变化时才去执行
   - sync：表示 ( 同步 watch 对象中的 handler 先执行 )，( 普通的 watch 对象的 handler 后执行 )
 
+### (5) nextTick
+
+```
+nextTick
+---
+
+1. 作用
+  - 在下次DOM更新循环结束后，执行延时回调
+  - 在修改数据后，立即使用 nextTick 获取 ( 更新后的DOM )
+2. 原理
+  - 利用从 微任务 到 宏任务 的逐渐降级
+  - promise -> mutationObserver -> setImmediate -> setTimeout
+  - 扩展
+    - 微任务
+      - promise
+      - process.nextTick
+      - mutationObserver
+    - 宏任务
+      - setTimeout
+      - setInterval
+      - setImmediate
+      - requestAnimationFrame
+```
+
 # 相关链接
 
-- https://github.com/woow-wu7/7-vue2-source-code-analysis/blob/main/src/core/observer/watcher.js
+- https:github.com/woow-wu7/7-vue2-source-code-analysis/blob/main/src/core/observer/watcher.js
