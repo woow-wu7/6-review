@@ -1,6 +1,6 @@
 # 大厂面试题
 
-### (1) 0.1 + 0.2 的精度丢失？
+## (1) 0.1 + 0.2 的精度丢失？
 
 - 前置知识
   - js 中使用 number 类型来表示数字，没有区分 ( 整数 ) 和 ( 浮点数 )
@@ -21,7 +21,7 @@
 - 注意点
   - 如果十进制数字 ( 十进制数字 ) 超过了 ( 16 位 )时，转成 ( 字符串 )，字符串对应的值和原数字会 ( 不相等 )
 
-### (2) Object.freeze() 和 Object.seal() 的区别？
+## (2) Object.freeze() 和 Object.seal() 的区别？
 
 - Object.seal() ----- 不能 添加，删除属性，但是可以 ( 修改 ) 属性
 - Object.freeze() --- 不能 添加，删除，修改，属性
@@ -30,7 +30,7 @@
 - seal 密封的意思
 - freeze 冻结的意思
 
-### (3) 跨标签通信
+## (3) 跨标签通信
 
 - 同源
   - Broadcast Channel 广播
@@ -68,4 +68,53 @@
 - 注意：发送消息时，需要保证接收消息的页面已经加载完成，通过 window.onload 中做监听
 
 4. 链接 https://juejin.cn/post/6844903811232825357#heading-11
+```
+
+## (4) json 和 xml 的区别
+
+```
+json和xml的区别
+---
+
+1. xml是重量级的，json是轻量级的
+2. xml传输慢，json传输快，因为xml比较重
+3. xml和js交互复杂，json和js交互简单
+   - xml需要将xlm转成html再和js交互
+   - json直接可以使用js操作
+4. xml的可读性强，json的可读性较弱
+5. xml支持注释，json不支持注释
+6. xml比json更加安全
+
+xml
+---
+<?xml version="1.0" encoding="utf-8" ?>
+<country>
+  <name>中国</name>
+  <province>
+    <name>黑龙江</name>
+    <citys>
+      <city>哈尔滨</city>
+      <city>大庆</city>
+    </citys>  　　
+  </province>
+  <province>
+    <name>广东</name>
+    <citys>
+      <city>广州</city>
+      <city>深圳</city>
+      <city>珠海</city>
+    </citys> 　　
+  </province>
+</country>
+
+json
+---
+{
+    name: "中国",
+    provinces: [
+        { name: "黑龙江", citys: { city: ["哈尔滨", "大庆"]} },
+        { name: "广东", citys: { city: ["广州", "深圳", "珠海"]} }
+    ]
+}
+
 ```
