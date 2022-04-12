@@ -81,3 +81,11 @@
   - Access-Control-Allow-Headers: X-Custom-Header
   - Access-Control-Allow-Credentials: true
   - Access-Control-Max-Age: 1728000
+
+## 问题
+
+### 1. ( 预检请求 ) 的作用
+
+- 询问服务器 ( 当前网页的域名 ) 是否在服务器的 ( 白名单 ) 中
+- 询问服务器 可以使用哪些 ( HTTP 动词 ) 和 ( 头信息 ) 字段
+  - 比如允许的 HTTP 方法等
