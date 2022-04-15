@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- vue - cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  </head>
+  <body>
+    <!-- vue 挂载容器 -->
+    <div id="root" />
+
+    <script>
+      new Vue({
+        el: "#root",
+        // 手写render函数
+        render(createElement) {
+          return createElement( // ----------------------- (1) createElement(html标签名字符串 | 组件选项对象，数据对象，子vnode)
+            "section",
+            {
+              style: {
+                background: "yellow",
+                padding: '20px'
+              },
+              class: ['classA', 'classB'],
+              // 1
+              // attrs
+              // - 注意：
+              //   - style 和 class ---------- 不在 attrs 中
+              //   - 但是 id ----------------- 在 attrs 中
+              attrs: {
+                id: "wrap-id",
+                customAttribute: 'custom'
+              },
+              on: {
+                click(e) {
+                  e.target.style.cursor = 'pointer'
+                }
+              },
+              // 2
+              // props
+              // - 注意：
+              //   - 数据对象中的props属性，只有在createElement函数的第一个参数是 ( 组件选项对象时生效 )
+              //   - 这里不生效，因为 'section' 字符串是一个 html 标签
+              props: {
+                name: 'woow_wu7' // +++++++++++++++++++++++ 不生效
+              }
+            },
+            // 第三个参数是 ( 子vnode )，( 字符串时表示文本节点 )，( 数组时成员可以是前两者 )
+            [
+              '父组件', // 字符串时，表示文本节点
+              createElement({ // ------------------------- (2) createElement(组件选项对象)
+                name: 'Child1',
+                data() {
+                  return {
+                    count: 0
+                  }
+                },
+                props: {
+                  name // +++++++++++++++++++++++++++++++++ 1. props接收的值，生效
+                },
+                template: `
+                  <section style="border: 1px solid black; padding: 10px;">
+                    <p>子组件1</p>
+                    <button @click="count++">add</button>
+                    <div>count -> {{count}}</div>
+                    <div>props.name -> {{name}}</div>
+                  </section>
+                `,
+              }, {
+                props: { // +++++++++++++++++++++++++++++++ 2. 这里是组件props传入的值
+                  name: 'woow_wu7'
+                }
+              }),
+            ]
+          );
+        },
+      });
+
+    </script>
+  </body>
+</html>
