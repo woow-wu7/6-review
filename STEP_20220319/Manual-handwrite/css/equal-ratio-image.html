@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* 方法1 */
+      /* 指定其宽度或者高度值，另一边自动计算就可以了 */
+      .one {
+        width: 100%;
+        height: auto;
+      }
+
+      /* 方法2 */
+      /* 容器：高度设置为0，然后padding使用百分比 */
+      /* 内容：绝对定位填充满容器就行 */
+      .two {
+        width: 100%;
+        height: 0;
+        padding: 0;
+        padding-bottom: 75%; /* 4:3 */
+        background: red;
+        position: relative;
+      }
+      .two-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+
+      /* 方法3 */
+      /* aspect-ratio: <width-ratio>/<height-ratio> */
+      /* aspect 是外观，外貌的意思 */
+      .three {
+        width: 100%;
+        aspect-ratio: 4/3;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="https://p3.ssl.qhimg.com/t01f7d210920c0c73bd.jpg" class="one" />
+    <div class="two"></div>
+    <img src="https://p3.ssl.qhimg.com/t01f7d210920c0c73bd.jpg" class="three" />
+  </body>
+
+  <script>
+    //## (3) 等比例图片
+    ```
+    不知道图片宽高
+    ---
+
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+          /* 方法1 */
+          /* 指定其宽度或者高度值，另一边自动计算就可以了 */
+          .one {
+            width: 100%;
+            height: auto;
+          }
+
+          /* 方法2 */
+          /* 容器：高度设置为0，然后padding使用百分比 */
+          /* 内容：绝对定位填充满容器就行 */
+          .two {
+            width: 100%;
+            height: 0;
+            padding: 0;
+            padding-bottom: 75%; /* 4:3 */
+            background: red;
+            position: relative;
+          }
+          .two-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+          }
+
+          /* 方法3 */
+          /* aspect-ratio: <width-ratio>/<height-ratio> */
+          /* aspect 是外观，外貌的意思 */
+          .three {
+            width: 100%;
+            aspect-ratio: 4/3;
+          }
+        </style>
+      </head>
+      <body>
+        <img src="https://p3.ssl.qhimg.com/t01f7d210920c0c73bd.jpg" class="one" />
+        <div class="two"></div>
+        <img src="https://p3.ssl.qhimg.com/t01f7d210920c0c73bd.jpg" class="three" />
+      </body>
+    </html>
+    ``````
+    知道图片的宽高
+    ---
+    1. 可以 calc 进行计算
+    2. js获取到后，进行计算
+    ```;
+  </script>
+</html>
