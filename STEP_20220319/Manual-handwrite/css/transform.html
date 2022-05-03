@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .translate {
+        /* translate(x,y) */
+        /* translateX(x) */
+        /* translateY(y) */
+        /* translateZ(z) */
+        /* translate3d(x,y,z) */
+
+        transform: translate(100px, 0);
+
+        background: yellow;
+        display: inline-block;
+      }
+
+      .rotate {
+        /* rotate(angle) */
+        /* rotateX(x) */
+        /* rotateY(y) */
+        /* rotateZ(z) */
+        /* rotate3d(x,y,z) */
+        transform: rotate(90deg);
+
+        background: red;
+        display: inline-block;
+      }
+
+      .scale {
+        /* scale(x,y) */
+        /* scaleX(x) */
+        /* scaleY(y) */
+        /* scaleZ(z) */
+        /* scale(x,y,z) */
+        transform: scale(2);
+
+        background: rgb(188, 231, 255);
+        display: inline-block;
+        position: fixed;
+        bottom: 300px;
+      }
+
+      .skew {
+        /* skew 是倾斜的意思 */
+        /* skew(x-angle,y-angle) */
+        /* skewX(angle) */
+        /* skewY(angle) */
+        transform: skew(-30deg, 0deg);
+
+        background: rgb(188, 231, 255);
+        display: inline-block;
+        position: fixed;
+        bottom: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="rotate">rotate</div>
+    <div class="translate">translate</div>
+    <div class="scale">scale</div>
+    <div class="skew">skew</div>
+  </body>
+</html>
