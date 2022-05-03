@@ -9,22 +9,28 @@
       .contrast {
         font-size: 12px;
       }
-      .content {
+
+      /* zoom */
+      .zoom {
         font-size: 12px;
         zoom: 0.5;
+        /* zoom 用来设置缩放比例，0.5表示缩放一倍 */
+        /* zoom 表示变焦的意思 */
       }
-      .content2 {
+
+      /* scale */
+      .scale {
         font-size: 12px;
         transform: scale(0.5);
-
         transform-origin: left;
+        /* 注意：变换之后需要修改(原点)，使之是左对齐 */
       }
     </style>
   </head>
   <body>
     <div class="contrast">对比字体大小：12px</div>
-    <div class="content">zoom方式 ---- 在移动端设置小于12px的字体</div>
-    <div class="content2">
+    <div class="zoom">zoom方式 ---- 在移动端设置小于12px的字体</div>
+    <div class="scale">
       transform:scale()方式 ---- 在移动端设置小于12px的字体
     </div>
   </body>

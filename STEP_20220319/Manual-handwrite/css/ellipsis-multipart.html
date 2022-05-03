@@ -14,13 +14,14 @@
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        -webkit-line-clamp: 3; 
-        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3; /* clamp是夹子的意思，表示夹层 */
+        -webkit-box-orient: vertical; /* orient是朝向的意思 */
       }
     </style>
   </head>
   <body>
     <!-- 多行省略号 -->
+    <!-- overflow + text-overflow + display:-webkit-box; + line-clamp + box-orient -->
     <div class="multipart-ellipsis"></div>
   </body>
 </html>

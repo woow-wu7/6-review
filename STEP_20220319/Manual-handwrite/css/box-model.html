@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
+      /* box-sizing: content-box; */
+      /* 标准盒模型 -> box-sizing: content-box; -> width和height包括：content */
       .a {
         box-sizing: content-box;
         width: 200px;
@@ -15,6 +17,8 @@
         border: 20px solid black;
       }
 
+      /* box-sizing: border-box; */
+      /* ie盒模型 -> box-sizing: border-box; -> width和height包括：content + padding + border */
       .b {
         box-sizing: border-box;
         width: 200px;
@@ -28,11 +32,16 @@
   <body>
     <div class="box-model">
       <div class="a">
-        <p>标准盒模型</p>
+        <p>
+          标准盒模型 -> box-sizing: content-box; -> width和height包括：content
+        </p>
       </div>
 
       <div class="b">
-        <p>ie盒模型</p>
+        <p>
+          ie盒模型 -> box-sizing: border-box; -> width和height包括：content
+          padding border
+        </p>
       </div>
     </div>
     <script>

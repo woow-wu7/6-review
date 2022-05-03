@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
+      /* js获取font-size */
+      /* 1. window.getComputedStyle(dom, attribute) -> getComputedStyle 返回一个样式对象，包含了当前元素最终应用在样式上的所有css属性 */
+      /* 2. DOM.currentStyle.['font-size'] */
+      /* 3. 链接：https://segmentfault.com/q/1010000004641038 */
+
       #contrast {
         font-size: 30px;
       }
@@ -26,11 +31,28 @@
       <p>正常font-size: 30px的大小</p>
     </div>
     <div class="father">
+      <p>em:作为font-size的单位是指父元素的font-size大小；</p>
+      <p>em:作为其他属性单位时指代的是自身font-size属性的大小</p>
       <div class="child">
-        <p>
-          em:作为font-size的单位是指父元素的font-size大小；作为其他属性单位时指代的是自身font-size属性的大小
-        </p>
+        <p id="fatherFont">em</p>
+        <p id="selfHeight">em</p>
       </div>
     </div>
   </body>
+  <script>
+    /* getComputedStyle 返回一个样式对象，包含了当前元素的最终所有css属性 */
+
+    // 1
+    const fatherFont = document.getElementById("fatherFont");
+    fatherFont.innerHTML =
+      `em:作为font-size的单位是指父元素的font-size大小；` +
+      window.getComputedStyle(fatherFont).fontSize;
+
+    // 2
+    const child = document.getElementsByClassName("child")[0];
+    const selfHeight = document.getElementById("selfHeight");
+    selfHeight.innerHTML =
+      `em:作为其他属性单位时指代的是自身font-size属性的大小；` +
+      window.getComputedStyle(child).height;
+  </script>
 </html>

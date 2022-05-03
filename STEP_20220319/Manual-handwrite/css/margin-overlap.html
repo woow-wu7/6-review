@@ -24,7 +24,9 @@
     </style>
   </head>
   <body>
-    <!-- 解决margin上下重叠 -->
+    <!-- 解决 margin上下重叠 -->
+    <!-- 方法1: 触发BFC；1overflow 2display 3浮动 4根元素 5绝对定位 -->
+    <!-- 方法2: 使用padding代替margin -->
     <div class="up">上</div>
     <div class="down-wrap">
       <div class="down">下</div>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      /* 用于对比 */
+      /* 非1像素 - 用于对比 */
       .contrast {
         height: 100px;
         position: relative;
@@ -33,10 +33,10 @@
       .container::before {
         content: "";
         position: absolute;
-        bottom: 0;
+        top: 0;
         left: 0;
         right: 0;
-        /* 设置高度为1px */
+        /* 设置高度为1px，表示1像素物理边框 */
         height: 1px;
         background: red;
       }
@@ -48,7 +48,7 @@
       }
       @media screen and(-webkit-min-device-pixel-ratio: 3) {
         .container::before {
-          transform: scaleY(0.3333);
+          transform: scaleY(1/3);
           /* 缩小：1/3 */
         }
       }
@@ -62,8 +62,10 @@
     <div class="container"></div>
     <script>
       // 1 像素物理边框
+      // - 1. 利用伪元素(不在DOM中，性能好，相当于自身元素的第一个子元素)，决定定位，高度设置1px
+      // - 2, @media and screen(-webkit-min-device-pixel-ratio) { ...transform: scaleY(0.5) }
 
-      // 1 如何获取 ( 屏幕像素比 )
+      // 2 如何获取 ( 屏幕像素比 )
       const devicePixelRatio = window.devicePixelRatio;
       console.log("devicePixelRatio: ", devicePixelRatio);
 

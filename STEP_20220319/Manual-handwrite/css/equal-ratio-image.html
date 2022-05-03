@@ -6,15 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
+      /* 等比例放大缩小图片 */
+      /* 三种方法 */
+
       /* 方法1 */
       /* 指定其宽度或者高度值，另一边自动计算就可以了 */
       .one {
         width: 100%;
         height: auto;
+        /* 注意：在测试中发现，其实只需要设置 width: 100%; 就可以了，是不需要设置 height: auto; 的 */
       }
 
       /* 方法2 */
-      /* 容器：高度设置为0，然后padding使用百分比 */
+      /* 容器：宽度100%，高度设置为0，然后padding使用百分比 */
       /* 内容：绝对定位填充满容器就行 */
       .two {
         width: 100%;
@@ -38,6 +42,8 @@
       .three {
         width: 100%;
         aspect-ratio: 4/3;
+        /* aspect-ratio: 宽/高 */
+        /* aspect 英语是外观，方向，的意思 */
       }
 
       /* 资料：https://juejin.cn/post/6844904070679887886 */
