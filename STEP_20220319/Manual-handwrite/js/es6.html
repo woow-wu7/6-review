@@ -80,5 +80,60 @@
       // - flatMap()方法对原数组的每个成员执行一个函数（相当于执行Array.prototype.map()），然后对返回值组成的数组执行flat()方法。该方法返回一个新数组，不改变原数组
       // sort
     </script>
+
+    <script>
+      // proxy
+      // new Proxy(target, handler);
+      // - target：需要拦截的对象
+      // - handler
+      //    - 一个对象，表示拦截行为
+      //    - 如果 handler 是一个 ( 空对象 )，则表示 ( 直接通向target目标对象，不做任何拦截 )
+      //    - get(target, propKey)
+      //    - set
+      //    - apply() ---------> apply方法拦截函数的调用、call和apply操作
+      //    - construct() -----> construct方法用来拦截 new 命令
+      //    - has
+      //    - deleteProperty
+      //    - ownKeys
+      //    ....
+
+      // 1
+      // ------- 拦截对象
+      const objForProxy = {
+        // 目标对象
+        age: 20,
+      };
+      const handler = {
+        // 拦截行为的对象
+        get(target, propKey) {
+          return target[propKey] + 1;
+        },
+        set(target, propKey, value) {
+          if (value > 30) {
+            throw new Error("设置的值不能大于30");
+          }
+          target[propKey] = value;
+          return true;
+        },
+      };
+      const proxy = new Proxy(objForProxy, handler);
+      const age = proxy.age;
+      console.log("age", age);
+      proxy.age = 10; // es6.html:108 Uncaught Error: 设置的值不能大于30
+
+      // 2
+      // ------- 拦截函数
+      function getOne() {
+        return 1;
+      }
+      const handler2 = {
+        apply() {
+          return 2;
+        },
+      };
+      const proxy2 = new Proxy(getOne, handler2);
+      const res = proxy2();
+      console.log("res", res); // 2
+    </script>
   </body>
 </html>
