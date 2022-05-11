@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // string
+      // es6新增的 10 个字符串方法
+      // 注意：( 数组和字符串 ) 都具有 includes 和 at 两个方法
+      // replaceAll
+      const str = "  abcaabbcc ";
+      const str2 = str.replaceAll("a", "x");
+      console.log("str2", str2);
+      // at
+      const str3 = str.at(2);
+      console.log("str3", str3);
+      // trim trimStart trimEnd
+      const strTrim = str.trim();
+      const strTrimStart = str.trimStart();
+      const strTrimEnd = str.trimEnd();
+      console.log("str.length", str.length);
+      console.log("str.trim", strTrim.length);
+      console.log("tr.trimStart", strTrimStart.length);
+      console.log("str.trimEnd", strTrimEnd.length); // trim 是修剪的意思
+      // includes startWith endWith
+      const strStartWith = str.startsWith(" ");
+      const strEndsWith = str.endsWith("!");
+      const strIncludes = str.includes("b");
+      console.log("str.startsWith", strStartWith);
+      console.log("str.endsWith", strEndsWith);
+      console.log("str.includes", strIncludes);
+      // padStart padEnd
+      const strPadStart = "x".padStart(5, "ab"); // 'ababx'
+      const strPadEnd = "x".padStart(4, "ab"); // 'abax'
+      console.log("strPadStart", strPadStart);
+      console.log("strPadEnd", strPadEnd);
+    </script>
+
+    <script>
+      // array
+      // Array.from()
+      // Array.from(arrayLikeObject|array)
+      // 1. 代替
+      //   - 可以代替 Array.prototype.slice.call(arrayLikeObject)
+      //   - 可以代替 Array.prototype.slice.apply(arrayLikeObject)
+      // 2. 特殊情况
+      //   - 如果参数是一个真正的数组，Array.from()会返回一个一模一样的新数组
+      //   - Array.from()还可以接受一个函数作为第二个参数，作用类似于数组的map()方法，用来对每个元素进行处理，将处理后的值放入返回的数组
+      (function () {
+        console.log("arguments", arguments);
+        const argumentArr = Array.from(arguments);
+        const argumentArr1 = Array.from(arguments, (v) => v * v);
+        const argumentArr2 = Array.prototype.slice.call(arguments);
+        console.log("Array.from", argumentArr);
+        console.log("Array.from第二个参数，相当于map函数", argumentArr1);
+        console.log("Array.prototype.slice.call", argumentArr2);
+        const arr = [1, 2, 3];
+        const arrFrom = Array.from(arr);
+        console.log(
+          "Array.from 参数是一个正真的数组，则会返返回一个一摸一样的新数组，相当于浅拷贝",
+          arrFrom,
+          arr == arrFrom
+        );
+      })(1, 2, 3);
+      // Array.of
+      // - Array.of()方法用于将一组值，转换为数组
+      const ArrayOf = Array.of(1, 2, 3);
+      console.log("Array.of - 用于将一组值，转换为数组", ArrayOf);
+      // find findIndex
+      // fill
+      // entries keys values
+      // includes at
+      // flat flatMap
+      // - [1, [2, [3]]].flat(Infinity)
+      // - 如果原数组有空位，flat()方法会跳过空位
+      // - flatMap()方法对原数组的每个成员执行一个函数（相当于执行Array.prototype.map()），然后对返回值组成的数组执行flat()方法。该方法返回一个新数组，不改变原数组
+      // sort
+    </script>
+  </body>
+</html>
