@@ -105,6 +105,8 @@
 - 参数
   - 数组(成员是promise实例，不是实例会调用 Promise.resolve()来处理)
   - 或者具有 iterator 接口的数据结构
+- 返回值
+  - 一个新的 promise 对象
 
 - 注意
   - 如果参数promise的成员自己定义了catch，当该promise报错错误时，是不会被Promise.all().catch()所捕获的
@@ -128,5 +130,7 @@
   - 所有rejected，整个才rejected
 
 11. 如何让同步函数同步执行，异步函数异步执行？
-- 
+- Promise.try
+- async 包装
+- promise 包装
 ```

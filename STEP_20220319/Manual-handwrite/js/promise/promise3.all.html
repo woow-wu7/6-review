@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // Promise.all 的实现
+      // 1
+      // Promise.all()
+      // - 参数：( 数组 ) 或者具有 ( Iterator接口 ) 的数据类型
+      //    - 数组
+      //      - 成员必须是 promise
+      //      - 不是 promise，会用 Promise.resolve() 转成 promise对象
+      // - 返回值
+      //    - 返回一个新的promise
+      // - 特点
+      //    - 所有resolved，整个才resolved
+      //    - 一个rejected，整个rejected
+
+      const p1 = Promise.resolve("p1");
+      const p2 = Promise.resolve("p2");
+      const p3 = Promise.resolve("p3");
+      const p4 = Promise.reject("err");
+      const str4 = "string4";
+
+      Promise._all = function (iterator) {
+        // 1
+        // 返回值：Promise.all() 返回一个新的 promise
+        return new Promise((resolve, reject) => {
+          // 2
+          // 参数：
+          // - 是一个数组，或者具有 Iterator 接口的数据类型
+          // - 我们这里统一处理成数组
+          const params = Array.from(iterator);
+          const len = params.length;
+          const promiseValueList = [];
+
+          params.forEach((_promise) => {
+            // 3
+            // - 参数数组成员，如果不是promise，需要转成promise
+            // - 我们通过 Promise.resolve() 将其转成 promise 对象，则可以调用 then 方法
+            Promise.resolve(_promise).then(
+              (value) => {
+                promiseValueList.push(value);
+
+                // 4
+                // 当 终值 被收集满的时，说明所有都是 resolved
+                if (promiseValueList.length === len) {
+                  resolve(promiseValueList);
+                }
+              },
+
+              // 5
+              // 任何一个 rejected，则整体rejected
+              reject
+            );
+          });
+        });
+      };
+
+      // 原生
+      Promise.all([p1, p2, p3, str4]).then((resArr) => {
+        console.log(`resArr`, resArr);
+      });
+
+      // 手写
+      Promise._all([p1, p2, p3, str4, p4]).then(
+        (resArr) => {
+          console.log(`resArr`, resArr);
+        },
+        (reason) => console.log(reason)
+      );
+    </script>
+  </body>
+</html>
