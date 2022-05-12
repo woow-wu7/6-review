@@ -18,6 +18,14 @@
               `Promise resolver ${executor} is not a function`
             );
           }
+
+          // ))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))) 解决 promise 内部的错误需要被 then 的第二个回调所捕获
+          // try {
+          //   executor(this.resolve, this.reject);
+          // } catch(err) {
+          //   this.reject(err)
+          // }
+
           // 调用
           executor(this.resolve, this.reject);
         }
@@ -70,10 +78,14 @@
       console.log(1);
       const promise = new _Promise((resolve) => {
         // setTimeout(() => resolve(3));
+        throw new Error('出错了')
         resolve(3);
       })
         // .then() ------------------------------------------------------------------- 解决透传
-        .then((value) => console.log(value));
+        .then(
+          (value) => console.log(value),
+          reason => console.log(reason, 'promise内的错误被then的第二个回调所捕获')
+        );
       console.log(2);
 
       // 待解决问题 1
@@ -92,6 +104,9 @@
       // 待解决问题 4
       // - 描述：当 executor 中有一异步操作时，then 不会执行
       // - 原因：因为执行 then 时，由于executor有异步操作，resolve并没有执行，状态就不是fulfilled，所以 then 不会执行
+
+      // 待解决问题 5
+      // - 当 executor 函数中有错误时，是会被then的第二个回调所捕获的
     </script>
   </body>
 </html>
