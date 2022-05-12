@@ -8,43 +8,48 @@
   </head>
   <body>
     <script>
-      // 执行顺序 - 案例2
+      // 执行顺序 - 案例1
       console.log(1);
-      // A promise
-      new Promise((resolve) => {
-        console.log(2);
-        resolve();
-        console.log(3);
-      }).then((res) => {
-        // E then
-        console.log(4);
-        // C 定时器
-        setTimeout(() => console.log(5));
-      });
-      console.log(6);
-      // B 定时器
       setTimeout(() => {
-        console.log(7);
-        // D promise
-        new Promise((resolve) => {
-          console.log(8);
-          resolve();
-        }).then(() => console.log(9)); // F then
+        // 定时器 A
+        console.log(2);
+        Promise.resolve().then(() => {
+          // Promise D
+          console.log(3);
+        });
       });
-      console.log(10);
+      new Promise((resolve, reject) => {
+        // Promise B
+        console.log(4);
+        resolve(5);
+      }).then((data) => {
+        console.log(data);
+      });
+      setTimeout(() => {
+        // 定时器 C
+        console.log(6);
+      });
+      console.log(7);
 
-      // 1 2 3 6 10
-      // 宏任务队列
-      // 微任务队列 4 setTimeout5
-      // 宏任务队列 7 8 promise9
+      // 第一次执行
+      // 同步任务：1 4 7
+      // 宏任务队列：( 2 promise3 ) 6
+      // 微任务队列：5
 
-      // (1)
-      // 4 -------> 此时的宏任务队列 7 8 promise9 5
-      // 7 8
-      // 9
-      // 5
+      // 第二次执行
+      // 优先会执行微任务队列额：所有微任务 5
+      // 接着执行宏任务队列的：一个宏任务 ( 2 promise3 )
+      // - 2
+      // - 3进入微任务队列
+      // ---- 执行完一个宏任务后，此时：
+      //      - 宏任务队列：6
+      //      - 微任务队列：3
 
-      // 1 2 3 6 10 4 7 8 9 5
+      // 第三次执行
+      // 优先执行所有微任务 3
+      // 接着执行宏任务 6
+
+      // 1 4 7 5 2 3 6
     </script>
   </body>
 </html>

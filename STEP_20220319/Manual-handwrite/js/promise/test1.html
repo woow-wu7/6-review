@@ -8,45 +8,25 @@
   </head>
   <body>
     <script>
-      // 执行顺序 - 案例1
-      console.log(1);
-      setTimeout(() => {
-        // 定时器 A
-        console.log(2);
-        Promise.resolve().then(() => {
-          // Promise D
-          console.log(3);
-        });
-      });
       new Promise((resolve, reject) => {
-        // Promise B
-        console.log(4);
-        resolve(5);
-      }).then((data) => {
-        console.log(data);
-      });
-      setTimeout(() => {
-        // 定时器 C
-        console.log(6);
-      });
-      console.log(7);
+        setTimeout(() => {
+          console.log(1);
+          resolve(2);
+        });
+      }).then((value) => console.log(value));
+      console.log(3);
 
-      // 第一次执行
-      // 同步任务：1 4 7
-      // 宏任务队列：2 promise3 6
-      // 微任务队列：5
+      // 3
+      // 宏任务队列：setTimeout 1 promise2
+      // 微任务队列：[]
 
-      // 第二次执行
-      // 优先会执行所有微任务 5
-      // 接着执行宏任务
-      // - 2
-      // - 3进入微任务队列
+      // 1
+      // 宏任务队列：[]
+      // 微任务队列：2
 
-      // 第三次执行
-      // 优先执行所有微任务 3
-      // 接着执行宏任务 6
+      // 2
 
-      // 1 4 7 5 2 3 6
+      // 3 1 2
     </script>
   </body>
 </html>

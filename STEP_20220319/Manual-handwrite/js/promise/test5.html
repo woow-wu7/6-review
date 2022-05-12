@@ -8,43 +8,41 @@
   </head>
   <body>
     <script>
-      // 执行顺序 - 案例5
+      // 执行顺序 - 案例4
 
-      async function async1() {
-        console.log("a");
-
-        await async2();
-        console.log("b");
+      async function a() {
+        console.log("1");
+        await b(); // 执行完 b, 将 2 放入微任务队列，并跳出 asyncA，去执行 Promise8
+        console.log("2");
       }
-
-      async function async2() {
-        console.log("c");
+      async function b() {
+        console.log("3");
+        setTimeout(() => console.log("4"), 0);
+        console.log("5"); // 3 5 都会立即执行
       }
-
-      console.log("d");
-
+      console.log("6");
       setTimeout(function () {
-        console.log("e");
+        console.log("7");
       }, 0);
-
-      async1();
-
+      a();
       new Promise(function (resolve) {
-        console.log("f");
+        console.log("8"); // 8 立即执行
         resolve();
       }).then(function () {
-        console.log("g");
+        console.log("9");
       });
+      console.log("10");
 
-      console.log("h");
+      // 6 1 3 5 8 10
+      // 宏任务队列：setTimeout7 setTimeout4
+      // 微任务队列：2 9
 
-      // 现在到 test5 理解起来就很简单了
-      // d 宏任务setTimeout(e) a c 微任务(b) f h 微任务(g)
+      // 总 6 1 3 5 8 10   2 9   7 4
 
-      // d a c f h
-      // 微任务队列 b g
-      // 宏任务队列 e
-      // 总 -> d a c f h b g e
+      // async ... await
+      // - async
+      // - ( !!!重要!!! )
+      // - 当 async 函数中有 await 时，执行完await后面的表达式，async会让出当前线程，将await表达式后面的代码放入 ( 微任务队列 ) 中，继续执行 async 函数后面的代码
     </script>
   </body>
 </html>

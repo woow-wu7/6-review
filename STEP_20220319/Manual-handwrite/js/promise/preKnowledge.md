@@ -56,15 +56,22 @@
 
 ```
 1. promise的特点
-- promise对象的状态不受外界影响，只有异步操作的结果可以决定当前的状态，一共有三种状态 pending fulfilled rejected
-- promise对象的状态，一旦改变就不会再变。任何时候都能得到该结果
+- promise对象的状态不受外界影响
+  - 只有异步操作的结果可以决定当前的状态
+  - 一共有三种状态 pending fulfilled rejected
+- promise对象的状态
+  - 一旦改变就不会再变。任何时候都能得到该结果
+  - promise的状态改变只有两种可能：1.从pending-fulfilled 2.从pending-rejected
 
 2. promise的缺点 - ( 3个 )
 - 一旦新建就会立即执行，中途无法取消
-- promise内部抛出的错误，不会反应到外部
+- 如果不设置回调函数，promise内部抛出的错误，不会反应到外部
 - 当处于pending状态时，无法得知当前进展到哪一个阶段
 
-3. resolve函数的作用
-- 1. 将 promise 对象的状态由 ( pending -> fulfilled )，调用时机是在异步操作成功时调用，并将异步操作的结果通过 ( 参数 ) 传递出去
-- 2. 传递出去的参数，将会作为 ( then ) 函数的 ( 第一个参数函数 - 该函数在promise状态变成fulfilled以被调用 ) 的 ( 参数 )
+3. resolve函数的作用（ 三个作用 ）
+- 将 promise 对象的状态由 ( pending -> fulfilled )，调用时机是在异步操作成功时调用，并将异步操作的结果通过 ( 参数 ) 传递出去
+- 传递出去的参数，将会作为 ( then ) 函数的 ( 第一个参数函数 - 该函数在promise状态变成fulfilled以被调用 ) 的 ( 参数 )
+- 1. 改变状态
+- 2. 存储终值
+- 3. 执行 onFulfilledCallbacks 数组中的回调函数
 ```
