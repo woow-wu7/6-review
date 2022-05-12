@@ -74,4 +74,59 @@
 - 1. 改变状态
 - 2. 存储终值
 - 3. 执行 onFulfilledCallbacks 数组中的回调函数
+
+4. then
+- 作用
+  - 添加promise状态改变后的回调
+  - 第一个参数函数：成功时的回调，fulfilled状态的回调
+  - 第二个参数函数：失败时的回调，rejected状态的回调
+- 返回
+  - 一个新的promise对象，可以链式调用
+
+5. catch
+- 返回
+  - 一个新的promise对象
+  - 所以后面仍然可以接 then 方法
+- 特点
+  - catch中还能再抛错误
+
+6. finally
+- 特点
+  - 不管promise的最终状态如何，都会执行finally函数
+- 参数
+  - finally方法不接受任何参数
+  - 同时也说明了 finally 中的操作不依赖 promise 的状态
+
+7. all --------- 和 any 相反
+- 作用
+  - 将多个promise实例，包装成一个新的promise实例
+  - 1. 所有 fulfilled，才 fulfilled
+  - 2. 一个 rejected，整个就 rejected
+- 参数
+  - 数组(成员是promise实例，不是实例会调用 Promise.resolve()来处理)
+  - 或者具有 iterator 接口的数据结构
+
+- 注意
+  - 如果参数promise的成员自己定义了catch，当该promise报错错误时，是不会被Promise.all().catch()所捕获的
+
+8. race
+- 作用
+  - 将多个promise实例，包装成一个新的promise实例
+  - 谁先 fulfilled，整个就 fulfilled
+  - 谁先 rejected，真哥哥就 rejected
+
+9. allSettled ---- 所有promise执行完毕后执行
+- 作用
+  - 不管数组成员的状态如何，当所有promise执行完后，再执行
+  - 该方法返回的新的 Promise 实例，一旦发生状态变更，状态总是fulfilled，不会变成rejected
+  - 状态变成fulfilled后，它的回调函数会接收到一个数组作为参数，该数组的每个成员对应前面数组的每个 Promise 对象
+- settled 是固定的意思
+
+10. any -------- 和 all 相反
+- 作用
+  - 只要一个fulfilled，整个fulfilled
+  - 所有rejected，整个才rejected
+
+11. 如何让同步函数同步执行，异步函数异步执行？
+- 
 ```

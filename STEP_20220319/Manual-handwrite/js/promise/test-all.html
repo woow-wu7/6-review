@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const a = new Promise((resolve) => setTimeout(() => resolve(1), 1000));
+      const b = new Promise((resolve) => {
+        setTimeout(() => {
+          throw new Error("错误");
+        }, 3000);
+      }).catch((err) => {
+        console.log('promise b err', err)
+        return err
+      }); // 不会被 Promise.all捕获，而是被自己的catch捕获
+
+      let count = 0;
+      setInterval(() => {
+        count++;
+        console.log(count);
+      }, 1000);
+
+      const c = Promise.all([a, b])
+        .then((values) => {
+          console.log("values", values);
+        })
+        .catch((err) => console.log("all catch", err));
+    </script>
+  </body>
+</html>

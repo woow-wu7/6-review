@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const a = new Promise((resolve) => {
+        setTimeout(() => resolve(1), 2000);
+      });
+
+      const b = new Promise((resolve, reject) => {
+        setTimeout(() => reject(2), 3000);
+      });
+
+      let count = 0;
+      setInterval(() => {
+        count++;
+        console.log(count);
+      }, 1000);
+
+      // settled 是 固定的意思
+      const c = Promise.allSettled([a, b]).then((values) => {
+        console.log("values", values);
+      });
+
+      // [
+      //   { status: "fulfilled", value: 1 },
+      //   { status: "rejected", reason: 2 },
+      // ]
+    </script>
+  </body>
+</html>

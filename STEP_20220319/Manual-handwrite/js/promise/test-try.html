@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const fn = () => console.log(1);
+      // Promise.resolve().then(fn);
+      // console.log(2);
+      // 2 1
+
+      // 如果能保证是 1 2
+
+      // 解决方案1
+      const c = async () => fn();
+      c();
+      console.log(2);
+
+      // 解决方案2
+      const f = () => console.log("now");
+      Promise.try(f);
+      console.log("next");
+      // now
+      // next
+    </script>
+  </body>
+</html>

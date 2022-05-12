@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const a = new Promise((resolve) => {
+        setTimeout(() => resolve(1), 4000);
+      });
+
+      const b = new Promise((resolve, rejected) => {
+        setTimeout(() => rejected(2), 3000);
+      });
+
+      let count = 0;
+      setInterval(() => {
+        count++;
+        console.log(count);
+      }, 1000);
+
+      // Promise.race
+      // - 谁先fulfilled，整个就fulfilled
+      // - 谁先rejected, 整个就rejected
+      const c = Promise.race([a, b]).then(
+        (values) => {
+          console.log("values", values);
+        },
+        (reason) => {
+          console.log("reason", reason);
+        }
+      );
+    </script>
+  </body>
+</html>
