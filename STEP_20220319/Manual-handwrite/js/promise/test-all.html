@@ -8,27 +8,32 @@
   </head>
   <body>
     <script>
-      const a = new Promise((resolve) => setTimeout(() => resolve(1), 1000));
-      const b = new Promise((resolve) => {
+      const a = new Promise((resolve) => setTimeout(() => resolve(1), 1000)); // a -> 1s resolve
+      const b = new Promise((resolve, reject) => { // b -> 3s reject
         setTimeout(() => {
-          throw new Error("错误");
+          reject(new Error("错误"));
         }, 3000);
       }).catch((err) => {
-        console.log('promise b err', err)
-        return err
-      }); // 不会被 Promise.all捕获，而是被自己的catch捕获
+        console.log("promise b err", err);
+        return err;
+      });
+      // 如果Promise.all() 的参数成员promise自己有catch，如果成员抛错，不会被 Promise.all捕获，而是被自己的catch捕获
 
-      let count = 0;
-      setInterval(() => {
-        count++;
-        console.log(count);
-      }, 1000);
+      (function () {
+        let count = 0;
+        setInterval(() => {
+          count++;
+          console.log(count);
+        }, 1000);
+      })();
 
       const c = Promise.all([a, b])
         .then((values) => {
           console.log("values", values);
         })
         .catch((err) => console.log("all catch", err));
+        // Promise.all()
+        // 如果Promise.all()的参数成员promise自己有catch，如果成员抛错，不会被 Promise.all捕获，而是被自己的catch捕获
     </script>
   </body>
 </html>

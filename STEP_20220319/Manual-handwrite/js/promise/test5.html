@@ -12,7 +12,7 @@
 
       async function a() {
         console.log("1");
-        await b(); // 执行完 b, 将 2 放入微任务队列，并跳出 asyncA，去执行 Promise8
+        await b(); // 执行完 b(), 将 2 放入微任务队列，并跳出 asyncA，去执行 a() 后面的代码 Promise8
         console.log("2");
       }
       async function b() {
@@ -21,9 +21,7 @@
         console.log("5"); // 3 5 都会立即执行
       }
       console.log("6");
-      setTimeout(function () {
-        console.log("7");
-      }, 0);
+      setTimeout(() => console.log("7"), 0);
       a();
       new Promise(function (resolve) {
         console.log("8"); // 8 立即执行

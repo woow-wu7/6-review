@@ -16,15 +16,19 @@
         setTimeout(() => rejected(2), 3000);
       });
 
-      let count = 0;
-      setInterval(() => {
-        count++;
-        console.log(count);
-      }, 1000);
+      (function () {
+        let count = 0;
+        setInterval(() => {
+          count++;
+          console.log(count);
+        }, 1000);
+      })();
 
       // Promise.race
       // - 谁先fulfilled，整个就fulfilled
       // - 谁先rejected, 整个就rejected
+
+      // reason 2
       const c = Promise.race([a, b]).then(
         (values) => {
           console.log("values", values);

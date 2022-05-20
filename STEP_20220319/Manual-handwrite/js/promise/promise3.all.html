@@ -14,7 +14,7 @@
       // - 参数：( 数组 ) 或者具有 ( Iterator接口 ) 的数据类型
       //    - 数组
       //      - 成员必须是 promise
-      //      - 不是 promise，会用 Promise.resolve() 转成 promise对象
+      //      - 不是 promise，会用 Promise.resolve() 转成 promise对象，而promise对象是可以接着 .then 的
       // - 返回值
       //    - 返回一个新的promise
       // - 特点

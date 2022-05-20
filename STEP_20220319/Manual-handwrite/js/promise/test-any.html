@@ -10,23 +10,33 @@
     <script>
       const a = new Promise((resolve, rejected) => {
         // setTimeout(() => rejected(1), 4000);
-        setTimeout(() => resolve(1), 4000);
+        setTimeout(() => resolve(1), 2000);
       });
 
       const b = new Promise((resolve, rejected) => {
-        setTimeout(() => rejected(2), 3000);
+        setTimeout(() => resolve(2), 3000);
       });
 
-      let count = 0;
-      setInterval(() => {
-        count++;
-        console.log(count);
-      }, 1000);
+      const c = new Promise((resolve, rejected) => {
+        setTimeout(() => rejected(2), 4000);
+      });
+
+      (function () {
+        let count = 0;
+        setInterval(() => {
+          count++;
+          console.log(count);
+        }, 1000);
+      })();
 
       // Promise.any
       // - 只要一个fulfilled，整个fulfilled
       // - 所有rejected，整个才rejected
-      const c = Promise.any([a, b]).then(
+
+      // - 注意
+      // - 当 只有一个 fulfilled 时，then中得到的参数就只有最先 fulfilled 值状态的值
+      // 最终结果：values 1
+      const d = Promise.any([a, b, c]).then(
         (values) => {
           console.log("values", values);
         },

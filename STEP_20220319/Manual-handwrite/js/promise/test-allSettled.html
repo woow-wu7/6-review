@@ -16,16 +16,24 @@
         setTimeout(() => reject(2), 3000);
       });
 
-      let count = 0;
-      setInterval(() => {
-        count++;
-        console.log(count);
-      }, 1000);
+      (function () {
+        let count = 0;
+        setInterval(() => {
+          count++;
+          console.log(count);
+        }, 1000);
+      })();
 
-      // settled 是 固定的意思
+      // settle 是 确定，固定，稳定的意思
+      // settled adj
       const c = Promise.allSettled([a, b]).then((values) => {
         console.log("values", values);
       });
+
+      // Promise.allSettled
+      // - 概念：无论promise的状态如何，当所有异步操作都完成时，才会执行下一步操作
+      // - 返回值：一个新的promise对象
+      // - 总结：只有等到所欲参数数组成员，promise状态都发生变化时，返回的promise对象的状态才会发生变更
 
       // [
       //   { status: "fulfilled", value: 1 },
