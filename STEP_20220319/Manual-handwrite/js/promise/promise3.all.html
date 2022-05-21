@@ -13,10 +13,10 @@
       // Promise.all()
       // - 参数：( 数组 ) 或者具有 ( Iterator接口 ) 的数据类型
       //    - 数组
-      //      - 成员必须是 promise
-      //      - 不是 promise，会用 Promise.resolve() 转成 promise对象，而promise对象是可以接着 .then 的
+      //      - 成员必须是 promise 对象
+      //      - 不是 promise 对象，会用 Promise.resolve() 转成 promise对象，而promise对象是可以接着 .then 的
       // - 返回值
-      //    - 返回一个新的promise
+      //    - 返回一个新的 promise
       // - 特点
       //    - 所有resolved，整个才resolved
       //    - 一个rejected，整个rejected
@@ -44,13 +44,14 @@
             // - 参数数组成员，如果不是promise，需要转成promise
             // - 我们通过 Promise.resolve() 将其转成 promise 对象，则可以调用 then 方法
             Promise.resolve(_promise).then(
+              // .then 是为了拿到promise对象中的 ( values终值 或 reason拒因 )
               (value) => {
                 promiseValueList.push(value);
 
                 // 4
                 // 当 终值 被收集满的时，说明所有都是 resolved
                 if (promiseValueList.length === len) {
-                  resolve(promiseValueList);
+                  resolve(promiseValueList); // 最好加上 return 即 return resolve(promiseValueList);
                 }
               },
 
