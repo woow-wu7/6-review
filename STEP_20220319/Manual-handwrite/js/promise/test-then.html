@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      Promise.resolve()
+        .then(() => {
+          return new Error("error!!!");
+        })
+        .then((res) => {
+          console.log("then: ", res);
+        })
+        .catch((err) => {
+          console.log("catch: ", err);
+        });
+      // then:  error!!!
+
+      // -------------
+      // 注意
+      // - 1. 这里是 直接return new Error()，当promise的返回值不是promise，会通过 Promise.resolve() 包装成promise
+      // - 2. 如果要打印 catch: error!!!
+      //      - 则需要 throw new Error
+      //      - 或者 Promise.reject(new Error())
+      //      - 具体如下：
+
+      Promise.resolve()
+        .then(() => {
+          throw new Error("error!!!");
+        })
+        .then((res) => {
+          console.log("then: ", res);
+        })
+        .catch((err) => {
+          console.log("catch: ", err);
+        });
+      // catch: error!!!
+    </script>
+  </body>
+</html>

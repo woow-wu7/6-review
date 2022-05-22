@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const promise = new Promise((resolve, reject) => {
+        reject("error"); // 状态一旦改变就不会再变
+        resolve("success2");
+      });
+
+      promise
+        .then((res) => {
+          console.log("then1: ", res);
+        })
+        .then((res) => {
+          console.log("then2: ", res);
+        })
+        .catch((err) => {
+          // 被 catch 捕获，catch返回一个新的promise
+          console.log("catch: ", err);
+        })
+        .then((res) => {
+          console.log("then3: ", res);
+        });
+
+      // catch:  error
+      // then3:  undefined
+    </script>
+  </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 手写promise
+      // 详见：
+      // - STEP_20220319/Manual-handwrite/js/promise/promise1.html
+      // - STEP_20220319/Manual-handwrite/js/promise/promise2.html
+      // - STEP_20220319/Manual-handwrite/js/promise/promise3.html
+
+      class _Promise {
+        constructor(executor) {
+          executor(this.resolve, this.reject);
+        }
+
+        value = null;
+        reason = null;
+        status = "pending";
+        onFulfilledCallbacks = [];
+        onRejectedCallbacks = [];
+
+        resolve = (value) => {
+          if (this.status === "pending") {
+            this.status = "fulfilled";
+            this.value = value;
+
+            this.onFulfilledCallbacks.forEach((fn) => {
+              fn();
+            });
+          }
+        };
+
+        reject = (reason) => {
+          if (this.status === "pending") {
+            this.status = "rejected";
+            this.reason = reason;
+
+            this.onRejectedCallbacks.forEach((fn) => {
+              fn();
+            });
+          }
+        };
+
+        then = (onFulfilled, onRejected) => {
+          if (typeof onFulfilled !== "function") onFulfilled = (value) => value;
+          if (typeof onRejected !== "function") onRejected = (reason) => reason;
+
+          if (this.status === "pending") {
+            this.onFulfilledCallbacks.push(() =>
+              setTimeout(() => {
+                onFulfilled(this.value);
+              })
+            );
+
+            this.onRejectedCallbacks.push(() =>
+              setTimeout(() => {
+                onRejected(this.reason);
+              })
+            );
+          }
+
+          if (this.status === "fulfilled") {
+            setTimeout(() => {
+              onFulfilled(this.value);
+            });
+          }
+          if (this.status === "rejected") {
+            setTimeout(() => {
+              onRejected(this.reason);
+            });
+          }
+        };
+      }
+
+      // 测试
+      console.log(11);
+      new _Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(33);
+        });
+      }).then(
+        (value) => console.log(value),
+        (reason) => console.log(reason)
+      );
+      console.log(22);
+    </script>
+  </body>
+</html>
