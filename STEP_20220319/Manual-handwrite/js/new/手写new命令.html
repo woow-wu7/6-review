@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // new 命令的原理
+      // 1. 新建一个空对象，将 空对象的原型 执行 构造函数的prototype属性 -- ( 空对象 ) 能继承构造函数prototype上的属性和方法
+      // 2. 将 构造函数中的 this 指向空对象 --------------------------- 构造函数生成的 ( 实例 ) 就是这个 ( 空对象 )
+      // 3. 执行构造函数
+      // 4. 判断构造函数返回值
+      //    - return 后跟一个对象，就返回这个对象
+      //    - return 后跟的不是一个对象，就返回this对象，即空对象
+
+      function _new() {
+        const params = Array.from(arguments);
+        const constructor = params.shift(); // 弹出第一个数组成员，shift改变原数组，返回删除的元素
+
+        const emptyObject = Object.create(constructor.prototype); // 12. 以参数对象为原型对象，生成实例对象
+        const res = constructor.apply(emptyObject, params); // 3. 将构造函数中的this绑定到空对象上，并执行构造函数
+
+        // 4. 判断返回值
+        return Object.prototype.toString.call(res).includes("Object") // Object.prototype.toString.call 判断数据类型 '[object String|Object|Array...]'
+          ? res
+          : emptyObject;
+      }
+
+      function Constructor(name) {
+        this.name = name;
+      }
+
+      const instance = _new(Constructor, "woow_wu7");
+      console.log("instance", instance);
+    </script>
+  </body>
+</html>

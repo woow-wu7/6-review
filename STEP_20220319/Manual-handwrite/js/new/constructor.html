@@ -14,6 +14,7 @@
 
       console.log(A.prototype.constructor === A); // true
 
+      // 1 修改原型
       A.prototype = {
         name: "",
       };
@@ -23,6 +24,8 @@
       // 注意点
       // - ( constructor ) 表示的是 ( prototype ) 和 ( 构造函数 ) 之间的关系
 
+      // 2
+      // 修改 prototype 后，需要重新修改 constructor 的指向，防止引用报错
       A.prototype.constructor = A;
       console.log(A.prototype.constructor === A); // true
     </script>

@@ -8,10 +8,10 @@
   </head>
   <body>
     <script>
-      // 手写 Object.create()
-      // const instance = Object.create(obj)
+      // 手写 Object.create(obj)
       // 原理： 以参数对象为原型，生成实例对象
-      // 实现思路：利用 ( 原型链继承 )
+      // 思路：利用 ( 原型链继承 )
+      // 扩展：继承 ( 本项目/STEP_20220319/Manual-handwrite/js/extend )
       function _create(obj) {
         function Temp() {} // 一个空的构造函数
         Temp.prototype = obj; // 将构造函数的prototype指向参数对象
