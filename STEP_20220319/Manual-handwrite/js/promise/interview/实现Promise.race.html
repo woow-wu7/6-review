@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const promise1 = new Promise(
+        (resolve) => setTimeout(() => resolve(1)),
+        1000
+      );
+      const promise2 = new Promise(
+        (resolve) => setTimeout(() => resolve(2)),
+        2000
+      );
+      const promise3 = new Promise(
+        (resolve, reject) => setTimeout(() => reject(2)),
+        3000
+      );
+
+      // Promise.race
+      // 1. 返回：一个新的 promise 对象
+      // 2. 参数：是 数组 或 Iterator 接口数据类型、
+      // 3. 参数成员：参数数组 成员 不是promise对象，会被 Promise.resolve() 转成 promise 对象
+      // 4. 效果：谁先fulfilled整个fulfilled，谁先rejected整个rejected
+      Promise._race = function (params) {
+        return new Promise((resolve, reject) => {
+          const paramsArr = Array.from(params);
+          paramsArr.forEach((_promise) => {
+            Promise.resolve(_promise).then(
+              (value) => resolve(value),
+              (reason) => reject(reason)
+            );
+          });
+        });
+      };
+
+      Promise.race([promise1, promise2, promise3]).then(
+        (values) => console.log("values", values),
+        (reason) => console.log("reason", reason)
+      );
+
+      Promise._race([promise1, promise2, promise3]).then(
+        (values) => console.log("_values", values),
+        (reason) => console.log("_reason", reason)
+      );
+    </script>
+  </body>
+</html>

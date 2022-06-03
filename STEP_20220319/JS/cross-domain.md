@@ -3,6 +3,7 @@
 - cors
 - jsonp
 - nginx
+  - server -> location -> proxy_pass
 - 前端本地服务的 proxy
 
 # (一) cors - 跨域资源共享
