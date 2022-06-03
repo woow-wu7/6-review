@@ -26,6 +26,7 @@
 
       // 2
       // 修改 prototype 后，需要重新修改 constructor 的指向，防止引用报错
+      // 不然 A.prototype.constructor 指向了 Object
       A.prototype.constructor = A;
       console.log(A.prototype.constructor === A); // true
     </script>
