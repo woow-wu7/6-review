@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 继承
+      // 1. es5
+      // - 原型链继承
+      // - 借用构造函数继承
+      // - 组合式继承
+      // - 寄生组合式继承
+      // 2. es6
+      // - 两条寄生线
+
+      // 1
+      // 原型链式继承
+      // - 优点
+      //  - 继承父类实例，和父类实例原型链上的属性和方法
+      // - 缺点
+      //  - 不能实现多继承，因为是直接修改的Sub.prototype，只能赋值一次有效
+      //  - 生成子类实例时不能向父类传参
+      //  - 引用类型的数据修改会相互影响
+      function Super(name) {
+        this.name = name;
+      }
+      function Sub(age) {
+        this.age = age;
+      }
+      Sub.prototype = new Super("woow_wu7");
+      Sub.prototype.constructor = Sub;
+      Sub.prototype.address = "chongqing";
+      const sub = new Sub(20);
+
+      // 2
+      // 借用构造函数继承
+      // - 优点
+      //  - 多继承
+      //  - 向父类穿参
+      //  - 属性生成在实例上，不共享
+      function Super2(name) {
+        this.name = name;
+      }
+      function Sub2(age) {
+        Super2.call(this, "woow_wu7");
+        this.age = age;
+      }
+      const sub2 = new Sub2(20);
+      console.log("sub2", sub2);
+
+      // 3
+      // 组合式继承
+      // - 优点：集合两者的优点
+      // - 缺点：多次生成同一个属性就是 ( 组合式继承的缺点 )
+      function Super3(name) {
+        this.name = name;
+      }
+      Super3.prototype.sex = "man";
+      function Sub3(age) {
+        Super3.call(this, "woow_wu7"); // 父类被执行了一次，具有name属性
+        this.age = age;
+      }
+      Sub3.prototype = new Super3("woow_wu8"); // 父类又被执行了一次，同样生成了name属性，多次生成同一个属性就是 ( 组合式继承的缺点 )
+      Sub3.prototype.constructor = Sub3;
+      Sub3.prototype.address = "chongqing";
+      const sub3 = new Sub3(20);
+      console.log("sub3", sub3);
+
+      // 4
+      // 寄生组合式继承 - parasitic
+      function Super4(name) {
+        this.name = name;
+      }
+      Super4.prototype.sex = "man";
+      function Sub4(age) {
+        Super4.call(this, "woow_wu7"); // 父类被执行了一次，具有name属性
+        this.age = age;
+      }
+      function Parasitic() {} // 中间函数没有任何属性和方法
+      Parasitic.prototype = Super4.prototype; // Super4没有new，不会再继承实例上的name，而是直接继承了父类原型上的属性和方法
+      Sub4.prototype = new Parasitic();
+      const instance4 = new Sub4(20);
+      console.log("instance4", instance4);
+
+      // 5
+      // es6
+      // 子类的原型 = 父类
+      // 子类。prototype的原型 = 父类.prototype
+      class Super5 {
+        prototypeAttribute_super = 10;
+      }
+      class Sub5 extends Super5 {
+        prototypeAttribute_sub = 20;
+      }
+      const super5 = new Sub5();
+      const sub5 = new Sub5();
+      console.log("super5", super5);
+      console.log("sub5", sub5);
+    </script>
+  </body>
+</html>
