@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="button">点击-触发debounce</button>
+    <button id="cancelButton">点击-取消debounce</button>
+    <script>
+      // debounce 防抖函数
+      // - 防抖
+      // - 取消防抖
+      // - 立即执行
+      // - 处理函数可以传参
+      // - 处理函数可以是异步函数
+      const debounce = (fn, config, ...params) => {
+        let { delay, immediate } = config;
+        let timer = null;
+
+        debounce.cancel = () => clearTimeout(timer);
+
+        return async (event) => {
+          if (immediate) {
+            await fn(event, ...params);
+            immediate = false;
+            return;
+          }
+          if (timer) {
+            clearTimeout(timer);
+          }
+          timer = setTimeout(async () => {
+            await fn(event, ...params);
+          }, delay);
+        };
+      };
+
+      const fn = async (e, number) => {
+        console.log("e.target", e.target);
+        await new Promise((resolve) =>
+          setTimeout(() => resolve(11111), 1000)
+        ).then((value) => console.log(value));
+        console.log(number);
+      };
+
+      const button = document.getElementById("button");
+      const cancelButton = document.getElementById("cancelButton");
+      button.addEventListener(
+        "click",
+        debounce(fn, { delay: 3000, immediate: true }, 3),
+        {
+          capture: false,
+        }
+      );
+      cancelButton.addEventListener("click", () => debounce.cancel(), false);
+    </script>
+  </body>
+</html>

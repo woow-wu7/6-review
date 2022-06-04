@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="button">点击-触发throttle</button>
+    <button id="cancelButton">点击-取消throttle</button>
+
+    <script>
+      // throttle 降低频率
+      // - 立即执行
+      // - 取消执行
+      // - 处理函数传参
+      // - 支持 异步fn
+
+      const throttle = (fn, config, ...params) => {
+        let { delay, immediate } = config;
+        let isRun = true;
+        let timer = NaN; // 一般是数值的变量初始化时赋值为NaN
+
+        // 取消执行
+        throttle.cancel = function () {
+          clearTimeout(timer);
+        };
+
+        return async (event) => {
+          if (immediate) {
+            await fn(event, ...params);
+            immediate = false;
+            return;
+          }
+          if (!isRun) {
+            return;
+          }
+          isRun = false;
+
+          timer = setTimeout(async () => {
+            await fn(event, ...params);
+            isRun = true;
+            clearTimeout(timer);
+          }, delay);
+        };
+      };
+
+      const fn = async (...params) => {
+        console.log(...params);
+        await console.log(22);
+        console.log(33);
+      };
+
+      const button = document.getElementById("button");
+      const cancelButton = document.getElementById("cancelButton");
+      button.addEventListener(
+        "click",
+        throttle(fn, { delay: 1000, immediate: true }, 3, 4),
+        {
+          capture: false,
+        }
+      );
+      cancelButton.addEventListener("click", () => debounce.cancel(), false);
+    </script>
+  </body>
+</html>
