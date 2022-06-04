@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 手写 Object.create(obj)
+      // 原理： 以参数对象为原型，生成实例对象
+      // 思路：利用 ( 原型链继承 )
+      // 扩展：继承 ( 本项目/STEP_20220319/Manual-handwrite/js/extend )
+      function _create(obj) {
+        function Temp() {} // 一个空的构造函数
+        Temp.prototype = obj; // 将构造函数的prototype指向参数对象
+        Temp.prototype.constructor = Temp; // 注意：当修改了构造函数的prototype属性后，需要修改 ( Constructor.prototype.constructor ) 的指向
+        const instance = new Temp(); // 生成实例，obj就是instance的原型对象
+        return instance;
+      }
+
+      const o = {
+        name: "woow_wu7",
+      };
+      const instance = _create(o);
+      console.log(Object.getPrototypeOf(instance) === o); // true
+    </script>
+  </body>
+</html>
