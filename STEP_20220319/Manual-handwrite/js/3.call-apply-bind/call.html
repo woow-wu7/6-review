@@ -10,6 +10,16 @@
     <script>
       // 手写 call
       // - 作用：绑定this指向，执行函数
+      // - 原理
+      //  - 在传入的对象上，添加fn属性，值就是fn
+      //  - 调用fn
+      //  - 删除对象上的fn函数
+
+      // 注意：这里不能是箭头函数
+      // - 箭头函数中的this是 ( 箭头函数定义时所在作用域中的 上层作用域中的this )
+      // - 因为没有this，不能做构造函数，不能使用call，bind，apply
+      // - 箭头函数argument对象，可以使用 rest 参数代替
+      // - 箭头函数不能使用 yield，所以不能作为 generator 函数
 
       Function.prototype._call = function (obj, ...params) {
         const context = obj ? obj : window;
