@@ -17,6 +17,7 @@
 
       // 1
       // Array.prototype.flat(Infinity)
+      // - flat 是变平的意思
       const res1 = arr.flat(Infinity);
       console.log("res1", res1);
 
@@ -38,6 +39,7 @@
 
       // 3
       // reduce
+      // - accumulate 是堆积，累积的意思
       const flatFn3 = (arr) => {
         return arr.reduce((accumulate, current, index, arr) => {
           return accumulate.concat(
