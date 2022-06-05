@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 数组扁平化
+      // - Array.prototype.flat(Infinity)
+      // - 手写
+      // - reduce
+
+      const arr = [1, [2, 3, [4, 5, [6, 7]]]];
+
+      // 1
+      // Array.prototype.flat(Infinity)
+      const res1 = arr.flat(Infinity);
+      console.log("res1", res1);
+
+      // 2
+      // for
+      const flatFn = (arr) => {
+        let res = [];
+        for (let i = 0; i < arr.length; i++) {
+          if (Array.isArray(arr[i])) {
+            res = res.concat(flatFn(arr[i]));
+          } else {
+            res.push(arr[i]);
+          }
+        }
+        return res;
+      };
+      const res2 = flatFn(arr);
+      console.log("res2", res2);
+
+      // 3
+      // reduce
+      const flatFn3 = (arr) => {
+        return arr.reduce((accumulate, current, index, arr) => {
+          return accumulate.concat(
+            Array.isArray(current) ? flatFn3(current) : current
+          );
+        }, []);
+      };
+      const res3 = flatFn(arr);
+      console.log("res3", res3);
+    </script>
+  </body>
+</html>
