@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="button">发起请求</button>
+    <script>
+      const button = document.getElementById("button");
+
+      const handleClick = (e) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://api.dujin.org/bing/1366.php", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.timeout = 5000;
+
+        xhr.onreadystatechange = function () {
+          if (this.readyState === 4 && this.status === 200) {
+            console.log("this.responseText", this.responseText);
+          }
+        };
+        xhr.onload = function () {
+          if (this.readyState === 4 && this.status === 200) {
+            console.log("this.responseText", this.responseText);
+          }
+        };
+
+        xhr.send();
+      };
+
+      button.addEventListener("click", handleClick, { capture: false });
+    </script>
+  </body>
+</html>
