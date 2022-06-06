@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 1
+      // 前置知识
+
+      // 动态类型 和 弱类型
+      // - js中 ( 变量的类型 ) 只有在 ( 运行时才能知道 )，在编译时无法知道
+
+      // valueOf 和 toString
+      // - 对象
+      //  - 对象的 valueOf 返回 ---------> 对象本身
+      //  - 对象的 toString 返回 --------> 类型字符串
+      // - 数组
+      //  - 数组的 valueOf 返回 ---------> 数组本身
+      //  - 数组的 toString 返回 --------> 数组的字符串形式
+      const toStringArr = [1, 2, [3, 4, [5, 6]]].toString(); // '1,2,3,4,5,6' ------ 数组的toString返回数组的字符串形式
+      const toStringObj = {}.toString(); // '[object Object]' ---------------------- 对象的toString返回类型字符串
+
+      // 2
+      // 强制转换
+      // - Number String Boolean
+
+      // 3
+      // Number
+      // - 结果：只存在两种情况：数值 和 NaN
+      // - 参数：Number(原始类型的值 || 对象类型的值)
+      //  - 1. 参数是 - ( 原始类型 )
+      const a = Number(null); // 0
+      const b = Number(undefined); // NaN
+      const c = Number(true); // 1
+      const d = Number(false); // 0
+      const e = Number(""); // 0
+      const f = Number(NaN); // NaN
+      const g = Number("324abc"); // NaN
+      //  - 2. 参数是 - ( 对象 )
+      //    - 对象：Number的参数是对象时，会返回 NaN
+      //    - 除非：单个数值的数组 -> 返回数字
+      //    - 原理：Number -> valueOf -> toString
+
+      // 4
+      // String
+      // - 参数：
+      //  - 1. String的参数是 原始类型的值
+      String(null); // 'null'
+      String(undefined); // 'undefined'
+      String(true); // "true"
+      //  - 2. String的参数是 对象
+      //    - 对象：String(object) 返回 类型字符串
+      //    - 数组：String(array) 返回 数组的字符串形式
+      // - 原理
+      //    - String -> toString -> valueOf
+      //    - 对象的 toString 返回 类型字符串
+      //    - 数组的 toString 返回 数组的字符串形式
+
+      // 4
+      // Boolean
+      // - 为false的五个值
+      //  - undefined
+      //  - null
+      //  - NaN
+      //  - +0 -0
+      //  - ''
+
+      // 5
+      // 自动转换
+      // (1)
+      // 相加：当 ( 字符串 ) 和 ( 非字符串值 ) 相加，会将非字符串的值转成字符串
+      // 重载：
+      //  -> + 存在重载，即可以 ( 相加 ) 也有可能 ( 相连 )
+      //  -> 除了 + 号，其他运算符都不会 重载
+      "5" + 1; // '51'
+      "5" + true; // "5true"
+      "5" + false; // "5false"
+      "5" + {}; // "5[object Object]" ----------------> {} -> toString -> "[object Object]" + 5
+      "5" + []; // "5" -------------------------------> [] -> toString -> '' + 5
+      "5" + function () {}; // "5function (){}"
+      "5" + undefined; // "5undefined"
+      "5" + null; // "5null"
+
+      "5" - "2"; // 3
+      "5" * "2"; // 10
+      true - 1; // 0
+      false - 1; // -1
+      "1" - 1; // 0
+      "5" * []; // 0 -------------------------------> [] -> valueOf -> [] -> toString -> '' -> Number('') -> 0 -> 5 * 0 = 0
+      false / "5"; // 0
+      "abc" - 1; // NaN ----------------------------> NaN - 1
+      null + 1; // 1 -------------------------------> Number(null) = 0
+      undefined + 1; // NaN ------------------------> Number(undefined) = NaN
+
+      // (2)
+      // 一元运算符：会将 运算子 转成 数值
+      // 一元运算符，可以快速将 ( 字符串 ) 转成 ( 数字 )
+      +'abc' // NaN
+      -'abc' // NaN
+      +true // 1
+      -false // 0
+    </script>
+  </body>
+</html>
