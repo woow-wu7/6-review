@@ -53,6 +53,17 @@
       // ----------------- 做错了，粗心
       const res6 = typeof Function.prototype === "function"; // true
       console.log("res6", res6);
+
+      // 7
+      // 递归 1-100 的和
+      function recursive(value) {
+        if (value === 1) {
+          return 1;
+        }
+        return recursive(value - 1) + value;
+      }
+      const sum = recursive(6);
+      console.log("sum", sum);
     </script>
   </body>
 </html>
