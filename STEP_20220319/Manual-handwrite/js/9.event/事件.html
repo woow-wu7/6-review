@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="container" style="border: 1px solid red; padding: 20px">
+      <button id="button" style="border: 1px solid black">click</button>
+      <button id="button-remove" style="border: 1px solid blue">
+        click-remove
+      </button>
+      <ul id="ul">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+      </ul>
+      <ol id="ol">
+        <li>11</li>
+        <li>22</li>
+        <li>33</li>
+      </ol>
+    </div>
+    <script>
+      const button = document.getElementById("button");
+      const ul = document.getElementById("ul");
+      const ol = document.getElementById("ol");
+
+      // 1
+      // 注意
+      // 多次对同一个节点添加同一个监听函数 - 只会触发一次
+      button.addEventListener("click", handleClick, { capture: false });
+      button.addEventListener("click", handleClick, { capture: false });
+
+      button.addEventListener("click", (e) => handleClick2(e, "woow_wu7"), {
+        capture: false,
+      });
+
+      function handleClick() {
+        console.log("click");
+        // console.log("this - this指向绑定事件监听的节点 - 这里是button", this);
+      }
+
+      // 2
+      // 如果想要传递参数，可以包装一层
+      function handleClick2(e, ...params) {
+        console.log("e", e);
+        console.log("params", params);
+      }
+
+      // 3
+      // 移除事件监听
+      // - dom节点必须一样
+      // - 事件名，监听函数，和事件配置项都要一样
+
+      // 案例 1
+      // div.addEventListener("click", function (e) {}, false);
+      // div.removeEventListener("click", function (e) {}, false);
+      // 以上移除监听无效，应为 ( 监听函数不一样 - 不是同一个内存中的数据 )
+      // 即需要保证 ( 事件绑定的节点一样 ) 和 ( addEventListener 和 removeEventListener 的所有参数必须一样 )
+
+      // 案例 2
+      // element.addEventListener("mousedown", handleMouseDown, true);
+      // element.removeEventListener("mousedown", handleMouseDown, false);
+      // 以上移除监听无效，因为第三个参数不一样
+
+      const removeButton = document.getElementById("button-remove");
+      removeButton.addEventListener(
+        "click",
+        () => {
+          button.removeEventListener("click", handleClick, { capture: false });
+        },
+        { capture: false }
+      );
+
+      // 4
+      // EventTarget.dispatchEvent(event)
+      // - 作用：在 ( 当前节点 ) 上触发 ( 指定的事件 )，从而触发 ( 事件监听函数 )
+      // - 参数：
+      //  - 参数是 ( Event对象的实例 )
+      //  - 如果参数 ( 为空，或者不是一个有效的事件对象 ) 就会报错
+      // - 特点：以程序的方式去调用，从而触发事件
+      const eventInstance = new Event("click");
+      button.dispatchEvent(eventInstance);
+
+      // 10
+      // 自定义事件 CustomEvent
+      // - CustomEvent 接口用于生成自定义的事件实例
+      button.addEventListener(
+        "aaa",
+        (e) => console.log("e.detail - button -> ", e.detail),
+        {
+          capture: false,
+        }
+      );
+      ol.addEventListener(
+        "aaa",
+        (e) => console.log("e.detail - ol ->", e.detail),
+        {
+          capture: false,
+        }
+      );
+      const customEventInstance = new CustomEvent("aaa", {
+        bubbles: true,
+        detail: "hello",
+      });
+      button.dispatchEvent(customEventInstance); // 注意：dispatchEvent绑定的节点，和addEventListener绑定的节点要一样才能触发
+      ol.dispatchEvent(customEventInstance);
+
+      // 5
+      // html - onclick="需要执行的代码" -------------> 1. 违背js和html分离的原则，2. 只能在冒泡阶段触发
+      // js --- addEventListener() -----------------> 1. 同一个事件只能绑定一个监听函数 2. 只能在冒泡阶段触发
+      // js --- DOM对象.onclick=function(){...} -----> 最优
+
+      // 推荐 addEventListener
+      // 因为：
+      // 1. 同一个节点，同一个事件，可以绑定多个不同的监听函数
+      // 2. 可以指定事件触发的阶段，{capture: true || false}，捕获阶段还是冒泡阶段
+      // 3. 除了 DOM 节点，其他对象（比如window、XMLHttpRequest等）也有这个接口，它等于是整个 JavaScript 统一的监听函数接口
+
+      // 6
+      // this 指向
+      // - 指向 绑定事件监听的元素节点
+      const container = document.getElementById("container");
+      container.addEventListener(
+        "click",
+        function () {
+          console.log("this", this);
+        },
+        false
+      );
+
+      // 7 事件代理
+      // - e.target
+      // - e.currentTarget
+      container.addEventListener(
+        "click",
+        function (e) {
+          console.log("e.target -> 事件最先触发的节点", e.target);
+          console.log(
+            "e.currentTarget -> 绑定事件监听的节点，和this指向一样",
+            e.currentTarget
+          );
+        },
+        false
+      );
+
+      // 8
+      // 阻止事件传播
+      // - e.stopPropagation() ------------ 阻止同一个节点，同一个事件的，一个监听函数的传播，其他事件监听函数还是会触发
+      // - e.stopImmediatePropagation() --- 彻底阻止事件传播，阻止同一个节点的同一个事件的 ( 所有监听函数的执行 )
+
+      // 9
+      // 事件对象
+      // - 事件发生后，会产生一个事件对象，作为参数传递个监听函数
+      // - ( 所有的事件 ) 都是 ( Event对象 ) 的实例
+      // - Event可以作为构造函数
+      // - const event = new Event(type, options);
+      //    - type: 表示事件名称
+      //    - options：配置对象 - bubbles cancelable
+      //    - 注意点：target.dispatch(eventInstance) 默认是在 ( 捕获 ) 节点触发事件，除非设置 bubbles=true
+    </script>
+  </body>
+</html>
