@@ -35,6 +35,9 @@
       //  - 1. 参数是 - ( 原始类型 )
       const a = Number(null); // 0
       const b = Number(undefined); // NaN
+      // 一定要注意
+      //  - Number(null) -> 0
+      //  - Number(undefined) -> NaN
       const c = Number(true); // 1
       const d = Number(false); // 0
       const e = Number(""); // 0
@@ -79,8 +82,10 @@
       "5" + 1; // '51'
       "5" + true; // "5true"
       "5" + false; // "5false"
+
       "5" + {}; // "5[object Object]" ----------------> {} -> toString -> "[object Object]" + 5
       "5" + []; // "5" -------------------------------> [] -> toString -> '' + 5
+
       "5" + function () {}; // "5function (){}"
       "5" + undefined; // "5undefined"
       "5" + null; // "5null"
@@ -93,16 +98,17 @@
       "5" * []; // 0 -------------------------------> [] -> valueOf -> [] -> toString -> '' -> Number('') -> 0 -> 5 * 0 = 0
       false / "5"; // 0
       "abc" - 1; // NaN ----------------------------> NaN - 1
+
       null + 1; // 1 -------------------------------> Number(null) = 0
       undefined + 1; // NaN ------------------------> Number(undefined) = NaN
 
       // (2)
       // 一元运算符：会将 运算子 转成 数值
       // 一元运算符，可以快速将 ( 字符串 ) 转成 ( 数字 )
-      +'abc' // NaN
-      -'abc' // NaN
-      +true // 1
-      -false // 0
+      +"abc" // NaN
+      -"abc" // NaN
+      +true  // 1
+      -false; // 0
     </script>
   </body>
 </html>
