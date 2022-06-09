@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <section id="section">
+      <div id="div">div</div>
+      <div id="div1">div1</div>
+      <div id="div2">div2</div>
+      <p>p</p>
+      <span><span></span></span>
+    </section>
+    <script>
+      // 1
+      // DOM
+      // 概念：DOM 是 ( 文档对象模型 Document Object Model )
+      // 作用：将网页转成 js 对象，从而可以用脚本进行各种操作
+      // 特点：DOM只是一个 ( 接口规范 )，可以用各种语言实现
+
+      // 2
+      // 节点
+      // - ( 节点 Node ) 是DOM的 ( 最小组成单位 )
+
+      // 3
+      // 节点类型 - 7种
+      // - Document -------------- 文档节点 ------- #document
+      // - Element --------------- 元素节点 ------- 大写的标签名
+      // - Attribute ------------- 属性节点 ------- 属性的名称
+      // - Text ------------------ 文本节点 ------- #text
+      // - DocumentFragment ------ 文档片段节点 ---- #document-fragment
+      // - DocumentType ---------- 文档类型节点
+      // - Comment --------------- 注释节点 ------- #comment
+
+      const section = document.getElementById("section");
+      const div = document.getElementById("div");
+
+      // (1)
+      // Node.nodeValue
+      // - 表示当前节点的文本值
+      // - 因为：只有 ( 文本节点text ) 和 ( 注释节点comment ) 有文本值
+      // - 所以：
+      //  - 返回值 -> 只有上面两种节点的 nodeValue 有返回值
+      //  - 设置值 -> 也只有这两种节点可以设置 nodeValue 值
+      console.log("div.nodeValue", div.nodeValue);
+      console.log("div.firstChild.nodeValue", div.firstChild.nodeValue);
+
+      // (2)
+      // Node.baseURI
+      // - 返回 ( 当前网页 ) 的 ( 绝对路径 )
+      console.log("document.baseURI", document.baseURI);
+      console.log("section.baseURI", section.baseURI);
+
+      // (3)
+      // Node.parentNode
+      // - 返回 ( 当前节点 ) 的 ( 父节点 )
+      // - 对于一个节点来说，它的父节点只有 ( 三种 ) 可能
+      //  - element 元素节点
+      //  - document 文档节点
+      //  - documentFragment 文档片段节点
+      console.log("div.parentNode", div.parentNode);
+
+      // (4)
+      // Node.parentElement
+      // - 返回 ( 当前节点 ) 的 ( 父元素节点 )
+      // - 返回null -> 如果返回的父节点不是元素节点，或者没有父节点
+      console.log("div.parentElement", div.parentElement);
+
+      // (5)
+      // Node.childNodes
+      // -返回一个类似数组的对象（NodeList集合），成员包括当前节点的所有子节点
+      console.log("div.parentElement.childNodes", div.parentElement.childNodes);
+
+      // (5-5)
+      // Element.children
+      // -返回一个类似数组的对象（HTMLCollection集合），成员包括当前节点的所有子节点
+
+      // ---------------------------------------------- 分隔符，插入相关 ----------------------------------------------
+      // appendChild
+      // replaceChild
+      // removeChild
+      // insertBefore
+
+      // (6)
+      // Node.appendChild()
+      // - 把 ( 参数节点 ) 作为 ( 当前节点 ) 的 ( 最后一个子节点 ) 插入
+      const h1 = document.createElement("h1");
+      h1.innerHTML = "h1";
+      section.appendChild(h1);
+
+      // (7)
+      // Node.insertBefore(newNode, referenceNode)
+      // parentNode.insertBefore(newNode, referenceNode)
+      // - 作用
+      //  - 将 newNode 插入到 referenceNode 节点之前
+      //  - referenceNode 节点是 parentNode 的其中一个子节点
+      // - 参数
+      //  - 第一个参数：需要插入的新节点
+      //  - 第二个参数：参考节点，即父节点中的一个子节点，将 newNode 插入到 reference 节点之前
+      // - 返回值
+      //  - 插入的新节点 newNode
+      const h2 = document.createElement("h2");
+      h2.innerHTML = "h2";
+      section.insertBefore(h2, h1); // 在父节点section中，插入h2节点，在h1节点之前
+
+      // (7)
+      // Node.replaceChild()
+      // parentNode.replaceChild(newChild, oldChild);
+      section.replaceChild(h2, h1);
+
+      // (8)
+      // Node.removeChild()
+      // - 删除 ( 当前节点 ) 的 ( 参数子节点 )
+      section.removeChild(h2);
+
+      // (9)
+      // Element.firstElementChild - 返回当前节点的 ( 第一个元素子节点 )
+      // Element.lastElementChild - 返回当前节点的 ( 最后一个元素子节点 )
+      // 区别：Node.firstChild Node.lastChild
+      console.log("section.firstElementChild", section.firstElementChild);
+      console.log("section.lastElementChild", section.lastElementChild);
+      console.log("section.firstChild", section.firstChild);
+      console.log("section.lastChild", section.lastChild);
+
+      // (10)
+      // Element.nextElementSibling - 当前元素节点的后一个同级元素节点
+      // Element.previousElementSibling - 当前元素节点的前一个同级元素节点
+      // 区别：Node.nextSibling Node.previousSibling
+
+      // ---------------------------------------------- 分隔符，NodeList 和 HTMLCollection ----------------------------------------------
+
+      // 1
+      // NodeList
+      // 概念 - 类似数组的对象
+      // 方法 - length forEach
+      // 返回 NodeList 的方法有
+      //  - document.querySelectorAll()
+      //  - Node.childNodes()
+
+      // 2
+      // HTMLCollection
+      // 概念 - 类似数组的对象 - 但是只能包含元素节点
+      // 方法 - 没有 forEach，只能使用 for 循环遍历
+      // 返回 HTMLCollection 的方法有
+      //  - document.getElementsByTagName()
+      //  - Element.children
+
+      // 3
+      // NodeList 和 HTMLCollection 的区别？
+      // 1. 动态集合 和 静态集合
+      // - HTMLCollection 是动态集合，DOM树 ( 新增 和 删除 ) 可以感知，但是能感知 ( 修改 )
+      // - NodeList ----- 是静态集合，DOM树 ( 新增 和 删除 ) 无法感知，但是能感知 ( 修改 )
+      // 2. 子节点类型
+      // - HTMLCollection 只能包含元素节点
+      // - NodeList ----- 可以包含任意类型的节点
+      // 3. 查询的方法
+      // - HTMLCollection -- document.getElementsByTagName()
+      // - NodeList -------- document.querySelectorAll()
+      // - 如何记忆：
+      //  - 多对多 getElementsByTagName 比  querySelectorAll长，HTMLCollection比NodeList长
+      //  - HTMLCollection只包含element元素节点，而 getElementsByTagName 名字中包含了 Elements
+      // 4. 方法
+      // - HTMLCollection -- 没有 forEach，只能使用 for 循环遍历
+      // - NodeList -------- forEach
+      const querySelectorAll = document.querySelectorAll("div");
+      const childNodes = section.childNodes;
+      const getElementsByTagName = document.getElementsByTagName("div");
+      console.log("getElementsByTagName", getElementsByTagName); // - HTMLCollection
+      console.log("querySelectorAll", querySelectorAll); // --------- NodeList
+      console.log("childNodes", childNodes); // --------------------- NodeList
+
+      console.log("div.parentElement.children", div.parentElement.children);
+      const children = div.parentElement.children;
+      Array.from(children).forEach((item) => console.log("item", item));
+    </script>
+  </body>
+</html>
