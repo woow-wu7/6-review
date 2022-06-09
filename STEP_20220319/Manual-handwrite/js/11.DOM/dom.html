@@ -171,6 +171,11 @@
       console.log("getElementsByTagName", getElementsByTagName); // - HTMLCollection
       console.log("querySelectorAll", querySelectorAll); // --------- NodeList
       console.log("childNodes", childNodes); // --------------------- NodeList
+      // 插入button
+      const divX = document.createElement("div");
+      divX.innerHTML = "buttonX";
+      divX.setAttribute("name", "woow_wu7");
+      section.appendChild(divX); // 观察 NodeList 和 HTMLCollection 的变化
 
       console.log("div.parentElement.children", div.parentElement.children);
       const children = div.parentElement.children;
