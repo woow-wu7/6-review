@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .father {
+        color: red;
+      }
+      .child {
+        color: blue;
+      }
+      .grandson {
+        color: yellow;
+        border: 1px solid currentColor;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="father">
+      <p>father</p>
+      <div class="child">
+        <p>child</p>
+        <div class="grandson">grandson</div>
+      </div>
+    </div>
+  </body>
+</html>
