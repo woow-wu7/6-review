@@ -61,16 +61,24 @@
 
     <div class="container"></div>
     <script>
-      // 1 像素物理边框
-      // - 1. 利用伪元素(不在DOM中，性能好，相当于自身元素的第一个子元素)，决定定位，高度设置1px
+      // 1
+      // 像素物理边框
+      // - 1. 利用伪元素(不在DOM中，性能好，相当于自身元素的第一个子元素)，绝对定位，高度设置1px
       // - 2, @media and screen(-webkit-min-device-pixel-ratio) { ...transform: scaleY(0.5) }
 
-      // 2 如何获取 ( 屏幕像素比 )
+      // 2
+      // 如何获取 ( 屏幕像素比 )
+      // - window.devicePixelRatio
       const devicePixelRatio = window.devicePixelRatio;
       console.log("devicePixelRatio: ", devicePixelRatio);
 
       const monitor = document.getElementById("current-device-pixel-ratio");
       monitor.innerHTML = `当前屏幕像素比：${devicePixelRatio}`;
+
+      // 3
+      // 伪元素 的特点
+      // - 1. 不在DOM中，不会渲染，少一个节点，性能好
+      // - 2. 伪元素 相当于 当前元素的第一个子元素
     </script>
   </body>
 </html>

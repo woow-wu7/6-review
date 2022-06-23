@@ -28,6 +28,21 @@
     </style>
   </head>
   <body>
+    <script>
+      // 如何实现浏览器小于 12px 的字体？？
+
+      // 1
+      // 浏览器：谷歌浏览器默认的最小字体是12px
+
+      // 2
+
+      // - zoom
+      //  - 数值在 0-1 之间，表示缩放的倍数；比如zoom:0.5表示缩放一倍
+
+      // - scale
+      //  - transform: scale(0.5)
+      //  - 注意：当使用transform缩放之后，文字位置会居中，所以我们需要把 transform-origin: left; 设置为left
+    </script>
     <div class="contrast">对比字体大小：12px</div>
     <div class="zoom">zoom方式 ---- 在移动端设置小于12px的字体</div>
     <div class="scale">
