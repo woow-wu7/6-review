@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 手写 Promise.all
+
+      // 1
+      // 返回值：返回一个新的promise
+
+      // 2
+      // 参数
+      //  - 数组：参数是一个promise组成的数组
+      //  - iterator：参数或者是一个具有 iterator 接口的数据结构
+
+      // 3
+      // 参数数组成员
+      //  - promise对象
+      //    - 参数数组成员必须是 promise 对象
+      //    - 重点：因为数组成员是promise，所以可以继续 .then() 方法去获取 promise中的 ( 终值 )
+      //  - Promise.resolve：如果参数数组成员不是 promise 对象，会调用 Promise.resolve() 转成promise对象
+
+      // 4
+      // 作用
+      // - 所有成员fulfilled，整个状态fulfilled
+      // - 一个rejected，整个状态rejected
+
+      Promise._all = function (promiseList) {
+        return new Promise((resolve, reject) => {
+          const promiseArr = Array.from(promiseList);
+
+          const result = [];
+          promiseArr.forEach((promiseLike) => {
+            Promise.resolve(promiseLike).then((value) => {
+              result.push(value);
+              if (result.length === promiseArr.length) {
+                return resolve(result);
+              }
+            }, reject);
+          });
+        });
+      };
+
+      const promise1 = Promise.resolve(1);
+      const promise2 = new Promise((resolve) =>
+        setTimeout(() => resolve(2), 1000)
+      );
+      const promise3 = Promise.resolve(3);
+      // const promise3 = Promise.reject("err");
+
+      Promise.all([promise1, promise2, promise3])
+        .then((values) => console.log("all -> values", values))
+        .catch((err) => console.log("err", err));
+
+      Promise._all([promise1, promise2, promise3])
+        .then((values) => console.log("_all -> values", values))
+        .catch((err) => console.log("err", err));
+    </script>
+  </body>
+</html>
