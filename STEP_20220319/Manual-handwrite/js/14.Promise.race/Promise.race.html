@@ -8,6 +8,24 @@
   </head>
   <body>
     <script>
+      // 手写 Promise.race()
+
+      // Promise.race 的实现原理和 Promise.all 差不多，具体见 13
+
+      // 1
+      // 特点：
+      // - 参数成员，谁先 fulfilled，整个状态就是 fulfilled
+      // - 参数成员，谁先 rejected，整个状态就是 rejected
+
+      // 2
+      // Promise.race
+      // 1. 返回：一个新的 promise 对象
+      // 2. 参数：是 数组 或 Iterator 接口数据类型、
+      // 3. 参数成员
+      //    - 参数数组 成员 不是promise对象，会被 Promise.resolve() 转成 promise 对象
+      //    - 重点：因为成员都会转成promise对象，所以可以继续使用 .then() 直接resolve和reject即可
+      // 4. 效果：谁先fulfilled整个fulfilled，谁先rejected整个rejected
+
       const promise1 = new Promise((resolve) =>
         setTimeout(() => resolve(1), 1000)
       );
@@ -18,15 +36,9 @@
         setTimeout(() => reject(2), 10000)
       );
 
-      // Promise.race
-      // 1. 返回：一个新的 promise 对象
-      // 2. 参数：是 数组 或 Iterator 接口数据类型、
-      // 3. 参数成员：参数数组 成员 不是promise对象，会被 Promise.resolve() 转成 promise 对象
-      // 4. 效果：谁先fulfilled整个fulfilled，谁先rejected整个rejected
-      Promise._race = function (params) {
+      Promise._race = function (promiseLike) {
         return new Promise((resolve, reject) => {
-          const paramsArr = Array.from(params);
-          paramsArr.forEach((_promise) => {
+          Array.from(promiseLike).forEach((_promise) => {
             Promise.resolve(_promise).then(
               (value) => resolve(value),
               (reason) => reject(reason)
