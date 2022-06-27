@@ -10,7 +10,12 @@
       body {
         height: 100%;
       }
+      * {
+        margin: 0;
+        padding: 0;
+      }
 
+      /* flex */
       .father {
         display: flex;
         flex-direction: column;
@@ -20,6 +25,33 @@
         flex: 1;
       }
       .footer {
+        background: red;
+        height: 200px;
+      }
+
+      /* padding-bottom margin-top */
+      .father2 {
+        height: 100%;
+      }
+      .content2 {
+        min-height: 100%;
+        box-sizing: border-box;
+        padding-bottom: 200px;
+      }
+      .footer2 {
+        background: red;
+        height: 200px;
+        margin-top: -200px;
+      }
+
+      /* calc */
+      .father3 {
+        height: 100%;
+      }
+      .content3 {
+        min-height: calc(100% - 200px);
+      }
+      .footer3 {
         background: red;
         height: 200px;
       }
@@ -53,7 +85,7 @@
       //     - section 和其上的所有父元素都要设置 height: 100%;
       //     - main ------> min-height: calc(100% - footer 的高度)
     </script>
-    <div class="father">
+    <!-- <div class="father">
       <div class="content">
         content <br />
         content <br />
@@ -150,6 +182,116 @@
       </div>
 
       <div class="footer">footer</div>
+    </div> -->
+    <!-- <div class="father2">
+      <div class="content2">
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+      </div>
+
+      <div class="footer2">footer</div>
+    </div> -->
+
+    <div class="father3">
+      <div class="content3">
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+        content <br />
+      </div>
+
+      <div class="footer3">footer</div>
     </div>
   </body>
 </html>
