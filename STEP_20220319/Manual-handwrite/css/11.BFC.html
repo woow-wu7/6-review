@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // BFC
+    // block format context 块级格式化上下文
+
+    // - 根元素
+    // - 浮动：属性不是node都可以
+    // - 绝对定位：absolute fixed
+    // - overflow: 只要不是visible都可以，比如 hidden auto scroll
+    // - display:  inline-block flex table-cell
+
+    // 特点
+    // - margin重叠：同一个BFC内的两个相临box之间，存在 ( margin重叠 )
+    // - 计算高度：计算高度时，浮动元素也会计算在内
+    // - 与 float-box 的关系：BFC区域不会与float-box重叠
+
+    // 应用
+    // - 去除 margin 重叠
+    // - 清除浮动：解决 ( 浮动 ) 后 ( 父元素高度塌陷 ) 的问题
+
+    // 清除浮动的原理
+    // - 原理：具有BFC特性的元素，在计算高度时会把所有子元素计算在内，包括浮动的元素
+
+    // 链接
+    // - 本项目/STEP_20220319/CSS/css.md
+
+    // 问题
+    // 解决上下边距重叠的方法有哪些？
+    // - 1. 上下两个元素使用相同方向的 margin
+    // - 2. 使用 padding 代替 margin
+    // - 3. 使 ( 相邻的上下两个元素 ) 在不同的 BFC 中
+  </script>
+</body>
+</html>

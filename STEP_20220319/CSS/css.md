@@ -178,7 +178,7 @@
 - margin overlap
 - 1. 上下两个元素，设置相同方向的 margin
 - 2. 使用 padding 代替 margin
-- 3. 使 ( 上下两个元素 ) 在不同的 BFC 下
+- 3. 使 ( 相邻的上下两个元素 ) 在不同的 BFC 下
 - 案例
 
 ```
@@ -270,10 +270,10 @@
 ### (16) sticky-footer
 
 - 效果定义
-  - 当内容不足一屏时，保持在底部。
-  - 当内容超过一屏时，在内容的最底部
+  - 当内容不足一屏时，保持在屏幕最底部。
+  - 当内容超过一屏时，在内容的最底部，随着内容滚动
 - 实现方式
-  - margin + padding
+  - margin-top + padding-bottom
   - calc 动态计算
   - flex 布局
 - margin-padding
