@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const a = {
+        total: {
+          cpu: "4000m",
+          memory: "128Gi",
+          gpu: [
+            {
+              device_type: "nvidia-2080ti",
+              num: 10,
+            },
+            {
+              device_type: "nvidia-t4",
+              num: 20,
+            },
+          ],
+        },
+        used: {
+          cpu: "2000m",
+          memory: "50Gi",
+          gpu: [
+            {
+              device_type: "nvidia-2080ti",
+              num: 5,
+            },
+            {
+              device_type: "nvidia-t4",
+              num: 4,
+            },
+          ],
+        },
+      };
+
+      Object.keys(a).forEach((oKey) => {
+        const outKey = oKey;
+        const outValue = a[outKey];
+        Object.keys(outValue).forEach((iKey) => {
+          const inKey = iKey;
+          const inValue = outValue[iKey];
+          if (Array.isArray(inValue)) {
+          }
+          if (!a[inKey]) {
+            a[inKey] = {};
+          }
+          a[inKey][outKey] = inValue;
+
+          delete a[outKey];
+        });
+      });
+      console.log("a", a);
+    </script>
+  </body>
+</html>
