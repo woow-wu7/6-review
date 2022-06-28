@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .father {
+        height: 400px;
+        overflow: auto;
+        border: 1px solid black;
+      }
+      .header {
+        background: red;
+        position: sticky;
+
+        /* 注意：设置position: sticky; 后需要设置 top 的值 */
+        top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // position  - 六种属性
+
+      // - static 默认值，静态的
+      // - inherit 继承
+      // - relative
+      // - absolute
+      // - fixed
+      // - sticky
+
+      // 1
+      // position: sticky
+      // - 作用：纯css实现，吸顶效果
+      // - 偏移量：是距离最近的具有 ( 滚动条 ) 的父元素，如果父元素和祖先元素都没有滚动条，则是相当于viewport来计算偏移量
+      // - 注意：记得设置 top 属性css的值
+
+      /* sticky = relative + fixed */
+      /* top小于0时，fix定位；大于0时，相当于relative定位 */
+    </script>
+
+    <div class="father">
+      <div>
+        content <br /><br /><br />
+        content <br /><br /><br />
+        content
+      </div>
+      <div>
+        content <br /><br /><br />
+        content <br /><br /><br />
+        content
+      </div>
+      <div>
+        content <br /><br /><br />
+        content <br /><br /><br />
+        content
+      </div>
+      <div class="header">header</div>
+      <div>
+        content <br /><br /><br />
+        content <br /><br /><br />
+        content
+      </div>
+      <div>
+        content <br /><br /><br />
+        content <br /><br /><br />
+        content
+      </div>
+      <div>
+        content <br /><br /><br />
+        content <br /><br /><br />
+        content
+      </div>
+    </div>
+  </body>
+</html>
