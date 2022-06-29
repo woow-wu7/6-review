@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 二分查找法
+
+      // 1
+      // 条件
+      // 二分查找的条件 - 必须是 ( 有序 ) 的数组
+      // 注意：只要有序就行，不一定要连续
+
+      // 2
+      // 时间复杂度
+      // 二分查找的时间复杂度 - O(log2n) - 以2为底n的对数
+
+      // 3
+      // 原理
+      // - 取数组 ( 中间位置的值 ) 和 要查找的 ( 目标值 ) 进行比较
+      // - 中间值大于目标值，在小的一半查找
+      // - 中间值小于目标值，在大的一半查找
+      // - 中间值等于目标值，直接返回位置即可
+
+      // 4
+      // 注意点：边界问题，需要 +1 和 -1
+
+      // 5
+      // 链接：https://juejin.cn/post/6907145602400780296
+
+      const arr = [1, 2, 3, 5, 6, 8, 9];
+
+      // 【1】
+      // 非递归方法
+      function binary_search(arr, value) {
+        let low = 0;
+        let high = arr.length;
+
+        while (low <= high) {
+          // pivot
+          // - 数组的 ( 开始位置 ) 和 ( 结束位置 ) 的和除以2 就是数组的 ( 中间位置 )
+          const pivot = Math.floor((low + high) / 2);
+
+          if (low === high && arr[pivot] !== value) return -1;
+
+          switch (true) {
+            case arr[pivot] < value: // 大的一半继续查找
+              low = pivot + 1;
+              break;
+            case arr[pivot] > value: // 小的一半继续查找
+              high = pivot - 1;
+              break;
+            case arr[pivot] === value: // 找到直接返回
+              return pivot;
+            default:
+              return -1;
+          }
+        }
+      }
+
+      const position = binary_search(arr, 10);
+      console.log("position: ", position);
+
+      // ------------------------ 分割线 ------------------------
+      // 【2】
+      // 递归方法
+      const binary_search_recursive = (arr, value) => {
+        let left = 0;
+        let right = arr.length;
+
+        function recursive(value) {
+          const mid = Math.floor((left + right) / 2);
+          if (left === right && arr[mid] !== value) return -1;
+
+          if (arr[mid] < value) {
+            left = mid + 1;
+            return recursive(value);
+          }
+
+          if (arr[mid] > value) {
+            right = mid - 1;
+            return recursive(value);
+          }
+
+          if (arr[mid] === value) {
+            return value;
+          }
+        }
+
+        return recursive(value);
+      };
+
+      const position2 = binary_search_recursive(arr, 10);
+      console.log("position2: ", position2);
+    </script>
+  </body>
+</html>
