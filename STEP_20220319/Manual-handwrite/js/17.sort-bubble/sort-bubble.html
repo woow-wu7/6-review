@@ -20,7 +20,49 @@
       // 趟数 = 数组长度 - 1
       // 每趟比较的次数 = 趟数 - 已经比较的趟数
       //  - 思考：为什么 没趟比较的次数=趟数-已经比较的趟数
-      //  - 因为：没趟都会冒泡一个最大值到末尾，即第一趟得到最大的值冒泡到末尾，第二趟得到第二大的值冒泡的末尾前一个位置
+      //  - 因为：
+      //    - 没趟都会冒泡一个最大值到末尾，即第一趟得到最大的值冒泡到末尾，第二趟得到第二大的值冒泡的末尾前一个位置
+      //    - 之所以减去趟数，是因为第一趟确定了一个最大值，第二次确定了第二大的值，不需要再做无畏的比较
+
+      // 3
+      // 优化
+      // - 趟数：如果在 第6趟时就排好序了，后面的就不需要在排序了
+      // - 每趟比较的次数：没趟比较的次数并被需要和趟数相等，而是 ( 总趟数 - 当前趟数 )
+
+      const arr = [1, 7, 3, 6, 5, 4, 2, 9, 8];
+      let outCount = 1;
+      let inCount = 1;
+
+      function bubble_sort(arr) {
+        const len = arr.length - 1;
+
+        for (let i = 0; i < len; i++) { //总趟数 = 数组长度 - 1
+          outCount++;
+          let isSortOk = true;
+
+          for (let j = 0; j < len; j++) { // 每趟比较的次数 = 总趟数 - 当前趟数
+            inCount++
+            if (arr[j] > arr[j + 1]) { // 前一项 > 后一项
+              isSortOk = false
+              [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]; // 交换位置
+            }
+          }
+
+          if (isSortOk) {
+            break; // break 终止整个循环；continue终止档次循环
+          }
+        }
+
+        return arr;
+      }
+
+      const res = bubble_sort(arr);
+      console.log('outCount', outCount)
+      console.log('inCount', inCount)
+
+      // 不优化时 outCount=9 inCount=65
+      // 优化时  outCount=2 inCount=9
+      console.log("res", res);
     </script>
   </body>
 </html>
