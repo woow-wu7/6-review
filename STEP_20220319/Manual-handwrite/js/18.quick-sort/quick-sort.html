@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // quick_sort 快速排序
+
+      const arr = [1, 5, 4, 3, 2];
+      function quick_sort(arr) {
+        const len = arr.length;
+
+        if (len <= 1) return arr; // 递归结束的条件
+
+        const left = [];
+        const right = [];
+        const middle = [];
+
+        const pivot = Math.floor(Math.random() * len); // 随机取一个位置的元素下标
+
+        // 因为：Math.random() ----> [0, 1) 左闭右开
+        // 所以：pivot娶不到 len，只能取到 len-1，相当于下标了
+
+        for (let i = 0; i < len; i++) {
+          if (arr[i] > arr[pivot]) {
+            right.push(arr[i]); // 大于
+          }
+          if (arr[i] < arr[pivot]) {
+            left.push(arr[i]); // 小于
+          }
+          if (arr[i] === arr[pivot]) {
+            middle.push(arr[i]); // 等于
+          }
+        }
+
+        return quick_sort(left).concat(middle, quick_sort(right)); // 返回拼接后的数组
+      }
+      const res = quick_sort(arr);
+      console.log("res: ", res);
+    </script>
+  </body>
+</html>
