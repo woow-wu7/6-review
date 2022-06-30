@@ -6,21 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      .div3:nth-child(1) {
+      /* 父元素的第二个子元素，( 父元素的第二个子元素类型 ) 必须和 ( 伪类调用者的类型 ) 一致才会命中 */
+      p:nth-child(2) {
         color: red;
       }
 
-      div:nth-of-type(2) {
-        color: green;
+      /* p:nth-child(1) 就不会命中，因为 div 不是 p 类型 */
+      p:nth-child(1) {
+        color: blue;
+      }
+
+      /* p:nth-of-type(2) 选中父元素的第二个子p标签 */
+      p:nth-of-type(2) {
+        color: red;
       }
     </style>
   </head>
   <body>
     <section>
-      <p>p1</p>
-      <div>div1</div>
-      <div>div2</div>
-      <div class="div3">div3</div>
+      <div>我是一个普通的div标签</div>
+      <p>我是第1个p标签</p>
+      <p>我是第2个p标签</p>
+      <!-- 希望这个变红 -->
     </section>
   </body>
 </html>
