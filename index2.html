@@ -5,19 +5,124 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <style>
-      @layer {
-        .div {
-          color: red;
-        }
-      }
-      .div {
-        color: blue;
-      }
-    </style>
   </head>
   <body>
-    <div class="div">div</div>
-    <script></script>
+    <script>
+      // review bubble_sort + quick_sort + selection_sort + insert_sort
+      // bubble_sort
+      // const arr = [1, 5, 3, 6, 4, 2, 7, 8];
+      // let outCount = 1;
+      // let inCount = 1;
+      // function bubble_sort(arr) {
+      //   const len = arr.length;
+
+      //   for (let i = 0; i < len - 1; i++) {
+      //     outCount++;
+      //     let isSortOk = true;
+      //     for (let j = 0; j < len - 1 - i; j++) {
+      //       inCount++;
+      //       if (arr[j] > arr[j + 1]) {
+      //         isSortOk = false;
+      //         [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+      //       }
+      //     }
+      //     if (isSortOk) {
+      //       break;
+      //     }
+      //   }
+
+      //   return arr;
+      // }
+
+      // const res = bubble_sort(arr);
+      // console.log("outCount", outCount);
+      // console.log("inCount", inCount);
+      // console.log("res: ", res);
+    </script>
+
+    <script>
+      // quick_sort
+
+      // const arr = [1, 5, 3, 6, 4, 2, 7, 8];
+
+      // function quick_sort(arr) {
+      //   const len = arr.length;
+
+      //   if (arr.length <= 1) return arr;
+
+      //   const pivot = Math.floor(Math.random() * len);
+
+      //   const left = [];
+      //   const middle = [];
+      //   const right = [];
+
+      //   for (let i = 0; i < len; i++) {
+      //     if (arr[i] < arr[pivot]) {
+      //       left.push(arr[i]);
+      //     }
+      //     if (arr[i] > arr[pivot]) {
+      //       right.push(arr[i]);
+      //     }
+      //     if (arr[i] === arr[pivot]) {
+      //       middle.push(arr[i]);
+      //     }
+      //   }
+
+      //   return quick_sort(left).concat(middle, quick_sort(right));
+      // }
+
+      // const res = quick_sort(arr);
+      // console.log("res: ", res);
+    </script>
+
+    <script>
+      // selection_sort
+
+      // const arr = [1, 5, 3, 6, 4, 2, 7, 8];
+
+      // function selection_sort(arr) {
+      //   const len = arr.length;
+
+      //   for (let i = 0; i < len; i++) {
+      //     let min = i;
+      //     for (let j = i + 1; j < len; j++) {
+      //       if (arr[j] < arr[min]) {
+      //         min = j;
+      //       }
+      //     }
+      //     [arr[min], arr[i]] = [arr[i], arr[min]];
+      //   }
+
+      //   return arr;
+      // }
+
+      // const res = selection_sort(arr);
+      // console.log("res: ", res);
+    </script>
+
+    <script>
+      // insert_sort
+      // const arr = [1, 5, 3, 6, 4, 2, 7, 8];
+
+      // function insert_sort(arr) {
+      //   for (let i = 1; i < arr.length; i++) {
+      //     let min = arr[i];
+
+      //     let j = i - 1;
+
+      //     while (j >= 0 && arr[j] > min) {
+      //       arr[j + 1] = arr[j];
+      //       j--;
+      //     }
+
+      //     arr[j + 1] = min;
+      //   }
+
+      //   return arr;
+      // }
+
+      // const res = insert_sort(arr);
+      // console.log("res: ", res);
+    </script>
   </body>
 </html>

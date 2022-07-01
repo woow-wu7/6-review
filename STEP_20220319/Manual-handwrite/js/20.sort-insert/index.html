@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // insert-sort 插入排序
+
+      // 原理
+      // 1. 把原始数组分成两个数组，有序数组 和 无序数组
+      // 2.
+      // - 有序数组：初始只有一个元素i，即原数组的第一成员
+      // - 无需数组：是原数组中除了第一个成员外剩下的成员
+      // 3. 从无序数组中选择第一个成员，依次和有序数组中的成员做比较，尾插法 - 比较有序数组的最后一个成员j，如果j>i，则j后移
+      // 4. i最终插入的位置就是 j+1
+
+      const arr = [5, 3, 7, 2, 6, 2, 1, 4];
+
+      function insert_sort(arr) {
+        // 无序数组
+        for (let i = 1; i < arr.length; i++) {
+          let min = arr[i];
+
+          let j = i - 1;
+
+          // 后续遍历有序数组
+          while (j >= 0 && arr[j] > min) {
+            arr[j + 1] = arr[j];
+            j--;
+          }
+
+          arr[j + 1] = min;
+        }
+
+        return arr;
+      }
+
+      const res = insert_sort(arr);
+      console.log("res: ", res);
+    </script>
+  </body>
+</html>

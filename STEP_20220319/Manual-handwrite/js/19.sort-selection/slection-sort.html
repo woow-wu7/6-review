@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // selection-sort 选择排序
+
+      // 原理
+      // - 1. 取数组的一个成员min，依次和除了此成员外的数组成员j一一做对比，如果 j < min，交换位置，那么数组的第一个成员一定是最小的
+      // - 2. 依次执行以上步骤
+
+      const arr = [1, 6, 3, 2, 5, 4];
+      function selection_sort(arr) {
+        for (let i = 0; i < arr.length; i++) {
+          let min = i;
+
+          for (let j = i + 1; j < arr.length; j++) {
+            if (arr[j] < arr[min]) {
+              min = j;
+            }
+          }
+
+          [arr[i], arr[min]] = [arr[min], arr[i]];
+        }
+
+        return arr;
+      }
+
+      const res = selection_sort(arr);
+      console.log("res: ", res);
+    </script>
+  </body>
+</html>
