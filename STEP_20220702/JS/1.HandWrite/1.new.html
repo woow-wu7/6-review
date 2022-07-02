@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // new 命令的实现
+
+      // 1
+      // new命令的作用
+      // - 执行构造函数
+      // - 返回实例对象
+
+      // 2
+      // new命令的原理
+      // - 1. 新建一个 ( 空对象 )
+      // - 2. 将  ( 空对象的隐式原型 ) 指向 ( 构造函数的显式原型 ) ---- 这样空对象就能继承构造函数prototype上的属性和方法
+      // - 3. 将 ( 构造函数中的this ) 指向 ( 空对象 ) -------------- 即将构造函数中的 this 绑定到 空对象上
+      // - 4. 执行构造函数
+      //        - 构造函数的返回值
+      //          - 1. 如果return后面跟一个 ( 对象 )，new命令就会返回这个对象
+      //          - 2. 如果return后面跟的不是一个对象，而是 ( 原始类型的值 )，返回的是this对象
+
+      function Constructor(name) {
+        this.name = name;
+
+        return { name: "wang" };
+        // 对象：如果构造函数return后面跟一个对象，就会直接返回这个对象
+        // 原始类型的值：如果构造函数return后面跟着的是原始值，就会返回 this 对象
+      }
+
+      function _new(Constructor, ...params) {
+        const emptyObjet = Object.create(Constructor.prototype);
+        const res = Constructor.apply(emptyObjet, params);
+
+        return Object.prototype.toString.call(res) === "[object Object]"
+          ? res
+          : emptyObjet;
+      }
+
+      const meInstance = _new(Constructor, "woow_wu8");
+      console.log("meInstance: ", meInstance);
+
+      const raw = new Constructor("woow_wu7");
+      console.log("raw: ", raw);
+    </script>
+  </body>
+</html>

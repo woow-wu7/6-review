@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // call
+
+      // 1
+      // call 的作用
+      // - 1. 绑定函数的 this 指向 ---- 将构造函数中的 this 绑定到call函数的 ( 第一个参数对象上 )
+      // - 2. 执行构造函数
+
+      // 2
+      // call 函数的参数
+      // - 第一个参数：
+      //  - this需哟绑定的对象
+      //  - 如果不是对象，会转成包装对象
+      //    --- 常见的包装对象，new Number() + new String() + new Boolean()
+      //    --- 链接：https://juejin.cn/post/6844904131577004040
+      // - 后面的参数：作为构造函数调用时的参数
+
+      // 3
+      // 实现原理
+      // - 在传入的 ( 参数对象 ) 上绑定 ( fn属性 )，值 ( 是调用call方法的函数 )
+
+      const obj = {
+        name: "woow_wu7",
+      };
+
+      const fn = function (params) {
+        return this.name;
+      };
+
+      Function.prototype._call = function (obj, ...params) {
+        obj.fn = this; // this 在调用时确定指向，指向函数调用时所在的对象
+
+        const res = obj.fn.apply(obj, params);
+        Reflect.deleteProperty(obj, fn); // 删除对象上的属性
+
+        return res;
+      };
+
+      const res = fn._call(obj, "woow_wu8");
+      console.log("res: ", res);
+    </script>
+  </body>
+</html>
