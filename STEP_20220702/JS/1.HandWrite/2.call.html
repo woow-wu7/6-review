@@ -19,14 +19,28 @@
       // call 函数的参数
       // - 第一个参数：
       //  - this需哟绑定的对象
-      //  - 如果不是对象，会转成包装对象
-      //    --- 常见的包装对象，new Number() + new String() + new Boolean()
-      //    --- 链接：https://juejin.cn/post/6844904131577004040
+      //    - 如果第一个参数是 ( null undefined 空 )，相当于传入 ( 全局对象window||global )
+      //    - 如果第一个参数是 ( 原始值 )，则会被转成 ( 包装对象 )
+      //      --- 常见的包装对象，new Number() + new String() + new Boolean()
+      //      --- 链接：https://juejin.cn/post/6844904131577004040
       // - 后面的参数：作为构造函数调用时的参数
 
       // 3
       // 实现原理
       // - 在传入的 ( 参数对象 ) 上绑定 ( fn属性 )，值 ( 是调用call方法的函数 )
+      // - 调用参数对象上的fn
+      // - 删除参数对象上的fn
+      // - 返回函数的返回值
+
+      // 4
+      // 注意：call方法不能是箭头函数
+      // 因为：
+      //  - 1. 箭头函数没有自己的this，箭头函数中的this是 ( 箭头函数定义时所在作用域的上层作用域中的this )
+      //        - 作用域：全局作用域，函数作用域，块级作用域
+      //  - 2. 箭头函数不能作为构造函数
+      //        - 也就是说：箭头函数不能通过 new 来调用
+      //        - 因为：箭头函数没有自己的this，所以不能作为构造函数，不能通过new来调用
+      //  - 3，箭头函数不能使用 yield，所以不能作为 generator 函数
 
       const obj = {
         name: "woow_wu7",
@@ -37,9 +51,16 @@
       };
 
       Function.prototype._call = function (obj, ...params) {
-        obj.fn = this; // this 在调用时确定指向，指向函数调用时所在的对象
 
-        const res = obj.fn.apply(obj, params);
+        // 1 call 方法的第一参数参数
+        // - 如果是 null undefined 空 ------> 相当于传入全局对象，这里指window，node中指global
+        // - 如果是 原始类型，会被转成包装对象
+        // - 对象
+        const context = obj ? obj : window;
+
+        context.fn = this; // this 在调用时确定指向，指向函数调用时所在的对象
+
+        const res = context.fn(...params); // 调用对象上的fn方法，因为是 context对象在调用，所以fn中的this指向context对象，即第一个参数对象
         Reflect.deleteProperty(obj, fn); // 删除对象上的属性
 
         return res;

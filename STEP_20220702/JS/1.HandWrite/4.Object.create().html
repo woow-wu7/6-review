@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // Object.create()
+
+      // 作用：以 ( 参数对象 ) 为原型，生成 ( 实例对象 )
+      // 思路：利用 ( 原型链继承 ) 实现
+      // 扩展：继承 ( 本项目/STEP_20220319/Manual-handwrite/js/extend )
+      // 原型链继承：
+      // - 原理：将 ( 子类.prototype ) 指向 ( new 父类生成的实例 )，则 子类实例能继承父类实例，和父类prototype上的属性和方法
+      // - 注意：修改了 prototype 属性后，一定要同时修改 ( constructor ) 的指向，防止引用出错
+      // 英语：parasitic 是寄生的意思
+
+      function objCreate(obj) {
+        function parasitic() {}
+        parasitic.prototype = obj;
+        parasitic.prototype.constructor = parasitic; // 注意：当修改了构造函数的prototype属性后，需要修改 ( Constructor.prototype.constructor ) 的指向
+        return new parasitic(); // 返回实例，继承obj
+      }
+
+      const o = {
+        name: "woow_wu7",
+      };
+      const instance = objCreate(o);
+      console.log(Object.getPrototypeOf(instance) === o); // true
+    </script>
+  </body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="button">debounce</button>
+    <button id="cancel">cancel</button>
+    <script>
+      // debounce 防抖函数
+
+      // 前置知识
+      // 1
+      // globalThis
+      // - 浏览器环境指向 ------- window
+      // - node环境指向 -------- global
+      // - 这样就不用再区分环境了
+
+      // 扩展
+      // var ----------------- 声明的变量会和window挂钩
+      // const和let ---------- 声明的变量不会和window挂钩
+
+      // 扩展
+      // var 和 let 的区别
+      // - 1. 作用域：
+      //  - let声明的变量是块级作用域
+      //  - var声明的是全局，或者函数作用域
+      // - 2. 变量提升
+      //  - var会变量提升，即可以先使用再声明
+      //  - let不会变量提升，必须先声明再使用
+      // - 3. 重复声明
+      //  - var可以重复声明
+      //  - let不能重复声明
+      // - 4. 声明的全局变量 - 是否和顶层对象挂钩
+      //  - var声明的对象会和顶层对象挂钩，也就是说 ( var声明的全局变量，可以通过window来访问 )
+      //  - let不会
+      // - 5. 是否存在暂时性死区
+      //  - let会
+      //  - var不会
+
+      // 扩展
+      // - 经典面试题
+      // - 链接：https://es6.ruanyifeng.com/#docs/let
+
+      // 实现
+      // 1. 防抖
+      // 2. 首次可以立即执行
+      // 3. 可以取消
+      // 4. 可以向函数穿参
+      // 5. 函数可以是 异步函数
+
+      const fn = async (event, name) => {
+        console.log("1", 1);
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(1);
+          }, 1000);
+        });
+        console.log("event", event);
+        console.log("name", name);
+      };
+
+      const button = document.getElementById("button");
+      const cancel = document.getElementById("cancel");
+
+      cancel.addEventListener("click", () => debounce.cancel(), {
+        capture: false,
+      });
+
+      button.addEventListener(
+        "click",
+        debounce(
+          fn,
+          {
+            delay: 3000,
+            immediate: true,
+          },
+          "woow_wu7"
+        ),
+        { capture: false }
+      );
+
+      function debounce(fn, config, ...params) {
+        let timer;
+        let { delay, immediate } = config;
+
+        debounce.cancel = function () {
+          globalThis.clearTimeout(timer);
+        };
+
+        return async (event) => {
+          if (immediate) {
+            immediate = false;
+            return await fn(event, ...params);
+          }
+
+          if (timer) {
+            globalThis.clearTimeout(timer);
+          }
+
+          timer = globalThis.setTimeout(async () => {
+            await fn(event, ...params);
+          }, delay);
+        };
+      }
+    </script>
+  </body>
+</html>

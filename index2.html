@@ -8,121 +8,43 @@
   </head>
   <body>
     <script>
-      // review bubble_sort + quick_sort + selection_sort + insert_sort
-      // bubble_sort
-      // const arr = [1, 5, 3, 6, 4, 2, 7, 8];
-      // let outCount = 1;
-      // let inCount = 1;
-      // function bubble_sort(arr) {
-      //   const len = arr.length;
+      // bind
 
-      //   for (let i = 0; i < len - 1; i++) {
-      //     outCount++;
-      //     let isSortOk = true;
-      //     for (let j = 0; j < len - 1 - i; j++) {
-      //       inCount++;
-      //       if (arr[j] > arr[j + 1]) {
-      //         isSortOk = false;
-      //         [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-      //       }
-      //     }
-      //     if (isSortOk) {
-      //       break;
-      //     }
-      //   }
+      function fn(name, age) {
+        return this.name + age;
+      }
 
-      //   return arr;
-      // }
+      const obj = {
+        name: "woow_wu7",
+      };
 
-      // const res = bubble_sort(arr);
-      // console.log("outCount", outCount);
-      // console.log("inCount", inCount);
-      // console.log("res: ", res);
-    </script>
+      Function.prototype._bind = function (obj) {
+        const context = obj || window;
 
-    <script>
-      // quick_sort
+        const outParams = Array.from(arguments).slice(1);
+        const that = this;
+        function callback() {
+          const inParams = Array.from(arguments);
+          const totalParams = outParams.concat(inParams);
 
-      // const arr = [1, 5, 3, 6, 4, 2, 7, 8];
+          const res = that.apply(
+            this instanceof that ? this : context,
+            totalParams
+          );
+          return res;
+        }
 
-      // function quick_sort(arr) {
-      //   const len = arr.length;
+        return callback;
+      };
 
-      //   if (arr.length <= 1) return arr;
+      const callback1 = fn.bind(obj, "woow_wu8");
+      const res1 = callback1(20);
 
-      //   const pivot = Math.floor(Math.random() * len);
+      const callback2 = fn._bind(obj, "woow_wu9");
+      const res2 = callback2(30);
 
-      //   const left = [];
-      //   const middle = [];
-      //   const right = [];
-
-      //   for (let i = 0; i < len; i++) {
-      //     if (arr[i] < arr[pivot]) {
-      //       left.push(arr[i]);
-      //     }
-      //     if (arr[i] > arr[pivot]) {
-      //       right.push(arr[i]);
-      //     }
-      //     if (arr[i] === arr[pivot]) {
-      //       middle.push(arr[i]);
-      //     }
-      //   }
-
-      //   return quick_sort(left).concat(middle, quick_sort(right));
-      // }
-
-      // const res = quick_sort(arr);
-      // console.log("res: ", res);
-    </script>
-
-    <script>
-      // selection_sort
-
-      // const arr = [1, 5, 3, 6, 4, 2, 7, 8];
-
-      // function selection_sort(arr) {
-      //   const len = arr.length;
-
-      //   for (let i = 0; i < len; i++) {
-      //     let min = i;
-      //     for (let j = i + 1; j < len; j++) {
-      //       if (arr[j] < arr[min]) {
-      //         min = j;
-      //       }
-      //     }
-      //     [arr[min], arr[i]] = [arr[i], arr[min]];
-      //   }
-
-      //   return arr;
-      // }
-
-      // const res = selection_sort(arr);
-      // console.log("res: ", res);
-    </script>
-
-    <script>
-      // insert_sort
-      // const arr = [1, 5, 3, 6, 4, 2, 7, 8];
-
-      // function insert_sort(arr) {
-      //   for (let i = 1; i < arr.length; i++) {
-      //     let min = arr[i];
-
-      //     let j = i - 1;
-
-      //     while (j >= 0 && arr[j] > min) {
-      //       arr[j + 1] = arr[j];
-      //       j--;
-      //     }
-
-      //     arr[j + 1] = min;
-      //   }
-
-      //   return arr;
-      // }
-
-      // const res = insert_sort(arr);
-      // console.log("res: ", res);
+      console.log("res1", res1);
+      console.log("res2", res2);
     </script>
   </body>
 </html>
