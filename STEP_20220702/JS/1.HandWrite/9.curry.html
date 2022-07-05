@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 柯里化 curry
+
+      // 概念
+      // - 将 ( 接收多个参数 ) 的函数，转换成 ( 接收单一参数 ) 的函数，并返回 ( 一个可以接收余下参数的函数，并返回最终结果 )
+      // - 1. 当参数小于预期参数时，返回一个可以接收剩余参数的函数
+      // - 2. 参数大于等于预期参数时，返回最终结果
+
+      // 1
+      // 柯里化阶段一
+      function curry1() {
+        return (a) => (b) => (c) => a + b + c;
+      }
+      const fn = curry1();
+      const res = fn(1)(2)(3);
+      console.log("res", res);
+
+      // 2
+      // 柯里化阶段二
+      // - 需求：处理任意多个参数想加
+      // - 缺点：
+      //  - 1. 问题：多了一次没有参数的调用来确定 ( 参数是否收集完毕 )
+      //  - 2. 问题：相加的逻辑0可以单独0抽离成函数，从而通过形参来确定参数是否收集完毕
+      //  - 3. 优化：可以把计算想加的逻辑单独抽离成函数，然后通过形参个数来确定参数是否收集完毕，这样就少了一次没有参数的调用
+
+      function curry2() {
+        var totalParams = [];
+
+        function closure() {
+          const params = Array.prototype.slice.apply(arguments);
+          if (params.length) {
+            totalParams = totalParams.concat(params);
+            return closure;
+          } else {
+            return totalParams.reduce((sum, next) => sum + next);
+          }
+        }
+
+        return closure;
+      }
+
+      const fn2 = curry2();
+      const res2 = fn2(1, 2)(3)(4, 5, 6)();
+      console.log("res2: ", res2);
+
+      // 3
+      // 柯里化阶段三
+      // - 扩展
+      //  - function.length 返回函数形参个数，即预期传入的参数个数
+      // - 缺点
+      //  - 还是需要知道 function.length 才可以
+
+      function add(a, b, c, d, e) {
+        return a + b + c + d + e;
+      }
+
+      function curry3(fn) {
+        var totalParams = [];
+        const totalLength = fn.length;
+
+        function closure() {
+          const params = Array.prototype.slice.call(arguments);
+          totalParams = totalParams.concat(params);
+          if (totalParams.length < totalLength) {
+            return closure;
+          } else {
+            return fn(...totalParams);
+          }
+        }
+
+        return closure;
+      }
+
+      const fn3 = curry3(add);
+      const res3 = fn3(1, 2)(3)(4)(5);
+      console.log("res3: ", res3);
+
+      // 4
+      // 柯里化阶段四
+      // - 解决：需要知道 function.length 的缺点
+
+      function curry4(fn) {
+        let totalParams = [];
+        function closure() {
+          const params = Array.prototype.slice.call(arguments);
+          totalParams = totalParams.concat(params);
+          return closure;
+        }
+        closure.calculate = function () {
+          return fn(...totalParams);
+        };
+        return closure;
+      }
+
+      const fn4 = curry4(add);
+      const closure = fn4(1, 2, 3)(4, 5);
+      const res4 = closure.calculate();
+      console.log("res4: ", res4);
+    </script>
+  </body>
+</html>
