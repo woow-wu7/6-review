@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // instanceof
+
+      // 作用
+      // - 判断 ( 右边构造函数的prototype ) 是否在 ( 左边对象 ) 的 ( 原型链上 )
+
+      const obj = {};
+
+      console.log("obj instanceof Object", obj instanceof Object);
+
+      function _instanceof(obj, constructor) {
+        const right = constructor.prototype;
+        const left = Reflect.getPrototypeOf(obj);
+
+        while (true) {
+          if (left === null) return false;
+          if (left === right) return true;
+          else {
+            // 注意：这个 else 可以不要，因为上面两个命中都是 return
+            left = Reflect.getPrototypeOf(left);
+          }
+        }
+
+        // 优化如下
+        // if (left === null) return false;
+        // if (left === right) return true;
+        // left = Reflect.getPrototypeOf(left);
+      }
+
+      const res = _instanceof(obj, Object);
+      console.log("res: ", res);
+    </script>
+  </body>
+</html>

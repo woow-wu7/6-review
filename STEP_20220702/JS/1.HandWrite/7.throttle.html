@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="throttle">throttle</button>
+    <button id="cancel">cancel</button>
+    <script>
+      // throttle 截流
+
+      // - 截流
+      // - 取消截流
+      // - 可以向函数传参
+      // - 本来就支持异步，不需要在内部实现
+
+      const throttleDOM = document.getElementById("throttle");
+      const cancelDOM = document.getElementById("cancel");
+
+      const fn = async (e, name) => {
+        await console.log("1", 1);
+        console.log("e", e);
+        console.log("name", name);
+      };
+
+      throttleDOM.addEventListener(
+        "click",
+        throttle(fn, { delay: 2000, immediate: true }, "woow_wu7"),
+        {
+          capture: false,
+        }
+      );
+      cancelDOM.addEventListener("click", () => throttle.cancel(), {
+        capture: false,
+      });
+
+      function throttle(fn, config, ...params) {
+        let { delay, immediate } = config;
+
+        let isRun = true; // 标志位，是否可以run
+        let timer = NaN;
+
+        function callback(e) {
+          if (immediate) {
+            fn.call(this, e, ...params);
+            immediate = false; // 除了次一次后，不再执行immediate=true的逻辑
+            return;
+          }
+
+          if (!isRun) {
+            // 不可以run 则 return
+            return;
+          }
+          isRun = false;
+
+          timer = setTimeout(() => {
+            fn(e, ...params);
+            isRun = true;
+            globalThis.clearTimeout(timer); // 清除定时器
+          }, delay);
+        }
+
+        throttle.cancel = function () {
+          globalThis.clearTimeout(timer);
+          isRun = true;
+        };
+
+        return callback;
+      }
+    </script>
+  </body>
+</html>
