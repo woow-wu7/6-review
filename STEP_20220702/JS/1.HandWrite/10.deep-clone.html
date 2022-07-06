@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 深拷贝
+
+      // 前置知识
+      // 1
+      // 数据类型 ------------------ 基本数据类型一共 7 种
+      // - 基本数据类型：number string boolean null undefined symbol bigint
+      // - 引用数据类型：object array function 内置对象等
+
+      // 2
+      // typeof 的返回值 ----------- 一共 8 种
+      // - number string boolean undefined symbol bigint
+      // - object function
+
+      // 3
+      // 运算符的结合性
+      // - 右结合：一元素运算符，三元运算符，赋值运算符是右结合
+      // - 左结合：其他的都是左结合
+
+      // 4
+      // 赋值 和 浅拷贝 的区别？
+      // 1. 是否开创新的空间
+      // - 赋值：不会开辟新的存储空间，而是两个变量都指向了 同一个堆地址
+      // - 浅拷贝：当拷贝的是基本数据0类型时，会开辟新的存储空间；引用数据类型时不会开辟新的存储空间，而是拷贝的指针
+      // 2. 修改数据是否会相互影响
+      // - 赋值：会
+      // - 前拷贝：基本数据类型的属性不会，引用数据类型的属性会
+
+      // 5
+      // 前拷贝的方法
+      // - 数组
+      //  - Array.prototype.slice() ---- 不传参
+      //  - Array.prototype.concat() --- 不传参
+      //  - [...arr]
+      // - 对象
+      //  - {...obj}
+      //  - Object.assign(obj)
+
+      // ----------------------------------------------------------------- 深拷贝
+      // ----------------------------------------------------------------- 深拷贝
+      // ----------------------------------------------------------------- 深拷贝
+      // ----------------------------------------------------------------- 深拷贝
+      // ----------------------------------------------------------------- 深拷贝
+
+      // 深拷贝
+      // 1. 需要解决循环引用 ---------------------------------------- Map来解决
+      // 2. 需要解决 Symbol 类型的key ------------------------------ Reflect.ownKeys 来遍历
+      // 3. 需要能拷贝一些特殊的对象：Error RegExp Date -------------- 结构化克隆来处理
+      const obj = {
+        num: 1,
+        str: "2",
+        boo: true,
+        nul: null,
+        und: undefined,
+        sym: Symbol(1),
+        big: BigInt(2),
+
+        ob: { name: "woow_wu7" },
+        arr: [1, 2, { a: 1 }, [3, 4]],
+        reg: new RegExp(),
+        dat: new Date(),
+        err: new Error(),
+      };
+      obj.loop = obj;
+
+      function deepClone(params, map = new Map()) {
+        if (typeof params !== "object") return params; // 不是 对象 和 数组 则直接返回，即原始类型的值
+
+        let res = Array.isArray(params) ? [] : {};
+
+        // 1
+        // map 解决循环引用
+        // 缓存中存在，直接返回
+        if (map.has(params)) {
+          return map.get(params);
+        }
+        // 缓存中不存在，加入缓存
+        map.set(params, res);
+
+        // for (let i in params) {
+        //   // 注意：map要传入做判断
+        //   // 不管res[i]是什么类型，都调用deepClone()，因为在deepClone()中会判断
+        //   res[i] = deepClone(params[i], map);
+        // }
+
+        // 2
+        // Reflect.keys() 解决不能拷贝 Symbol 类型的key
+        // Reflect.ownKeys(params).forEach((key) => {
+        //   res[key] = deepClone(params[key], map);
+        // });
+
+        // 3
+        // 结构化克隆解决 - 特殊对象的拷贝 Error Date RegExp
+        switch (params?.constructor) {
+          case Date:
+          case RegExp:
+            res = new params.constructor(params);
+            break;
+          default:
+            Reflect.ownKeys(
+              Array.isArray(params) ? [...params] : { ...params }
+            ).forEach((key) => {
+              res[key] = deepClone(params[key], map);
+            });
+        }
+
+        return res;
+      }
+
+      const res = deepClone(obj);
+      console.log("res: ", res);
+    </script>
+  </body>
+</html>
