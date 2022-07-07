@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      #container {
+        height: 100%;
+        background: cyan;
+        overflow: auto;
+
+        scroll-behavior: smooth;
+        /* 平滑滚动，此属性作用于具有滚动条的元素， */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="inner">
+        <div>111111<br /><br />111111<br /><br />111111<br /><br /></div>
+        <div>111111<br /><br />111111<br /><br />111111<br /><br /></div>
+        <div>111111<br /><br />111111<br /><br />111111<br /><br /></div>
+        <div>111111<br /><br />111111<br /><br />111111<br /><br /></div>
+        <div>111111<br /><br />111111<br /><br />111111<br /><br /></div>
+        <div>111111<br /><br />111111<br /><br />111111<br /><br /></div>
+        <div>111111<br /><br />111111<br /><br />111111<br /><br /></div>
+        <div>111111<br /><br />111111<br /><br />111111<br /><br /></div>
+        <div>111111<br /><br />111111<br /><br />111111<br /><br /></div>
+        <div>111111<br /><br />111111<br /><br />111111<br /><br /></div>
+        <button id="button">scroll to top</button>
+      </div>
+    </div>
+    <script>
+      const button = document.getElementById("button");
+      const container = document.getElementById("container");
+
+      button.addEventListener(
+        "click",
+        () => {
+          console.log("1", 1);
+          container.scrollTop = 0;
+        },
+        {
+          capture: false,
+        }
+      );
+    </script>
+  </body>
+</html>

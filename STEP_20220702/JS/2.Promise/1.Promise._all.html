@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // Promise.all 实现
+
+      // 1
+      // 功能
+      // - 所有的fulfilled，整个才 fulfilled
+      // - 一个rejected，整个 rejected
+
+      // 2
+      // 参数
+      // - 1. ( 数组 ) 或者 ( 具有Iterator接口的数据 )
+      // - 2. 参数数组成员：
+      //  - 成员必须是 promise 对象
+      //  - 不是promise对象，会被 Promise.resolve() 转成 promise 对象
+      //  ---> 因为 Promise.resolve() 返回的是一个新的 promise，所以可以调用 .then 方法获取到promise的 ( 终值value )
+
+      // 3
+      // 返回值
+      // - Promise.all() 返回一个新的promise
+
+      // 4
+      // 参考：STEP_20220319/Manual-handwrite/js/promise/promise3.all.html
+
+      const p1 = new Promise((resolve) => setTimeout(() => resolve(1), 1000));
+      const p2 = new Promise((resolve) => setTimeout(() => resolve(1), 2000));
+      const p3 = new Promise((_, reject) =>
+        setTimeout(() => reject("err"), 3000)
+      );
+      const params = [p1, p2, p3];
+
+      Promise._all = function (params) {
+        return new Promise((resolve, reject) => {
+          const paramsToArray = Array.from(params);
+          const len = paramsToArray.length;
+          const promiseValues = [];
+
+          paramsToArray.forEach((_promiseLike) =>
+            // 参数数组成员，如果不是 promise 对象，会被 Promise.resolve 转成promise对象
+            // 而 Promise.resolve() 返回的是一个新的promise，所以可以接着使用 .then() 获取终值和拒因
+            Promise.resolve(_promiseLike).then(
+              (value) => {
+                // .then 是为了拿到promise对象中的 ( values终值 或 reason拒因 )
+                promiseValues.push(value);
+
+                // 当 终值 被收集满的时，说明所有都是 resolved
+                if (promiseValues.length === len) {
+                  return resolve(promiseValues);
+                }
+              },
+
+              // 任何一个 rejected，则整体rejected
+              reject
+            )
+          );
+        });
+      };
+
+      const res = Promise._all(params).then((res) => console.log("res: ", res));
+      const raw = Promise._all(params).then((raw) => console.log("raw: ", raw));
+    </script>
+  </body>
+</html>
