@@ -8,7 +8,97 @@
   </head>
   <body>
     <script>
-      // 手写promise
+      // 手写 promise
+      // - 参考：本项目/STEP_20220319/Manual-handwrite/js/promise/promise1.html
+
+      class _Promise {
+        constructor(executor) {
+          // executor必须是一个函数
+          if (typeof executor !== "function") {
+            throw new TypeError(
+              `Promise resolver ${executor} is not a function`
+            );
+          }
+
+          // executor(this.resolve, this.reject);
+
+          // 1
+          // 解决 promise 内部的错误需要被 then 的第二个回调所捕获
+          try {
+            executor(this.resolve, this.reject);
+          } catch (err) {
+            this.reject(err);
+          }
+        }
+
+        status = "pending";
+        value = "";
+        reason = "";
+
+        onFulfilledCallbacks = [];
+        onRejectedCallbacks = [];
+
+        // 2
+        // resolve的作用一共有三个
+        // - (1) 改变状态
+        // - (2) 存储终值，终值会作为 then 的第一个参数函数 - 成功时的回调的参数
+        // - (3) 执行 onFulfilledCallbacks 数组中的回调函数
+        //       - 解决：当 executor 中有异步事件时，( then函数不执行，而then的执行的条件又是状态改变后，即fulfilled或rejected的两个参数函数 )
+        //       - 因为：
+        //          - 1. then的执行的条件是状态改变后，即fulfilled或rejected的两个参数函数
+        //          - 2. executor有异步时，resolve或reject 晚于 then执行，而 resolve 和 reject 函数负责改变状态，then要在状态改变后才会执行
+        //          - 3. 所以在 executor有异步函数时，then不会执行，所以需要用队列来维护then中状态改变后才会执行的代码，在resolve或reject后去调用
+        resolve = (value) => {
+          console.log("终值", value);
+          this.status = "fulfilled";
+          this.value = value;
+          this.onFulfilledCallbacks.forEach((fn) => fn(this.value));
+        };
+
+        reject = (reason) => {
+          console.log("拒因", reason);
+          this.status = "rejected";
+          this.reason = reason;
+          this.onRejectedCallbacks.forEach((fn) => fn(this.reason));
+        };
+
+        then = (onFulfilled, onRejected) => {
+          if (this.status === "pending") {
+            // 1
+            // this.onFulfilledCallbacks.push(() => onFulfilled(this.value));
+            // - 解决 then 因为 executor 中有异步，导致 resolve 后于 then 执行，则 then 不会执行
+
+            // 2
+            // - 解决then的异步问题，即 then 的执行要在同步任务执行完毕之后再执行
+            this.onFulfilledCallbacks.push((value) =>
+              setTimeout(() => onFulfilled(value))
+            );
+            this.onRejectedCallbacks.push((reason) =>
+              setTimeout(() => onRejected(reason))
+            );
+          }
+          if (this.status === "fulfilled") {
+            // 1
+            // onFulfilled(this.value);
+
+            // 2
+            // 解决 then 的异步问题，即 then 的执行要在所有同步任务执行完毕之后执行
+            setTimeout(() => {
+              onFulfilled(this.value);
+            });
+          }
+          if (this.status === "rejected") {
+            // onRejected(this.reason);
+            setTimeout(() => {
+              onRejected(this.reason);
+            });
+          }
+        };
+      }
+
+      new _Promise((resolve, reject) => {
+        console.log("executor执行了");
+      });
     </script>
   </body>
 </html>
