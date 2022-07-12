@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 执行顺序 - 案例2
+      // 参考：本项目/STEP_20220319/Manual-handwrite/js/promise/test3.html
+
+      console.log(1);
+      // A promise
+      new Promise((resolve) => {
+        console.log(2);
+        resolve(); // resolve() 不会终止代码往下执行，所以 3 也会立即执行
+        console.log(3);
+      }).then((res) => {
+        // E then
+        console.log(4);
+        // C 定时器
+        setTimeout(() => console.log(5));
+      });
+      console.log(6);
+      // B 定时器
+      setTimeout(() => {
+        console.log(7);
+        // D promise
+        new Promise((resolve) => {
+          console.log(8);
+          resolve();
+        }).then(() => console.log(9)); // F then
+      });
+      console.log(10);
+
+      // 1
+      // - 1. promise 一旦新建就会立即执行，输出 2
+      // - 2
+      //  - 同步任务：1 2 3 6 10
+      //  - 宏任务队列：[setTimeoutB]
+      //  - 微任务队列：[promiseA]
+      // 输出：1 2 3 6 10
+
+      // 2
+      // - 同步任务执行完，遍历所有的微任务，再执行一个宏任务
+      //  - 执行所有微任务：4
+      //  - 宏任务队列：[setTimeoutB, 5]
+
+      // 3
+      // - 7 8
+      // - 微任务队列 [promiseD]
+      // - 宏任务队列 5
+
+      // 4
+      // - 9 5
+
+      // 1 2 3 6 10 4 7 8 9 5
+    </script>
+  </body>
+</html>

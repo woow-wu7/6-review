@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // async await
+      // - 1. async 函数中有 await 时，执行完 ( await后面的表达式 )
+      // - 2. async函数会 ( 让出线程 )，将 ( await表达式后面的代码放入微任务队列 )，继续执行async函数后面的代码
+
+      // 参考：STEP_20220319/Manual-handwrite/js/promise/test4-1-async.html
+
+      const a = async () => {
+        console.log(2);
+
+        await b();
+        // async 中遇到 await
+        // - 1. 先会执行 await 后面的表达是 b()
+        // - 2. 并将await表达式b()，后面的代码 ( 5 6 ) 放入 ( 微任务队列 micro task queue 中 )
+        // - 3. 然后 async 会让出线程，继续执行 async 函数后面的代码，即 4
+        // - 4. 执行完 async 后面的代码后，继续回来执行 await表达式 b() 后面的代码
+
+        console.log(5);
+        console.log(6);
+      };
+
+      const b = async () => {
+        console.log(3);
+      };
+
+      console.log(1);
+      a(); // 这里注意：如果 a().then() 时的执行顺序，请看 test4-2-async.html
+      console.log(4);
+
+      // 1 2 3 4 5 6
+    </script>
+  </body>
+</html>
