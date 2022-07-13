@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      async function async1() {
+        console.log(1);
+        await async2();
+        console.log(2); // 2 和 3 将进入微任务队列，然后执行 async 函数后面的代码，3特殊在于又是一个微任务
+        return 3;
+      }
+
+      async function async2() {
+        console.log(4);
+      }
+
+      console.log(5);
+
+      setTimeout(() => console.log(6), 0);
+
+      async1().then((message) => console.log(message));
+
+      new Promise((resolve) => {
+        console.log(7);
+        resolve();
+      }).then(() => console.log(8));
+
+      setTimeout(() => console.log(10));
+
+      console.log(9);
+
+      // 1
+      // - 同步任务：9 1 4 7 9
+      //    - 7是promise新建后立即执行
+      //    - 宏任务：setTimeout6 setTimeout10
+      //    - 微任务：2[子微任务3] 8
+
+      // 2
+      // 注意：
+      // - 这里微任务要注意：
+      //  - (1) async1执行，23将进入微任务队列 -------- 此时的微任务队列是 [ 2[3], 8]
+      //  - (2) 然后执行async后面的代码，即 7
+      //  - (3)
+      //    - 行完 9 1 4 7 9 后，遍历所有微任务即 ----------------- 2
+      //    - 3又是微任务，又会进入微任务队列，而现在本来就在清空微任务对立，此时的微任务队列是 ----- [ 8, 3]
+      //    - 最终：2 8 3
+
+      // 2
+      // 最终：9 1 4 7 9 2 8 3 6 10
+    </script>
+  </body>
+</html>
