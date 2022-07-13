@@ -7,6 +7,12 @@
     <title>Document</title>
   </head>
   <body>
+    <main>
+      <!-- 测试 MutationObserver -->
+      <div id="dom"><span>1</span></div>
+      <button id="button">添加节点</button>
+    </main>
+
     <script>
       new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -54,20 +60,25 @@
       // 这里说的微任务 promise，指的是 promise.then  promise.catch promise.finally
 
       // 3
+      // MutationObserver
+      // - 作用：监听DOM的变化
+      // - 案例：在本文件中
+
+      // 4
       // node 的事件
 
       // - 一共分为6个阶段
       //  - 1. timer -------------------------- 计时 和 执行到点的计时器
       //  - 2. pending callbacks -------------- 执行延迟到下一个循环迭代的 I/O 回调
       //  - 3. idea prepare ------------------- 系统的一些准备工作，仅系统内部使用
-      //  - 4. poll --------------------------- 轮训
+      //  - 4. poll --------------------------- 轮循
       //  - 5. check -------------------------- 执行 setImmediate 函数
       //  - 6. close callback ----------------- 关闭
 
       // - 具体
-      // - timer节点：计时 和 执行到点的计时器
-      // - pending callback
-      // - idea prepare
+      // - timer阶段：计时 和 执行到点的计时器
+      // - pending callback阶段：执行延时到下一个循环迭代的 I/O 回调
+      // - idea prepare阶段：系统的一些准备工作
       // - poll阶段
       //    - 1. 如果轮询队列不为空，就依次取出来执行，直到轮训队列为空 或者 达到系统的最大限制
       //    - 2. 如果轮询队列为空
@@ -77,6 +88,43 @@
       //            - 或者 ( 有到点的计时器 )，则也会立即进入下一个阶段 ------ check阶段
       // - check阶段：执行定时器
       // - close callback阶段：关闭一些回调函数，比如 socket.on()
+    </script>
+
+    <script>
+      // 测试 MutationObserver
+
+      // TargetNode：需要观察的变化的节点
+      const TargetNode = document.getElementById("dom");
+
+      const button = document.getElementById("button");
+
+      button.addEventListener(
+        "click",
+        () => {
+          const a = document.createElement("a");
+          a.innerHTML = "新添加的节点";
+          a.href = "www.baidu.com";
+          TargetNode.appendChild(a);
+        },
+        { capture: false }
+      );
+
+      // callback：被观察的目标节点变化后的回调
+      function callback(mutationsList, observer) {
+        console.log("mutationsList - 包含了节点变动相关的信息", mutationsList);
+        console.log("observer", observer);
+      }
+
+      // config 表示需要观察什么变动
+      const config = {
+        attributes: true, // 观察属性的变动
+        childList: true, // 观察节点的变动
+        subtree: true, // 观察子树的变动
+      };
+
+      const observer = new MutationObserver(callback);
+
+      observer.observe(TargetNode, config); // 开始观察
     </script>
   </body>
 </html>
