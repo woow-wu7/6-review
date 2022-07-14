@@ -214,7 +214,7 @@ sayColor();//red
 - 重复声明
   - let 不能重复声名同一个变量
   - var 可以重复声名
-- 是否和 window 挂钩
+- 是否和 window/global/globalThis 顶层对象 挂钩
   - let 声明的全局变量不会和 window 挂钩
   - var 会和 window 挂钩，即 var a=1 声明的全局变量，可以通过 window.a 来访问
 
