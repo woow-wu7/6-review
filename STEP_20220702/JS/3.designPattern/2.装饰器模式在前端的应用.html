@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="button">提交</button>
+    <script>
+      // 装饰器模式在前端的应用
+
+      // 1
+      // 装饰器模式
+      // - 概念：
+      //  - 在原有的功能上，添加新的功能；
+      //  - 但是不能直接添加，违反了 单一职责原则 和 开放封闭原则
+
+      // 2
+      // 应用
+      // - 提交前 做 表单验证
+      // - 也就是在原有的提交功能上，添加新的验证功能
+      const handle = () => {
+        console.log("handle"); // 提交
+      };
+
+      const validate = (isValidate) => {
+        console.log("validate");
+        return isValidate;
+      };
+
+      // before
+      // - 在 ( 提交前 ) 执行 ( 验证逻辑 )
+      Function.prototype.before = function (validate) {
+        const isValidate = validate(true);
+        if (isValidate) this();
+      };
+
+      const button = document.getElementById("button");
+      button.addEventListener(
+        "click",
+        () => {
+          handle.before(validate);
+          // 在 ( 提交前 ) 执行 ( 验证逻辑 )
+          // 验证通过在执行 handle
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
