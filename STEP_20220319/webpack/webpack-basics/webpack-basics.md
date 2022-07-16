@@ -73,6 +73,23 @@ module: {
   - webpack 会自动省略一些可以优化的代码
   - 比如：在声明多个变量相加时，会合并变量
 
+```
+2022/07/16 扩充
+---
+
+- 条件：必须使用 es6 中的 ( import ) 语法，( tree-shaking ) 会自动在 ( 编译阶段 ) 注意不是代码运行阶段， ( 删除 ) 掉模块中 ( 没有被使用到的代码 )
+- 扩展：tree-shaking 的原理
+  - import
+    - 因为：import 语法是 ES6 中的模块化方案
+    - 优点：该方案的优点是在 ( 编译阶段 ) 就知道 ( 模块的依赖关系 )，和 ( 输入输出的变量 )
+  - map 映射
+    - 1. 统计模块中的 export 的变量
+    - 2. 统计业务方代码使用到的 import 变量
+    - 3. 对比 12，就能知道 ( 该模块中哪些变量被使用到了 )，对没有使用到的变量打上 ( 标记 )
+  - 压缩
+    - 在压缩代码阶段，比如插件 uglify-js 就会在压缩阶段 ( 删除没有使用到的代码
+```
+
 ### (7) optimization.splitChunks
 
 - 作用：抽离公共组件 和 第三方组件
@@ -100,7 +117,7 @@ optimization: {
 
 ### (8) fileLoader 和 urlLoader
 
-- fileLoader 将图片打包到文件夹中，并将图片的地址返回会来
+- fileLoader 将 ( 图片 ) 打包到文件夹中，并将 ( 图片的地址 ) 返回会来
 - urlLoader
   - 1. 除了 fileLoader 的功能外
   - 2. 可以通过 option 中的 limit 来指定一个 ( 值 )，当文件小于 ( 该阈值 ) 时，会将图片转成 ( base64 )
@@ -125,10 +142,13 @@ optimization: {
   - 作用：只要项目中有文件修改，整个项目构建的 hash 都会改变，并且全部文件都共用相同的 hash
   - 弊端：如果只修改了一个文件，整个文件的缓存都将失效，因为真个文件的 hash 都改变了
 - chunkhash
-  - 相对于 hash，chunkhash 的影响范围较小
+  - 对比：相对于 hash，则 chunkhash 影响文件的 ( 范围变小 )
   - 原理：
     - 根据不同的入口文件(Entry)进行依赖文件解析、构建对应的 chunk，生成对应的哈希值
     - 不同入口打包生成的 chunk 的 hash 不一样
+  - 总结
+    - 1. 也就是说：如果有两个入口 entry，就会打包成两个 chunk，这两个 chunk 的 hash 值不一样
+    - 2. 我们修改其中一个 chunk 中的组件文件，只会影响的该 chunk 打包后的文件 hash，另一个 chunk 不受影响
   - 测试
     - 请使用 cnpm run build 进行 chunkhash 的测试，main 和 other 的 js 文件的 hash 值就不一样
   - 例子：
@@ -140,7 +160,7 @@ optimization: {
     - 使用 chunkhash，如果 index.css 被 index.js 引用了，那么 ( css 文件和 js 文件 ) 就会 ( 共用相同的 chunkhash 值 )
     - 如果 index.js 更改了代码，css 文件就算内容没有任何改变，由于是该模块发生了改变，导致 css 文件会重复构建
   - 3. 解决方法
-    - 使用 ( mini-css-extract-plugin ) 里的 ( contenthash ) 值，保证即使 css 文件所处的模块里就算其他文件内容改变，只要 css 文件内容不变，那么不会重复构建
+    - 使用 ( mini-css-extract-plugin ) 里的 ( contenthash ) 值，保证即使 css 文件所处的模块里就算其他类型的文件内容改变，比如 js 改变，只要 css 文件内容不变，那么不会重复构建
 - 总结
   - hash(任何一个文件修改，整个打包所有文件的 hash 都会改变)： - 是根据整个项目构建，要项目里有文件更改，整个项目构建的 hash 值都会更改，并且全部文件都共用相同的 hash 值
   - chunkhash(只影响到不同 entry 划分的 chunk)：chunkhash 根据不同的入口文件(Entry)进行依赖文件解析、构建对应的代码块（chunk），生成对应的哈希值，某文件变化时只有该文件对应代码块（chunk）的 hash 会变化
@@ -150,8 +170,8 @@ optimization: {
     - 2. thunk-hash 通过不同 entry 打包成不同的 chunk，不同 chunk 文件的修改不会相互影响，只会影响相同名的 chunk 的所有内容
     - 3. content-hash，即使是相同名的 chunk，但是资源类型不一样，在未修改时也不会变
 - 使用
-  - 在哪些地方可以使用到 hash chunkhash contenthash
-  - 凡是在 webpack.config.js 中具有 ( filename ) 属性的地方都可以使用 ( 占位符的方式 [hash] ) 使用到这几种 hash
+  - 问题：在哪些地方可以使用到 hash chunkhash contenthash
+  - 回答：凡是在 webpack.config.js 中具有 ( filename ) 属性的地方都可以使用 ( 占位符的方式 [hash|chunkhash|content] ) 使用到这几种 hash
 
 ### (四) webpack 多页面打包
 
