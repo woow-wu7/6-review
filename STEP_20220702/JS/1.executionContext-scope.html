@@ -69,6 +69,8 @@
       //  - 2. 箭头函数因为没有this，所以不能作为构造函数，即不能通过 new 的方式调用
       //  - 3. 不能访问 arguments 对象，可以使用es6中的 rest 参数代替
       //  - 4. 不能使用 yield 关键字，即不能作为 generator 函数
+      // (2)
+      //  - this指向的一些题目 https://juejin.cn/post/6844904046050934792
 
       // 5
       // var 和 let 的 ( 5 ) 个区别？
@@ -133,6 +135,68 @@
         aaa = 2;
         let aaa; // 报错：Uncaught ReferenceError: Cannot access 'aaa' before initialization
       }
+
+      // --------------
+      // mmm
+      // this指向
+      // 1
+      var aaaaa = 100;
+      const objXy = {
+        aaaaa: 1,
+        b: function () {
+          console.log(this.aaaaa);
+        },
+        c: () => console.log(this.aaaaa),
+      };
+      objXy.b(); // objXy.b() --> objXy调用的b，this指向objXy，输出 1
+      objXy.c();
+      // 因为：箭头函数没有自己的this，箭头函数中的 this，是箭头函数定义时所在作用域(这里是块级作用域objXy) 的上层作用域 ( 全局作用域window )
+      // 所以：objXy.c() ---------> 输出 100
+
+      // --------------
+      // mmm
+      // this指向
+      // 2
+      var A = {
+        name: "A",
+        sayHello: function () {
+          var s = () => console.log(this.name);
+          return s;
+        },
+      };
+      var sayHello = A.sayHello(); // 不管外面如何调用，都不会影响箭头函数this的指向，和调用无关
+      sayHello(); // 输出 A
+      // 输出 A
+      // 注意注意：！！！ 箭头函数中的this，( 与调用方式无关 )，都是指向了 ( 箭头函数定义时所在作用域的上层作用域中的this )
+      // 1. 箭头函数this是定义时所在的作用域是：函数作用域 sayHello 函数
+      // 2. 上层作用域：是块级作用域A，this就指向A，A.name = 'A'
+
+      // --------------
+      // mmm
+      // this指向
+      // 3
+      var color = "red"; // var 生声明的全局变量，会和顶层对象window/global/globalThis挂钩，即 window.color = 'red'
+      let color = "green"; // let 声明的全局变量不具有全局属性，即不能用 window.访问
+      let obj = {
+        color: "blue",
+        getColor: () => {
+          return this.color;
+          // this指向window
+          // 箭头函数中this，是箭头函数定义时所在作用域 ( obj块级作用域 ) 的上层作用域 ( window ) 中的this，此时this指向window
+        },
+      };
+      let sayColor = () => {
+        return this.color; // 普通函数中的this，在调用时确定指向，谁调用就指向谁，这里是全局函数，即window在调用
+      };
+      obj.getColor(); //red
+      sayColor(); //red
+      // 分析：
+      // 1. let
+      //   - 首先 let 声明的变量是块级作用域，并且不和window挂钩
+      //   - var 声明的全局变量会和 window 挂钩，即 var a=1, 则 window.a=1
+      // 2. 箭头函数没有自己的this，箭头函数中的this是，箭头函数定义时所在作用域的 ( 上层作用域 ) 中的 this
+      //   - getColor 所在的作用域是 ( 块级作用域 )，所以上层作用域是 ( window )，所以 this 指向window
+      //   - sayColor 同理
     </script>
   </body>
 </html>
