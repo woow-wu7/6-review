@@ -92,6 +92,17 @@ npm publish
 4. 撤销发布的包
 npm unpublish
 npm unpublish 包名@版本号
+
+5. 生成压缩文件 和 使用压缩文件
+- 生成压缩文件：npm pack
+- 使用压缩文件：npm install 路径\xx-xx.tgz
+- npm pack
+  - 生成一个压缩文件 ( name-version.tgz )
+  - 注意：npm pack 命令是在整个项目的根目录中输入的命令，因为package.json在根目录
+- npm install
+  - 使用压缩文件：npm install 路径\xx-xx.tgz
+  - 其实就是在项目中安装打包好的包
+
 ```
 
 ```
@@ -136,8 +147,13 @@ package.json 中的一些字段
   - 2. 在 ( 需要引入 包A 的 项目B 中 )，执行 ( npm link xx )，安装 A
   - 3. 在 B 中就可以执行 bin 中的命令了
 - 使用链接：https://juejin.cn/post/6844903973002936327
+
+
+5. name
+- 包名：表示npm包名，该名字唯一
+- 唯一：需要去 npm 上查看名字是否已被使用
+
+
+6. homepage
+- 项目官网url
 ```
-
-![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a3f7e29428784bc4bc281bce3398f92f~tplv-k3u1fbpfcp-watermark.image?)
-
-![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b9d358c0261e457e9f3681568e61022b~tplv-k3u1fbpfcp-watermark.image?)
