@@ -68,11 +68,20 @@ npm包版本号
 
 ```
 4
+npm 的一些命令
 ---
 
 1. 第一次发包
-- npm adduser --- 注意 npm 必须是npm的源，不能是淘宝等，可以使用nrm切换
+- npm adduser
+  - 注意：npm 必须是npm的源，不能是淘宝等其他源，可以使用nrm切换
+  - 问题
+    - 问题：如何查看 npm源 ？
+    - 回答：npm config get registry
+  - 问题
+    - 问题：如何设置 npm源 ？
+    - 回答：npm config set registry=http://registry.npmjs.org
 - 然后输入 用户名 密码
+
 
 2. 非第一次发包
 npm login
@@ -83,19 +92,52 @@ npm publish
 4. 撤销发布的包
 npm unpublish
 npm unpublish 包名@版本号
-
-5.1 更新至新的补丁版本
-npm version patch
-
-5.2 更新版本号并进行git提交，自定义提交描述
-npm version major -m "版本更新至%s"
-
-5.3 更新至新的补丁版本，并不增加git的tag
-npm version patch --no-git-tag-version
-
-6.1 引用模块 - 全局安装的包，在项目里面只需要引用即可
-npm link
-npm link [<@scope>/]<pkg>[@<version>]
-
-6.2 解除引用 npm unlink npm link [<@scope>/]<pkg>[@<version>]
 ```
+
+```
+5
+package.json 中的一些字段
+---
+
+1. private
+- 如果是在发布到npm，需要将 private 设置为 false
+
+
+2. exports 和 main
+- exports
+  - 作用：exports 是 main 的替代品，既定义了 ( 包的主入口 )，又 ( 封闭了包 )
+  - 封闭包的作用：防止其他未被定义的内容被访问
+  - 说人话：( exports ) 就是声明了一个 ( 对应关系 )
+- main
+  - 作用：定了npm包的主入口
+  - 对比：请注意对比 main module browser 三者的区别
+- 优先级
+  - 同时定义了 ( exports 和 main ) 的话，优先级是 ( exports > main )
+"exports": {
+    ".": {
+      "import": "./lib/esm/index.mjs", // --- 表示如果使用 import 就加载这个路径的文件
+      "require": "./command.js" // ---------- 表示如果使用 require 就加载这个路径的文件
+    },
+    "./package.json": "./package.json"
+}
+
+
+3. keywords
+- 表示：关键字，一个数组
+- 作用：帮助npm上搜索到这个包
+"keywords": ["react", "component", "ui"]
+
+
+4. bin
+- 作用：表示可执行的文件
+- 什么时候用到bin：当我们需要 ( npm link ) 时使用
+- 具体流程
+  - 1. 在 ( 需要被link的包 A 的 package.json 中声明 bin xx )，然后执行 ( npm link )，把A包link到全局
+  - 2. 在 ( 需要引入 包A 的 项目B 中 )，执行 ( npm link xx )，安装 A
+  - 3. 在 B 中就可以执行 bin 中的命令了
+- 使用链接：https://juejin.cn/post/6844903973002936327
+```
+
+![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a3f7e29428784bc4bc281bce3398f92f~tplv-k3u1fbpfcp-watermark.image?)
+
+![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b9d358c0261e457e9f3681568e61022b~tplv-k3u1fbpfcp-watermark.image?)
