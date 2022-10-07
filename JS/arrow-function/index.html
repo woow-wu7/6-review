@@ -26,19 +26,39 @@
       // 箭头函数中的this，是箭头函数定义时所在对象的上层作用域中的this
       // ====> c箭头函数定义时所在的作用域是 ( 块级作用域 )，块级作用域的上层作用域是window，window.a=100，所以这里输出100
 
+      // --------------------------------------------------------------
       // 2
+      window.name = "B";
       var A = {
         name: "A",
         sayHello: function () {
           var s = () => console.log(this.name);
           return s;
         },
+        sayHello2: function () {
+          function s() {
+            console.log(this.name);
+          }
+          return s;
+        },
       };
       var sayHello = A.sayHello(); // 不管外面如何调用，都不会影响箭头函数this的指向，和调用无关
-      sayHello();
-      // 输出 A
+      sayHello(); // 输出 A
       // 1. 箭头函数s定义时所在的作用域是：函数作用域 sayHello 函数
       // 2. 上层作用域：是块级作用域A，this就指向A，A.name = 'A'
+      var sayHello2 = A.sayHello2();
+      sayHello2(); // 输出 B
+
+      // --------------------------------------------------------------
+      // 3
+      function aa() {
+        const bb = () => {
+          console.log(this);
+          console.log(this === window); // true
+        };
+        bb();
+      }
+      aa();
     </script>
   </body>
 </html>
